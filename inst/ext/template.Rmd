@@ -1,0 +1,214 @@
+---
+title: "A test document"
+output:
+    pagedown::html_paged:
+      # css: ["`r system.file('resources/css/style.scss', package = 'ctucosting')`", "`r system.file('resources/css/page-parts.css', package = 'ctucosting')`"]
+      template: "`r system.file('ext/template.html', package = 'ctucosting')`"
+knit: pagedown::chrome_print
+params:
+  studyname: "Some Long, Ominous, Probably PithY, title"
+  acronym: "SLOPPY"
+  projnum: 1234
+  consultingnum: 5678
+  sponsor: "Sponsor"
+  contact: "Dr McDoctorson"
+  design: "Randomized-controlled trial"
+  intervention: "IMP/IMD/..."
+  n_participants: 100
+  n_sites: 1
+  location: "Swiss"
+  conduct_time: 5
+  complex: "simple"
+  cturep: "CTU employee"
+  workpackages: NULL
+  internal: FALSE
+  total: NULL
+  discount: NULL
+  expenses: NULL
+# logo: "ub_Logo_english_2019_RGB_wb.png"
+---
+
+![](`r system.file("ext/ub_Logo_english_2019_RGB_wb.png", package ="ctucosting")`){.logo .right}
+
+
+<p> </p>
+
+<p> </p>
+
+```{r, fig.align = "right", out.width="40%", echo = FALSE}
+knitr::include_graphics(system.file("ext/ub_Logo_english_2019_RGB_wb.png", package = "ctucosting"))
+
+```
+
+<p> </p>
+
+<p> </p>
+
+<p> </p>
+
+```{r, echo = FALSE}
+htmltools::h2("Offer for providing CTU services")
+htmltools::h4(paste0("Costing for project: ", params$studyname, " (", params$acronym, ")"))
+```
+
+Dear `r params$contact`,
+
+Thank you for considering CTU Bern for your clinical research support requirements.
+
+The following pages detail the services discussed with our consultants and an estimate of the time required to perform those tasks. If you realise that some tasks are missing, please contact us and we can add that to this costing (this may entail additional discussion with other members of CTU).
+
+Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+
+With kind regards,
+
+Signature (necessary????)
+
+`r params$cturep`
+
+\newpage
+
+### General project information {.unnumbered}
+
+Project name and acronym: **`r paste0(params$studyname, " (", params$acronym, ")")`**
+
+Sponsor: **`r params$sponsor`**
+
+Responsible: **`r params$contact`**
+
+Study design: **`r params$design`**
+
+Type of intervention: **`r params$intervention`**
+
+Number of participants: **`r params$n_participants`** from **`r params$n_sites` `r params$location`** site(s) over a study time of **`r params$conduct_time`** years.
+
+### Tasks for CTU to provide {.unnumbered}
+
+```{r, echo = FALSE, eval = TRUE}
+if(!is.null(params$workpackages)){
+  params$workpackages %>% 
+    select_for_pdf() %>% 
+    group_by(Service) %>% 
+    mutate(Cost = format(Cost, big.mark = ",", nsmall = 2)) %>% 
+  gt::gt() %>% 
+    gt::tab_options(table.font.size = "12px",
+                    table.width = "100%",
+                    row_group.background.color = "white",
+                    data_row.padding = "2px") %>% 
+    gt::cols_width(Task ~ "20%",
+                   Description ~ "62.5%",
+                   Hours ~ "7.5%",
+                   Cost ~ "10%",
+                   ) #%>% 
+    # gt::tab_style(style = "vertical-align: top", locations = gt::cells_body(Description))
+  
+}
+```
+
+Expenses
+
+```{r, echo = FALSE, eval = TRUE}
+if(!is.null(params$expenses)){
+  gt::gt(params$expenses) %>% 
+    gt::tab_options(table.font.size = "12px",
+                    table.width = "100%",
+                    data_row.padding = "2px")
+}
+```
+
+Totals
+
+```{r, echo = FALSE, eval = TRUE}
+if(!is.null(params$total)){
+  gt::gt(params$total) %>% 
+    gt::tab_options(table.font.size = "12px",
+                    table.width = "100%",
+                    data_row.padding = "2px")
+}
+```
+
+```{r, echo = FALSE, results='asis'}
+if(!params$conduct_time > 5) cat("Please note that costings for long projects may be reassessed at approximately 3 years.")
+```
+
+This offer is valid for two months.
+
+For questions regarding the costing, please contact your CTU consultant or [info\@ctu.unibe.ch](mailto:info@ctu.unibe.ch){.email}.
+
+```{r, echo = FALSE, results='asis'}
+if(!params$internal) cat("Please consider that this cost estimate does not include VAT (7.7%).")
+```
+
+The proposed hours may vary depending on the complexity of the trial. Only worked hours will be charged. Additional or not costed support will be charged at the agreed hourly rate.
+
+Note that the above mentioned hourly rate is subject to annual adaption. Check [www.ctu.unibe.ch](www.ctu.unibe.ch) for the most up-to-date hourly rate.
+
+
+<!-- <script> -->
+
+<!-- // Repeat table headers -->
+<!-- // from https://gitlab.pagedmedia.org/tools/pagedjs/issues/84 -->
+<!-- class RepeatingTableHeaders extends Paged.Handler { -->
+<!--   constructor(chunker, polisher, caller) { -->
+<!--     super(chunker, polisher, caller); -->
+<!--   } -->
+
+<!--   afterPageLayout(pageElement, page, breakToken, chunker) { -->
+<!--         // Find all split table elements -->
+<!--         let tables = pageElement.querySelectorAll("table[data-split-from]"); -->
+
+<!--         tables.forEach((table) => { -->
+<!--             // There is an edge case where the previous page table  -->
+<!--             // has zero height (isn't visible). -->
+<!--             // To avoid double header we will only add header if there is none. -->
+<!--             let tableHeader = table.querySelector("thead"); -->
+<!--             if (tableHeader) { -->
+<!--                 return; -->
+<!--             } -->
+
+<!--             console.log(tableHeader) -->
+
+<!--             // Get the reference UUID of the node -->
+<!--             let ref = table.dataset.ref; -->
+<!--             // Find the node in the original source -->
+<!--             let sourceTable = chunker.source.querySelector("[data-ref='" + ref + "']"); -->
+
+<!--             // Find if there is a header -->
+<!--             let sourceHeader = sourceTable.querySelector("thead"); -->
+<!--             if (sourceHeader) { -->
+<!--                 console.log("Table header was cloned, because it is splitted."); -->
+<!--                 // Clone the header element -->
+<!--                 let clonedHeader = sourceHeader.cloneNode(true); -->
+<!--                 // Insert the header at the start of the split table -->
+<!--                 table.insertBefore(clonedHeader, table.firstChild); -->
+
+<!--                 console.log(table) -->
+<!--             } -->
+<!--         }); -->
+
+<!--         // Find all tables -->
+<!--         tables = pageElement.querySelectorAll("table"); -->
+
+<!--         // special case which might not fit for everyone -->
+<!--         tables.forEach((table) => { -->
+<!--             // if the table has no rows in body, hide it. -->
+<!--             // This happens because my render engine creates empty tables. -->
+<!--             let sourceBody = table.querySelector("tbody > tr"); -->
+<!--             if (!sourceBody) { -->
+<!--                 console.log("Table was hidden, because it has no rows in tbody."); -->
+<!--                 table.style.visibility = "hidden"; -->
+<!--                 table.style.position = "absolute"; -->
+
+<!--                 var lineSpacer = table.nextSibling; -->
+<!--                 if (lineSpacer) { -->
+<!--                     lineSpacer.style.visibility = "hidden"; -->
+<!--                     lineSpacer.style.position = "absolute"; -->
+<!--                 } -->
+<!--             } -->
+<!--         }); -->
+<!--     } -->
+
+<!-- } -->
+
+<!-- Paged.registerHandlers(RepeatingTableHeaders); -->
+<!-- </script> -->
+
