@@ -1,0 +1,17 @@
+$page-width: 210mm;
+$page-height: 297mm;
+
+:root {
+  --pagedjs-width: $page-width;
+  --pagedjs-height: $page-height;
+  --pagedjs-margin-top: 10cm;
+  --pagedjs-margin-bottom: 2cm;
+  --pagedjs-margin-left: 2cm;
+  --pagedjs-margin-right: 2cm;
+}
+
+@media print {
+  @page {
+    size: $page-width $page-height;
+  }
+}

@@ -1,0 +1,32 @@
+Package: ctucosting
+Type: Package
+Title: Machinery for CTU costings
+Version: 0.0.0
+Authors@R:
+    c(
+    person(given = "Alan G.", family = "Haynes", role = "cre",
+    email = "alan.haynes@ctu.unibe.ch"))
+Maintainer: Alan Haynes <alan.haynes@ctu.unibe.ch>
+Description: Machinery for CTU costings
+License: MIT
+URL: https://github.com/CTU-Bern/ctu_costings
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+Depends:
+    R (>= 2.10)
+Imports:
+    dplyr,
+    glue,
+    redcaptools,
+    tibble
+RoxygenNote: 7.2.2
+Suggests:
+    knitr,
+    markdown,
+    patchwork,
+    rmarkdown,
+    testthat (>= 3.0.0),
+    vdiffr
+VignetteBuilder: knitr
+LazyData: true
+Config/testthat/edition: 3

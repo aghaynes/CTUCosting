@@ -1,0 +1,86 @@
+.pagedjs_area {
+  #background-color: lightgrey;
+}
+.pagedjs_margin {
+  border: 0px solid red;
+  visibility: visible !important;
+}
+.logo {
+  position: running(header-logo);
+  height: 2.5cm;
+}
+
+.right {
+  position: absolute;
+  right: 30px;
+  top: 30px;
+  <!-- width: 300px; -->
+  <!-- border: 3px solid #73AD21; -->
+  padding: 10px;
+}
+.right2 {
+  position: relative;
+  right: 30px;
+  <!-- top: 30px; -->
+  <!-- width: 300px; -->
+  <!-- border: 3px solid #73AD21; -->
+  padding: 10px;
+}
+p.close {
+  margin-top: 5px;
+  margin-bottom: 0px;
+}
+
+h1 {
+  font-size: 30px;
+}
+
+h2 {
+  font-size: 20px;
+}
+
+p {
+  font-size: 12px;
+}
+
+body {
+  font-family: Arial;
+  font-size: 12px;
+}
+
+@page {
+
+  @top-right {
+    content: element(header-logo);
+    height: 2cm;
+  }
+  @top-left {
+    content: "CTU Bern cost estimate" ;
+  }
+  @bottom-right {
+    content: 'Page ' counter(page) ' of ' counter(pages);
+  }
+  margin-top: 3.25cm;
+}
+
+@page :first {
+
+  @top-right {
+    #content: element(header-logo);
+    content: none;
+    height:5cm;
+  }
+  @top-left {
+    content: none;
+  }
+  @bottom-right {
+    content: 'Page ' counter(page) ' of ' counter(pages);
+  }
+  margin-top: 0cm
+}
+
+@media screen and (min-width: 12.32in) {
+  .pagedjs_page, .pagedjs_first_page {
+    margin: auto auto 5mm auto;
+  }
+}
