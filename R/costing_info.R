@@ -4,8 +4,6 @@
 costing_info <- function(data, metadata){
   data <- data$meta_information
   # data <- d$meta_information
-  initcosting <- data$initial_costing == 1
-  projnum <- data$initial_projnum
   consultingnum <- data$consulting_num
   studyname <- data$study
 
@@ -19,9 +17,7 @@ costing_info <- function(data, metadata){
                                   "This is the intial costing for the project",
                                   paste("This is an amendment to project", projnum))
 
-  ratelab <- rateopts$label[data$rate]
 
-  duration <- data$study_duration
 
   # institute/company
   print(data$sponsor_insel)
@@ -36,37 +32,53 @@ costing_info <- function(data, metadata){
     sign <- data$institute_auth
   }
 
-  design <- specific_option(metadata, data, "study_design")
-  int <- specific_option(metadata, data, "int_type")
 
-  n_part <- data$n_participants
-  n_sites <- data$n_sites
-  location <- specific_option(metadata, data, "site_location")
   rate <- specific_option(metadata, data, "rate")
   internal <- data$sponsor_insel == 1
 
 
   return(
     list(
-      title_txt = title_txt,
-      initcosting = initcosting,
-      projnum = projnum,
-      consultingnum = consultingnum,
-      studyname = studyname,
-      acronym = data$study_abbr,
-      sponsor = inst,
-      contact = data$sponsor,
-      sign = sign,
+      # project
+      title_txt =             title_txt,
+      projnum =               data$initial_projnum,
+      consultingnum =         consultingnum,
+      studyname =             studyname,
+      acronym =               data$study_abbr,
+      initcosting =           data$initial_costing == 1,
       init_or_amendment_txt = init_or_amendment_txt,
-      ratelab = ratelab,
-      duration = duration,
-      design = design,
-      intervention = int,
-      participants = n_part,
-      sites = n_sites,
-      location = location,
-      internal = internal,
-      discount_db = ifelse(initcosting, data$discount, data$discount2)
+      ratelab =               rateopts$label[data$rate],
+      # signatories
+      sponsor =               inst,
+      contact =               data$sponsor,
+      sign =                  sign,
+      # design
+      design =                specific_option(metadata, data, "study_design"),
+      design_src =            specific_option(metadata, data, "study_design_src"),
+      # durations
+      duration =              data$study_duration,
+      duration_src =          specific_option(metadata, data, "study_duration_src"),
+      duration_enrol =        data$study_enrol,
+      duration_enrol_src =    specific_option(metadata, data, "study_enrol_src"),
+      # participants/sites
+      participants =          data$n_participants,
+      participants_src =      specific_option(metadata, data, "n_participants_src"),
+      sites =                 data$n_sites,
+      sites_src =             specific_option(metadata, data, "n_sites_src"),
+      location =              specific_option(metadata, data, "site_location"),
+      location_src =          specific_option(metadata, data, "site_location_src"),
+      # visits
+      n_visits =              data$n_visits,
+      n_visits_src =          specific_option(metadata, data, "n_visits_src"),
+      # variables/database
+      n_visits =              data$n_visits,
+      n_visits_src =          specific_option(metadata, data, "n_visits_src"),
+      n_database =            data$n_db,
+      n_database_src =        specific_option(metadata, data, "n_db_src"),
+
+      intervention =          specific_option(metadata, data, "int_type"),
+      internal =              data$sponsor_insel == 1,
+      discount_db =           ifelse(initcosting, data$discount, data$discount2)
     )
   )
 
