@@ -1,6 +1,6 @@
 
 
-
+#' @export
 gen_pdf <- function(output,
                     inputs,
                     copy_html = FALSE
@@ -11,15 +11,15 @@ gen_pdf <- function(output,
   pageparts <- file.path(tempdir, "page-parts.css")
   style <- file.path(tempdir, "style.scss")
   tabs <- file.path(tempdir, "custom_tbls.css")
-  file.copy(system.file("ext", "template.Rmd", package = "ctucosting"), Rmd)
-  file.copy(system.file("ext", "page-parts.css", package = "ctucosting"), pageparts)
-  file.copy(system.file("ext", "style.scss", package = "ctucosting"), style)
-  file.copy(system.file("ext", "custom_tbls.css", package = "ctucosting"), tabs)
-  file.copy(system.file("ext", "ub_Logo_english_2019_RGB_wb.png", package = "ctucosting"), tempdir)
+  file.copy(system.file("ext", "template.Rmd", package = "CTUCosting"), Rmd)
+  file.copy(system.file("ext", "page-parts.css", package = "CTUCosting"), pageparts)
+  file.copy(system.file("ext", "style.scss", package = "CTUCosting"), style)
+  file.copy(system.file("ext", "custom_tbls.css", package = "CTUCosting"), tabs)
+  file.copy(system.file("ext", "ub_Logo_english_2019_RGB_wb.png", package = "CTUCosting"), tempdir)
   html <- file.path(tempdir, "costing.html")
 
   rmarkdown::render(Rmd,
-                    pagedown::html_paged(template = system.file("ext", "template.html", package = "ctucosting")
+                    pagedown::html_paged(template = system.file("ext", "template.html", package = "CTUCosting")
                                          , css = c(pageparts
                                                  , style
                                                  , tabs
@@ -39,10 +39,9 @@ gen_pdf <- function(output,
                       n_sites = inputs$sites,
                       location = inputs$location,
                       conduct_time = inputs$duration,
-                      cturep = "CTU employee",
+                      cturep = inputs$cturep,
                       workpackages = inputs$workpackages,
                       internal = inputs$internal,
-                      cturep = "Alan Haynes",
                       total = inputs$total,
                       discount = inputs$summ_discount
                       )
