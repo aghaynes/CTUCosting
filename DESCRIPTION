@@ -1,4 +1,4 @@
-Package: ctucosting
+Package: CTUCosting
 Type: Package
 Title: Machinery for CTU costings
 Version: 0.0.0
@@ -9,7 +9,7 @@ Authors@R:
 Maintainer: Alan Haynes <alan.haynes@ctu.unibe.ch>
 Description: Machinery for CTU costings
 License: MIT
-URL: https://github.com/CTU-Bern/ctu_costings
+URL: https://github.com/CTU-Bern/CTUCostings
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 Depends:
