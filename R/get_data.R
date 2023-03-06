@@ -6,16 +6,22 @@ url <- "https://redcap.ctu.unibe.ch/api/"
 
 #' @importFrom redcaptools redcap_export_tbl redcap_export_byform redcap_export_meta
 #' @importFrom glue glue
-get_data <- function(record, costing){
-  redcap_export_byform(token, url,
+#' @export
+get_data <- function(record, costing, token){
+  d <- redcap_export_byform(token, url,
                        records = record,
                        events = glue("costing_{costing}_arm_1"))
+
+  lapply(d, function(x){
+    x |> filter(record_id == record)
+  })
 
   # redcap_export_tbl(token, url, "record",
   #                   records = record,
   #                   events = glue("costing_{costing}_arm_1"))
 }
 
-get_metadata <- function() redcap_export_meta(token, url)
+#' @export
+get_metadata <- function(token) redcap_export_meta(token, url)
 
 

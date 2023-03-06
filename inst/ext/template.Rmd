@@ -36,7 +36,7 @@ params:
 <p> </p>
 
 ```{r, fig.align = "right", out.width="40%", echo = FALSE}
-knitr::include_graphics(system.file("ext/ub_Logo_english_2019_RGB_wb.png", package = "ctucosting"))
+knitr::include_graphics("ub_Logo_english_2019_RGB_wb.png")
 
 ```
 

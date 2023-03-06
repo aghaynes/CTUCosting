@@ -1,8 +1,9 @@
 # costing information
 #' @importFrom dplyr pull
-costing_info <- function(data, metadata, costing){
-  # data <- d$meta_information
+#' @export
+costing_info <- function(data, metadata){
   data <- data$meta_information
+  # data <- d$meta_information
   initcosting <- data$initial_costing == 1
   projnum <- data$initial_projnum
   consultingnum <- data$consulting_num
@@ -23,6 +24,7 @@ costing_info <- function(data, metadata, costing){
   duration <- data$study_duration
 
   # institute/company
+  print(data$sponsor_insel)
   insel <- data$sponsor_insel == 1
   if(insel){
     inst <- specific_option(metadata, data, "institute")
@@ -64,7 +66,7 @@ costing_info <- function(data, metadata, costing){
       sites = n_sites,
       location = location,
       internal = internal,
-      discount_db = ifelse(costing == 1, data$discount, data$discount2)
+      discount_db = ifelse(initcosting, data$discount, data$discount2)
     )
   )
 
