@@ -24,7 +24,7 @@ function(input, output){
   output$costing <- renderUI({
     fluidPage(
       fluidRow(
-        tags$h4(glue("{info()$acronym} ({info()$study})")),
+        # tags$h4(glue("{info()$acronym} ({info()$study})")),
         # glue("Costing {input$costing}   Rate: {info()$ratelab}   Duration: {info()$duration} years")
         infoBoxOutput("vb_costing"),
         infoBoxOutput("vb_rate"),
@@ -52,15 +52,16 @@ function(input, output){
           title = "Total",
           width = 12
         )
-      )
+      ),
+      uiOutput("snf_tab")
 
     )
   })
 
   output$vb_costing <- renderInfoBox({
-    infoBox(input$costing,
-            title = "Costing",
-            icon = icon("hashtag"),
+    infoBox(glue("{info()$acronym} ({info()$study})"),
+            title = "Project",
+            icon = icon("signature"),
             color = "red")
   })
   output$vb_rate <- renderInfoBox({
@@ -85,9 +86,9 @@ function(input, output){
     infoBox(discount()$discount,
             title = "Discount percentage",
             subtitle = ifelse(info()$initcosting,
-                          "Enter this value in the database",
+                          "Enter this value in REDCap",
                           "(from the initial costing)"),
-            icon = icon("clock"),
+            icon = icon("percent"),
             color = "red")
   })
 
@@ -181,6 +182,77 @@ function(input, output){
   rownames = FALSE
   )
 
+  # SNF format
+  ## init table
+  snf_table <- reactiveValues(data = NULL)
+  observe({
+    wp <- unique(selected_workpackages()$Service)
+    nrow <- length(wp)
+    ncol <- info()$duration
+    df <- as.data.frame(matrix(rep(0, ncol * nrow), nrow = nrow, ncol = ncol))
+    names(df) <- paste("Year", 1 : ncol)
+    rownames(df) <- wp
+    snf_table$data <- df
+  })
+  ## edit table
+  observeEvent(input$snf_percentages_cell_edit, {
+    info <- input$snf_percentages_cell_edit
+    i <- info$row
+    j <- info$col
+    v <- info$value
+    snf_table$data[i, j] <- isolate(coerceValue(v, snf_table$data[i, j]))
+  })
+
+  output$snf_percentages <- renderDataTable(snf_table$data, editable = TRUE)
+  proxy <- dataTableProxy("snf_percentages")
+
+  snf_costs <- reactive({
+
+    print(selected_workpackages())
+    summ <- selected_workpackages() |>
+      group_by(Service) |>
+      summarize(across(c(Hours, Cost), sum))
+
+    # print(summ)
+    # print(snf_table$data)
+
+    cost <- snf_table$data * summ$Cost
+    hours <- snf_table$data * summ$Hours
+    nam <- names(snf_table$data)
+    print(nam)
+    # print(cost)
+    # print(hours)
+    tmp <- sapply(seq_along(hours), function(x){
+      glue("{hours[, x]} hours <br/> CHF {cost[, x]}")
+    }) |>
+      as.data.frame() |>
+      set_names(names(hours)) |>
+      set_rownames(row.names(hours))
+    # names(tmp) <- paste("Year", 1 : ncol(tmp))
+    print(names(tmp))
+    tmp
+    # cost
+  })
+
+  output$snf_cost <- renderDataTable(snf_costs(), escape = FALSE)
+
+  output$snf_tab <- renderUI({
+    if(input$costing_type == "SNF"){
+      fluidRow(
+        box(title = "SNF percentages",
+            subtitle = "Enter percentages expected for each year and each work package",
+            dataTableOutput("snf_percentages"),
+            width = 12),
+        box(title = "SNF costs",
+            dataTableOutput("snf_cost"),
+            width = 12)
+      )
+    }
+  })
+
+  # pass snf_cost into pdf function, together with input$costing_type
+
+
 
   # downloads
   ## PDF
@@ -195,12 +267,12 @@ function(input, output){
       # dot <- reactiveValuesToList(info())
 
       inputs <- info()
-      inputs[["workpackages"]] <- selected_workpackages()
-      inputs[["summ_discount"]] <- discount()
-      inputs[["discount"]] <- sum(discount()$discount_amount)
-      inputs[["expenses"]] <- selected_expenses()
-      inputs[["total"]] <- total_cost()
-      inputs[["cturep"]] <- input$cturep
+      inputs$workpackages <- selected_workpackages()
+      inputs$summ_discount <- discount()
+      inputs$discount <- sum(discount()$discount_amount)
+      inputs$expenses <- selected_expenses()
+      inputs$total <- total_cost()
+      inputs$cturep <- input$cturep
 
       print(str(input))
 
