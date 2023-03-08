@@ -6,6 +6,7 @@ costing_info <- function(data, metadata){
   # data <- d$meta_information
   consultingnum <- data$consulting_num
   studyname <- data$study
+  initcosting <- data$initial_costing == 1
 
   title_txt <- paste("Costing for consulting",
                      ifelse(is.na(consultingnum),
@@ -45,7 +46,7 @@ costing_info <- function(data, metadata){
       consultingnum =         consultingnum,
       studyname =             studyname,
       acronym =               data$study_abbr,
-      initcosting =           data$initial_costing == 1,
+      initcosting =           initcosting,
       init_or_amendment_txt = init_or_amendment_txt,
       ratelab =               rateopts$label[data$rate],
       # signatories

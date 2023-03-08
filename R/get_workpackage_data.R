@@ -135,9 +135,12 @@ get_wp_df <- function(d){
 get_generic_df <- function(d){
   if(nrow(d) > 0){
     # print(d)
-    d %>%
-      get_wp_df() %>%
-      mutate(service = d$gen_div)
+    tmp <- d %>%
+      get_wp_df()
+    if(nrow(tmp) > 0){
+      tmp %>%
+        mutate(service = d$gen_div)
+    }
   }
 }
 
