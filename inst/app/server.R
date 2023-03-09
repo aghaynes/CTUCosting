@@ -7,6 +7,7 @@ library(DT)
 library(dplyr)
 library(shinybusy)
 library(shinyalert)
+token <- readLines("O:/tokens/costing.txt")
 
 function(input, output){
 
