@@ -30,7 +30,7 @@ function(input, output){
   output$rc_link <- renderUI({
     req(record_ok())
     tags$a(href = create_rc_link(record = input$record_id, costing = input$costing, token = input$token),
-           "Click here to go to this costing in REDCapUB985sv8yV!", target = "_blank")
+           "Click here to go to this costing in REDCap", target = "_blank")
   })
 
   d <- reactive({
