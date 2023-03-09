@@ -6,10 +6,34 @@ library(glue)
 library(DT)
 library(dplyr)
 library(shinybusy)
-token <- "4D6B7745D1AC51AE7FBDAFFC466E54F7"
+library(shinyalert)
 
 function(input, output){
+
+  # check valid record and costing
+  record_ok <- reactive(
+    record_costing_exists(record = input$record_id,
+                          costing = input$costing,
+                          token = input$token))
+
+  output$bad_record <- renderUI({
+    if(!record_ok()){
+      # showNotification(ui = "Check record and costing IDs - at least one of them does not exist in REDCap",
+      #                  type = "error",
+      #                  )
+      shinyalert("Oops!", "Please check your record and costing IDs... at least one does not exist in REDCap", type = "error")
+      fluidRow(span("Check your record and costing IDs", style="color:red"))
+    }
+  })
+
+  output$rc_link <- renderUI({
+    req(record_ok())
+    tags$a(href = create_rc_link(record = input$record_id, costing = input$costing, token = input$token),
+           "Click here to go to this costing in REDCapUB985sv8yV!", target = "_blank")
+  })
+
   d <- reactive({
+    req(record_ok())
     print(paste("RECORD =", input$record_id, "COSTING =", input$costing))
     get_data(record = input$record_id, costing = input$costing, token = input$token)
   })
@@ -27,6 +51,7 @@ function(input, output){
         # tags$h4(glue("{info()$acronym} ({info()$study})")),
         # glue("Costing {input$costing}   Rate: {info()$ratelab}   Duration: {info()$duration} years")
         infoBoxOutput("vb_costing"),
+        infoBoxOutput("vb_inst"),
         infoBoxOutput("vb_rate"),
         infoBoxOutput("vb_duration"),
         infoBoxOutput("vb_total"),
@@ -64,6 +89,12 @@ function(input, output){
             icon = icon("signature"),
             color = "red")
   })
+  output$vb_inst <- renderInfoBox({
+    infoBox(info()$sponsor,
+            title = "Institute",
+            icon = icon("building-columns"),
+            color = "red")
+  })
   output$vb_rate <- renderInfoBox({
     infoBox(info()$ratelab,
             title = "Rate", icon =
@@ -73,6 +104,7 @@ function(input, output){
   output$vb_duration <- renderInfoBox({
     infoBox(info()$duration,
             title = "Study duration",
+            subtitle = "years",
             icon = icon("clock"),
             color = "red")
   })
@@ -277,7 +309,7 @@ function(input, output){
       print(str(input))
 
       show_modal_spinner(text = "Compiling PDF",
-                         spin = "folding-cube")
+                         spin = "pixel")
 
       gen_pdf(
         output = file,
@@ -309,8 +341,7 @@ function(input, output){
 
       print(str(input))
 
-      show_modal_spinner(text = "Compiling file",
-                         spin = "folding-cube")
+      show_modal_spinner(text = "Compiling file")
 
       writexl::write_xlsx(dfs, file)
 
