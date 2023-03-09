@@ -37,6 +37,11 @@ costing_info <- function(data, metadata){
   rate <- specific_option(metadata, data, "rate")
   internal <- data$sponsor_insel == 1
 
+  fn <- function(m, d, v){
+    ifelse(!is.na(d[, v]),
+           specific_option(m, d, v),
+           NA)
+  }
 
   return(
     list(
@@ -54,30 +59,30 @@ costing_info <- function(data, metadata){
       contact =               data$sponsor,
       sign =                  sign,
       # design
-      design =                specific_option(metadata, data, "study_design"),
-      design_src =            specific_option(metadata, data, "study_design_src"),
+      design =                fn(metadata, data, "study_design"),
+      design_src =            fn(metadata, data, "study_design_src"),
       # durations
       duration =              data$study_duration,
-      duration_src =          specific_option(metadata, data, "study_duration_src"),
+      duration_src =          fn(metadata, data, "study_duration_src"),
       duration_enrol =        data$study_enrol,
-      duration_enrol_src =    specific_option(metadata, data, "study_enrol_src"),
+      duration_enrol_src =    fn(metadata, data, "study_enrol_src"),
       # participants/sites
       participants =          data$n_participants,
-      participants_src =      specific_option(metadata, data, "n_participants_src"),
+      participants_src =      fn(metadata, data, "n_participants_src"),
       sites =                 data$n_sites,
-      sites_src =             specific_option(metadata, data, "n_sites_src"),
-      location =              specific_option(metadata, data, "site_location"),
-      location_src =          specific_option(metadata, data, "site_location_src"),
+      sites_src =             fn(metadata, data, "n_sites_src"),
+      location =              fn(metadata, data, "site_location"),
+      location_src =          fn(metadata, data, "site_location_src"),
       # visits
       n_visits =              data$n_visits,
-      n_visits_src =          specific_option(metadata, data, "n_visits_src"),
+      n_visits_src =          fn(metadata, data, "n_visits_src"),
       # variables/database
-      n_visits =              data$n_visits,
-      n_visits_src =          specific_option(metadata, data, "n_visits_src"),
+      n_vars =                data$n_vars,
+      n_vars_src =            fn(metadata, data, "n_vars_src"),
       n_database =            data$n_db,
-      n_database_src =        specific_option(metadata, data, "n_db_src"),
+      n_database_src =        fn(metadata, data, "n_db_src"),
 
-      intervention =          specific_option(metadata, data, "int_type"),
+      intervention =          fn(metadata, data, "int_type"),
       internal =              data$sponsor_insel == 1,
       discount_db =           ifelse(initcosting, data$discount, data$discount2)
     )
