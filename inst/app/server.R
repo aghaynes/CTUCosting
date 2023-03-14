@@ -53,8 +53,9 @@ function(input, output){
         # glue("Costing {input$costing}   Rate: {info()$ratelab}   Duration: {info()$duration} years")
         infoBoxOutput("vb_costing"),
         infoBoxOutput("vb_inst"),
-        infoBoxOutput("vb_rate"),
+        infoBoxOutput("vb_costingtxt"),
         infoBoxOutput("vb_duration"),
+        infoBoxOutput("vb_rate"),
         infoBoxOutput("vb_total"),
         infoBoxOutput("vb_discount")
       ),
@@ -94,6 +95,12 @@ function(input, output){
     infoBox(info()$sponsor,
             title = "Institute",
             icon = icon("building-columns"),
+            color = "red")
+  })
+  output$vb_costingtxt <- renderInfoBox({
+    infoBox(info()$init_or_amendment_txt,
+            title = "Consulting or Project",
+            icon = icon(ifelse(info()$initcosting, "ticket", "folder-open")),
             color = "red")
   })
   output$vb_rate <- renderInfoBox({
@@ -190,7 +197,7 @@ function(input, output){
     print(paste("Costing: ", info()$initcosting))
     print(paste("discount_db: ", info()$discount_db))
     calc_discount(selected_workpackages(),
-                  costing = 1 * info()$initcosting,
+                  initcosting = info()$initcosting,
                   discount_db = info()$discount_db)})
   output$dt_discount <- renderDataTable({
       print(discount())
