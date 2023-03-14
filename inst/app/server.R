@@ -226,7 +226,7 @@ function(input, output){
   ## init table
   snf_table <- reactiveValues(data = NULL)
   observe({
-    wp <- unique(selected_workpackages()$Service)
+    wp <- paste(selected_workpackages()$Service, selected_workpackages()$wp_lab)
     nrow <- length(wp)
     ncol <- info()$duration
     df <- as.data.frame(matrix(rep(0, ncol * nrow), nrow = nrow, ncol = ncol))
