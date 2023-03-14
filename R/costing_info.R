@@ -7,6 +7,7 @@ costing_info <- function(data, metadata){
   consultingnum <- data$consulting_num
   studyname <- data$study
   initcosting <- data$initial_costing == 1
+  projnum <- data$initial_projnum
 
   title_txt <- paste("Costing for consulting",
                      ifelse(is.na(consultingnum),
@@ -17,8 +18,6 @@ costing_info <- function(data, metadata){
   init_or_amendment_txt <- ifelse(initcosting,
                                   "This is the intial costing for the project",
                                   paste("This is an amendment to project", projnum))
-
-
 
   # institute/company
   print(data$sponsor_insel)
@@ -33,9 +32,12 @@ costing_info <- function(data, metadata){
     sign <- data$institute_auth
   }
 
-
   rate <- specific_option(metadata, data, "rate")
   internal <- data$sponsor_insel == 1
+
+  # DLF
+  # LOGIC FOR DETERMINING WHETHER DLF FUNDING IS RELEVANT
+  dlf <- FALSE
 
   fn <- function(m, d, v){
     ifelse(!is.na(d[, v]),
@@ -47,13 +49,14 @@ costing_info <- function(data, metadata){
     list(
       # project
       title_txt =             title_txt,
-      projnum =               data$initial_projnum,
+      projnum =               projnum,
       consultingnum =         consultingnum,
       studyname =             studyname,
       acronym =               data$study_abbr,
       initcosting =           initcosting,
       init_or_amendment_txt = init_or_amendment_txt,
       ratelab =               rateopts$label[data$rate],
+      dlf =                   dlf,
       # signatories
       sponsor =               inst,
       contact =               data$sponsor,
