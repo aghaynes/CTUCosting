@@ -1,8 +1,13 @@
 
 
 #' @importFrom vctrs vec_cast
+#' @param workpackages work package data (dataframe)
+#' @param initcosting binary, initial costing for project?
+#' @param discount_db previous discount applied to project, from REDCap
+#' @param snf binary, is this an SNF project?
 #' @export
-calc_discount <- function(workpackages, costing, discount_db){
+calc_discount <- function(workpackages, initcosting, discount_db,
+                          snf = FALSE, dlf = TRUE){
 
   summ_discount <- workpackages  |>
     # remove fixed price units
@@ -12,19 +17,49 @@ calc_discount <- function(workpackages, costing, discount_db){
                       "045.3", "050.3", # DM lock archive
                       "060.3" # Website hosting/domain
                       )) |>
+    mutate(DiscountableHours = Hours)
+
+  # if DLF support, subtract appropriate CHF from Cost (no discount on the DLF part)
+  if(dlf){
+    dlf_relevant_workpackages <- c("045.0", "045.1", "045.2", "045.3",
+                                   "050.1", "050.2", "050.3", "050.4")
+    dlf_amount <- 3000
+    summ_discount <- summ_discount |>
+      group_by(Service, wp, wp_lab) |>
+      summarize(Hours = sum(Hours),
+                Cost = sum(Cost),
+                Rate = mean(Rate),
+                DiscountableHours = sum(DiscountableHours)) |>
+      mutate(DiscountableHours = case_when(!wp %in% dlf_relevant_workpackages ~ DiscountableHours,
+                                           TRUE ~ max(DiscountableHours - (dlf_amount / Rate), 0))
+             )
+  }
+
+  summ_discount <- summ_discount |>
     # summarize remaining packages
     ungroup()  |>
     summarize(Hours = sum(Hours),
-              Cost = sum(Cost))  |>
-
-    # if DLF support, subtract appropriate CHF from Cost (no discount on the DLF part)?
-
+              DiscountableHours = sum(DiscountableHours),
+              Cost = sum(Cost)) |>
     mutate(Service = "CTU",
            Description = "Total",
-           discount = as.numeric(as.character(cut(Hours, c(seq(0,1000,100), Inf), seq(0,1000,100)/100))),
-           discount = if_else(costing == 1, discount, vec_cast(discount_db, double())),
-           discount_amount = Cost * (discount / 100),
-           new_amount = Cost - discount_amount)  |>
-    select(-costing)
+           discount = as.numeric(
+             as.character(
+               cut(DiscountableHours,
+                   c(seq(0,1000,100), Inf),
+                   seq(0,1000,100)/100)
+               )
+             ),
+           discount = if_else(initcosting, discount, vec_cast(discount_db, double())))
+
+  # No discount for SNF projects
+  if(snf){
+    summ_discount <- summ_discount |>
+      mutate(discount = 0)
+  }
+
+  summ_discount |>
+    mutate(discount_amount = Cost * (discount / 100),
+           new_amount = Cost - discount_amount)
 
 }
