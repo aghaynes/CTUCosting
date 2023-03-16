@@ -226,25 +226,33 @@ function(input, output){
   ## init table
   snf_table <- reactiveValues(data = NULL)
   observe({
-    wp <- paste(selected_workpackages()$Service, selected_workpackages()$wp_lab)
+    wp <- paste(selected_workpackages()$Service, selected_workpackages()$wp_lab, sep = ": ")
     nrow <- length(wp)
-    ncol <- info()$duration
+    ncol <- info()$duration + 1 # + 1 for rowsums
     df <- as.data.frame(matrix(rep(0, ncol * nrow), nrow = nrow, ncol = ncol))
-    names(df) <- paste("Year", 1 : ncol)
+    names(df) <- c(paste("Year", 1 : info()$duration), "Row sum")
     rownames(df) <- wp
+    # add a column for rowsum?
     snf_table$data <- df
   })
   ## edit table
-  observeEvent(input$snf_percentages_cell_edit, {
-    info <- input$snf_percentages_cell_edit
+  observeEvent(input$snf_proportions_cell_edit, {
+    info <- input$snf_proportions_cell_edit
     i <- info$row
     j <- info$col
     v <- info$value
     snf_table$data[i, j] <- isolate(coerceValue(v, snf_table$data[i, j]))
+    # update rowsums?
+    snf_table$data[, "Row sum"] <- apply(snf_table$data[, 1:info()$duration], 1, sum)
   })
 
-  output$snf_percentages <- renderDataTable(snf_table$data, editable = TRUE)
-  proxy <- dataTableProxy("snf_percentages")
+  output$snf_proportions <- renderDataTable(snf_table$data |>
+                                              datatable(editable = TRUE) |>
+                                              formatStyle("Row sum",
+                                                          backgroundColor = styleInterval(c(0.999, 1.001), c("#fc4c4c", "#60fa48", "#fc4c4c"))),
+                                            editable = TRUE)
+  output$snf_rowsum <- renderDataTable(as.data.frame(rowSums(snf_table$data)) |> set_names("RowSum"))
+  proxy <- dataTableProxy("snf_proportions")
 
   snf_costs <- reactive({
 
@@ -255,10 +263,11 @@ function(input, output){
 
     # print(summ)
     # print(snf_table$data)
+    dat <- snf_table$data[, 1 : info()$duration]
 
-    cost <- snf_table$data * summ$Cost
-    hours <- snf_table$data * summ$Hours
-    nam <- names(snf_table$data)
+    cost <- dat * summ$Cost
+    hours <- dat * summ$Hours
+    nam <- names(dat)
     print(nam)
     # print(cost)
     # print(hours)
@@ -279,9 +288,9 @@ function(input, output){
   output$snf_tab <- renderUI({
     if(input$costing_type == "SNF"){
       fluidRow(
-        box(title = "SNF percentages",
-            subtitle = "Enter percentages expected for each year and each work package",
-            dataTableOutput("snf_percentages"),
+        box(title = "Proportion of hours per year",
+            "Enter proportion of hours expected for each year and each work package",
+            dataTableOutput("snf_proportions"),
             width = 12),
         box(title = "SNF costs",
             dataTableOutput("snf_cost"),
