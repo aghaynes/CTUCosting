@@ -104,7 +104,7 @@ if(!is.null(params$workpackages)){
 }
 ```
 
-Expenses
+`r ifelse(!is.null(params$expenses), "Expenses", "")`
 
 ```{r, echo = FALSE, eval = TRUE}
 if(!is.null(params$expenses)){
