@@ -246,12 +246,14 @@ function(input, output){
     snf_table$data[, "Row sum"] <- apply(snf_table$data[, 1:info()$duration], 1, sum)
   })
 
-  output$snf_proportions <- renderDataTable(snf_table$data |>
-                                              datatable(editable = TRUE) |>
-                                              formatStyle("Row sum",
-                                                          backgroundColor = styleInterval(c(0.999, 1.001), c("#fc4c4c", "#60fa48", "#fc4c4c"))),
-                                            editable = TRUE)
-  output$snf_rowsum <- renderDataTable(as.data.frame(rowSums(snf_table$data)) |> set_names("RowSum"))
+  output$snf_proportions <- renderDataTable(
+    snf_table$data |>
+      datatable(editable = TRUE) |>
+      formatStyle("Row sum",
+                  backgroundColor = styleInterval(c(0.999, 1.001),
+                                                  c("#fc4c4c", "#60fa48", "#fc4c4c"))),
+    editable = TRUE)
+
   proxy <- dataTableProxy("snf_proportions")
 
   snf_costs <- reactive({
