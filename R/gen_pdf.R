@@ -43,14 +43,16 @@ gen_pdf <- function(output,
                       workpackages = inputs$workpackages,
                       internal = inputs$internal,
                       total = inputs$total,
-                      discount = inputs$summ_discount
+                      discount = inputs$summ_discount,
+                      notes = inputs$notes
                       )
                     )
 
   tmp <- readLines(html)
   writeLines(gsub("#(.*)(\\.gt_.* \\{)$", "\\2", tmp), html)
   pagedown::chrome_print(html, output,
-                         options = list(paperWidth = 8.3, paperHeight = 11.7, box_model = "content"))
+                         options = list(paperWidth = 8.3, paperHeight = 11.7, box_model = "content"),
+                         extra_args = c("--no-sandbox"))
   if(copy_html){
     file.copy(html, sub("pdf", "html", output), overwrite = TRUE)
   }

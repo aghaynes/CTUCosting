@@ -5,7 +5,7 @@ dashboardPage(
   dashboardHeader(title = "CTU Costing"),
   dashboardSidebar(
     # sidebarPanel(
-      passwordInput("token", "Load data via API token:", value = token),
+      # passwordInput("token", "Load data via API token:", value = token),
       textInput("record_id", "Record to export:", value = "2"),
       textInput("costing", "Costing number:", value = "1"),
       uiOutput("rc_link"),

@@ -25,6 +25,7 @@ params:
   total: NULL
   discount: NULL
   expenses: NULL
+  notes: NA
 # logo: "ub_Logo_english_2019_RGB_wb.png"
 ---
 
@@ -125,6 +126,16 @@ if(!is.null(params$total)){
                     data_row.padding = "2px")
 }
 ```
+
+```{r, echo = FALSE, results='asis'}
+notes <- params$notes
+if(length(notes) > 0 && !is.na(notes) && notes != "NA"){
+  cat("Notes:\n\n")
+  cat(notes)
+  cat("\n\n")
+}
+```
+
 
 ```{r, echo = FALSE, results='asis'}
 if(!params$conduct_time > 5) cat("Please note that costings for long projects may be reassessed at approximately 3 years.")
