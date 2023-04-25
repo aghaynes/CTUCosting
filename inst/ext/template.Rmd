@@ -94,7 +94,10 @@ if(!is.null(params$workpackages)){
     gt::tab_options(table.font.size = "12px",
                     table.width = "100%",
                     row_group.background.color = "white",
-                    data_row.padding = "2px") %>% 
+                    data_row.padding = "2px", 
+                    table.font.names = "Arial", 
+                    table.font.color = "black", 
+                    table.font.color.light = "black") %>% 
     gt::cols_width(Task ~ "20%",
                    Description ~ "62.5%",
                    Hours ~ "7.5%",
@@ -112,7 +115,10 @@ if(!is.null(params$expenses)){
   gt::gt(params$expenses) %>% 
     gt::tab_options(table.font.size = "12px",
                     table.width = "100%",
-                    data_row.padding = "2px")
+                    data_row.padding = "2px", 
+                    table.font.names = "Arial", 
+                    table.font.color = "black", 
+                    table.font.color.light = "black")
 }
 ```
 
@@ -123,7 +129,10 @@ if(!is.null(params$total)){
   gt::gt(params$total) %>% 
     gt::tab_options(table.font.size = "12px",
                     table.width = "100%",
-                    data_row.padding = "2px")
+                    data_row.padding = "2px", 
+                    table.font.names = "Arial", 
+                    table.font.color = "black", 
+                    table.font.color.light = "black")
 }
 ```
 
