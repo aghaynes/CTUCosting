@@ -10,23 +10,23 @@ rateopts <- tibble::tribble(
 
 
 servicenames <- tibble::tribble(
-  ~service, ~Service,
-  "docdev", "Document development",
-  "dml",    "Data management (light)",
-  "dmf",    "Data management (full)",
-  "sta",    "Statistics",
-  "csm",    "Clinical study management",
-  "qm",     "Quality management",
-  "ci",     "Clinical investigation",
-  "admin",  "Administration",
-  "sen",    "Seniors",
-  "rs",     "Regulatory services",
-  "sw",     "Study website",
-  "cloud",  "ShareFile cloud",
-  "mon",    "Monitoring",
-  "cdm",    "Central data monitoring",
-  "cdmra",    "Central data monitoring",
-  "ra",     "Research assistant"
+  ~service, ~Service,                    ~form,
+  "docdev", "Document development",      "document_development",
+  "dml",    "Data management (light)",   "dm_redcap_light",
+  "dmf",    "Data management (full)",    "dm_full_services",
+  "sta",    "Statistics",                "statistics",
+  "csm",    "Clinical study management", "clinical_study_management",
+  "qm",     "Quality management",        "quality_management",
+  "ci",     "Clinical investigation",    NA,
+  "admin",  "Administration",            NA,
+  "sen",    "Seniors",                   NA,
+  "rs",     "Regulatory services",       "regulatory_support",
+  "sw",     "Study website",             "study_website",
+  "cloud",  "ShareFile cloud",           "sharefile_cloud",
+  "mon",    "Monitoring",                "monitoring_onsite_remote",
+  "cdm",    "Central data monitoring",   "central_data_monitoring",
+  "cdmra",  "Central data monitoring",   NA,
+  "ra",     "Research assistant",        NA
 )
 
 

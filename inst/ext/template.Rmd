@@ -25,6 +25,7 @@ params:
   total: NULL
   discount: NULL
   expenses: NULL
+  notes: NA
 # logo: "ub_Logo_english_2019_RGB_wb.png"
 ---
 
@@ -93,7 +94,10 @@ if(!is.null(params$workpackages)){
     gt::tab_options(table.font.size = "12px",
                     table.width = "100%",
                     row_group.background.color = "white",
-                    data_row.padding = "2px") %>% 
+                    data_row.padding = "2px", 
+                    table.font.names = "Arial", 
+                    table.font.color = "black", 
+                    table.font.color.light = "black") %>% 
     gt::cols_width(Task ~ "20%",
                    Description ~ "62.5%",
                    Hours ~ "7.5%",
@@ -111,7 +115,10 @@ if(!is.null(params$expenses)){
   gt::gt(params$expenses) %>% 
     gt::tab_options(table.font.size = "12px",
                     table.width = "100%",
-                    data_row.padding = "2px")
+                    data_row.padding = "2px", 
+                    table.font.names = "Arial", 
+                    table.font.color = "black", 
+                    table.font.color.light = "black")
 }
 ```
 
@@ -122,9 +129,22 @@ if(!is.null(params$total)){
   gt::gt(params$total) %>% 
     gt::tab_options(table.font.size = "12px",
                     table.width = "100%",
-                    data_row.padding = "2px")
+                    data_row.padding = "2px", 
+                    table.font.names = "Arial", 
+                    table.font.color = "black", 
+                    table.font.color.light = "black")
 }
 ```
+
+```{r, echo = FALSE, results='asis'}
+notes <- params$notes
+if(length(notes) > 0 && !is.na(notes) && notes != "NA"){
+  cat("Notes:\n\n")
+  cat(notes)
+  cat("\n\n")
+}
+```
+
 
 ```{r, echo = FALSE, results='asis'}
 if(!params$conduct_time > 5) cat("Please note that costings for long projects may be reassessed at approximately 3 years.")
