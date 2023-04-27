@@ -15,8 +15,7 @@ RUN curl -L http://bit.ly/google-chrome-stable -o google-chrome-stable.deb && \
 RUN Rscript -e 'install.packages(c("remotes"))'
 RUN Rscript -e 'remotes::install_local("..", dependencies = TRUE)'
 
-COPY ../inst/app/server.R app/server.R
-COPY ../inst/app/ui.R app/ui.R
+COPY ../../.Renviron .Renviron
 
 EXPOSE 3838
 
