@@ -46,8 +46,8 @@ calc_discount <- function(workpackages, initcosting, discount_db,
            discount = as.numeric(
              as.character(
                cut(DiscountableHours,
-                   c(seq(0,1000,100), Inf),
-                   seq(0,1000,100)/100)
+                   c(-Inf, seq(0,1000,100), Inf),
+                   c(0, seq(0,1000,100)/100))
                )
              ),
            discount = if_else(initcosting, discount, vec_cast(discount_db, double())))
