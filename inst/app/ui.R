@@ -1,6 +1,6 @@
 
 library(shinydashboard)
-token <- readLines("O:/tokens/costing.txt")
+# token <- readLines("O:/tokens/costing.txt")
 dashboardPage(
   dashboardHeader(title = "CTU Costing"),
   dashboardSidebar(
