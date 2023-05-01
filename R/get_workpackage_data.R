@@ -98,17 +98,6 @@ get_workpackage_data <- function(d, meta){
   return(workpackages)
 }
 
-#' @export
-summarize_by_wp <- function(data){
-  data %>%
-    group_by(Service, wp, wp_lab) %>%
-    summarize(Description = paste(desc, collapse = ", "),
-              Hours = sum(Hours),
-              Rate = mean(Rate),
-              Cost = sum(Cost),
-    )
-}
-
 
 #' @export
 get_wp_df <- function(d){
@@ -130,6 +119,7 @@ get_wp_df <- function(d){
       filter(!is.na(desc) & desc != "")
   }
 }
+
 
 #' @export
 get_generic_df <- function(d){
