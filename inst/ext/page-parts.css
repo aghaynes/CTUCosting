@@ -60,7 +60,18 @@ body {
   @bottom-right {
     content: 'Page ' counter(page) ' of ' counter(pages);
   }
+  @bottom-left {
+    content: element(acro);
+  }
   margin-top: 3.25cm;
+}
+
+#acro {
+  position: running(acro);
+}
+
+#acro:before {
+  content: "Costing: ";
 }
 
 @page :first {

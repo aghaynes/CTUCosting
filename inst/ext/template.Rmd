@@ -52,6 +52,8 @@ htmltools::h2("Offer for providing CTU services")
 htmltools::h4(paste0("Costing for project: ", params$studyname, " (", params$acronym, ")"))
 ```
 
+[`r paste0("<b>", params$acronym, "</b><br>Date: ", Sys.Date())`]{#acro}
+
 Dear `r params$contact`,
 
 Thank you for considering CTU Bern for your clinical research support requirements.
