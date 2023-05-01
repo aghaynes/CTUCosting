@@ -371,13 +371,14 @@ function(input, output){
         , total = total_cost()
       )
 
-      print(str(inputs))
+      # print(str(inputs))
 
-      show_modal_spinner(text = "Compiling file")
+      # show_modal_spinner(text = "Compiling file")
+      print("xl")
 
       writexl::write_xlsx(dfs, file)
 
-      remove_modal_spinner()
+      # remove_modal_spinner()
     }
   )
 
