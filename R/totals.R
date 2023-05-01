@@ -4,7 +4,7 @@ totals <- function(workpackages, expenses, discount, overhead, internal){
   total <- tibble::tribble(
     ~Description, ~`Cost (CHF)`,
     "Work packages", sum(workpackages$Cost),
-    "Expenses", sum(expenses$total_cost),
+    "Expenses", sum(expenses$exp_cost),
     paste0("Discount (", discount$discount, "%)"), -sum(discount$discount_amount),
     "Internal project management (10%)", overhead$pm,
     "University overhead (10%)", overhead$overhead
