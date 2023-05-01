@@ -18,9 +18,11 @@ dashboardPage(
       hr(),
       "Generate costing outputs",
       textInput("cturep", "Your name"),
-      div(style="display:inline-block", downloadButton("pdf", "Generate PDF"), style="align:right"),
+      downloadButton("pdf", "Generate PDF"),
+      tags$style(type='text/css', "#pdf { margin-left: 15px; margin-bottom: 9px;}"),
       tags$br(),
-      downloadButton("admin", "Generate admin info")
+      downloadButton("admin", "Generate admin info"),
+      tags$style(type='text/css', "#admin { margin-left: 15px; margin-bottom: 9px;}")
     ),
     dashboardBody(
       tags$head(tags$style(HTML('
@@ -31,10 +33,10 @@ dashboardPage(
           background-color: #e4003c;
         }
         .bg-red {
-        background-color: #e4003c !important;
+          background-color: #e4003c !important;
         }
         .skin-red .sidebar a {
-        color: #333;
+          color: #333;
         }
       '))),
       uiOutput("bad_record"),
