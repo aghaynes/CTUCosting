@@ -30,16 +30,23 @@ function(input, output){
 
   output$rc_link <- renderUI({
     req(record_ok())
-    tags$a(href = create_rc_link(record = input$record_id,
+    actionButton("toRedcap", HTML("Click here to go to this <br/>costing in REDCap"),
+                 onclick = glue("window.open('{create_rc_link(record = input$record_id,
                                  costing = input$costing,
-                                 token = token),
-           "Click here to go to this costing in REDCap", target = "_blank")
+                                 token = token)}', '_blank')"))
+    # tags$a(href = create_rc_link(record = input$record_id,
+    #                              costing = input$costing,
+    #                              token = token),
+    #        "Click here to go to this costing in REDCap", target = "_blank")
   })
 
   d <- reactive({
     req(record_ok())
     print(paste("RECORD =", input$record_id, "COSTING =", input$costing))
-    get_data(record = input$record_id, costing = input$costing, token = token)
+    show_modal_spinner(text = "Downloading data")
+    x <- get_data(record = input$record_id, costing = input$costing, token = token)
+    remove_modal_spinner()
+    return(x)
   })
   meta <- reactive(get_metadata(token = token))
   notes <- reactive(get_notes(d()))
@@ -364,13 +371,14 @@ function(input, output){
         , total = total_cost()
       )
 
-      print(str(inputs))
+      # print(str(inputs))
 
-      show_modal_spinner(text = "Compiling file")
+      # show_modal_spinner(text = "Compiling file")
+      print("xl")
 
       writexl::write_xlsx(dfs, file)
 
-      remove_modal_spinner()
+      # remove_modal_spinner()
     }
   )
 

@@ -13,12 +13,32 @@ dashboardPage(
       uiOutput("select_workpackages"),
       uiOutput("select_expenses"),
       hr(),
-      textInput("cturep", "Your name"),
       selectInput("costing_type", "Costing type", c("CTU standard", "SNF")),
+
+      hr(),
+      "Generate costing outputs",
+      textInput("cturep", "Your name"),
       downloadButton("pdf", "Generate PDF"),
-      downloadButton("admin", "Generate admin info")
+      tags$style(type='text/css', "#pdf { margin-left: 15px; margin-bottom: 9px;}"),
+      tags$br(),
+      downloadButton("admin", "Generate admin info"),
+      tags$style(type='text/css', "#admin { margin-left: 15px; margin-bottom: 9px;}")
     ),
     dashboardBody(
+      tags$head(tags$style(HTML('
+        .skin-red .main-header .logo {
+          background-color: #e4003c;
+        }
+        .skin-red .main-header .navbar {
+          background-color: #e4003c;
+        }
+        .bg-red {
+          background-color: #e4003c !important;
+        }
+        .skin-red .sidebar a {
+          color: #333;
+        }
+      '))),
       uiOutput("bad_record"),
       uiOutput("costing")
     ),

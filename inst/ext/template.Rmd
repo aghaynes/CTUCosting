@@ -26,10 +26,10 @@ params:
   discount: NULL
   expenses: NULL
   notes: NA
-# logo: "ub_Logo_english_2019_RGB_wb.png"
+header-logo: "`r system.file('ext/ub_Logo_english_2019_RGB_wb.png', package = 'ctucosting')`"
 ---
 
-![](`r system.file("ext/ub_Logo_english_2019_RGB_wb.png", package ="ctucosting")`){.logo .right}
+![](ub_Logo_english_2019_RGB_wb.png){.logo .right}
 
 
 <p> </p>
@@ -51,6 +51,8 @@ knitr::include_graphics("ub_Logo_english_2019_RGB_wb.png")
 htmltools::h2("Offer for providing CTU services")
 htmltools::h4(paste0("Costing for project: ", params$studyname, " (", params$acronym, ")"))
 ```
+
+[`r paste0("<b>", params$acronym, "</b><br>Date: ", Sys.Date())`]{#acro}
 
 Dear `r params$contact`,
 
