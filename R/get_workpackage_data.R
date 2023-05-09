@@ -76,12 +76,12 @@ get_workpackage_data <- function(d, meta){
 
   if(nrow(d$generic) > 0){
     workpackages <- workpackages %>%
-      bind_rows(lapply(seq_along(1:nrow(d$generic)),
+      data.table::rbindlist(lapply(seq_along(1:nrow(d$generic)),
                        function(x) {
                          # print(x)
                          d$generic[x,] %>% get_generic_df()
                        }) %>%
-                  bind_rows())
+                         data.table::rbindlist())
   }
   workpackages <- workpackages %>%
     left_join(servicenames) %>%
