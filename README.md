@@ -48,3 +48,45 @@ Create the docker image to be transferred to the shiny server via `sudo docker i
 
 Transfer the image to the shiny server via `scp ctucosting-vx.y.z.tar.gz username@shiny-02.ctu.unibe.ch:/home/shiny` 
 (you need to have a log in to the server for this).
+
+
+
+## Code example outside app
+
+``` r
+token <- Sys.getenv("CTUCosting_token")
+record <- 2
+costing <- 1
+
+meta <- get_metadata(token = token)
+d <- get_data(record = record, costing = costing, token = token)
+info <- costing_info(d, meta$metadata)
+
+wp <- get_workpackage_data(d, meta)
+selected_workpackages <- summ_workpackages <- summarize_by_wp(wp)
+
+selected_expenses <- expenses <- d$expenses %>% #names
+  mutate(wp = sprintf("%05.1f", exp_pf)) %>%
+  left_join(wp_codes(meta$metadata), by = c(wp = "val")) %>% #names
+  left_join(redcaptools::singlechoice_opts(meta$metadata) %>% #names()
+              filter(var == "exp_budget_pos") %>%
+              select(val, lab) %>%
+              mutate(val = as.numeric(val)),
+            by = c(exp_budget_pos = "val")) %>%
+  mutate(total_cost = exp_units * exp_cost) %>%
+  relocate(Division = lab, Description = exp_desc, Amount = total_cost, wp_lab)
+
+discount <- calc_discount(selected_workpackages,
+              initcosting = info$initcosting,
+              discount_db = info$discount_db)
+
+overhead_tab <- overhead(selected_workpackages)
+
+totals(workpackages = selected_workpackages,
+       expenses = selected_expenses,
+       discount = discount,
+       overhead = overhead_tab,
+       internal = info$internal,
+       dlf = TRUE)
+
+```
