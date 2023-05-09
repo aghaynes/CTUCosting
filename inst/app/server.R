@@ -52,7 +52,7 @@ function(input, output){
   notes <- reactive(get_notes(d()))
 
   info <- reactive({
-    print(d()$meta_information)
+    # print(d()$meta_information)
     costing_info(d(), meta()$metadata)
   })
 
@@ -150,7 +150,7 @@ function(input, output){
   summ_workpackages <- reactive(summarize_by_wp(wp()))
 
   output$select_workpackages <- renderUI({
-    print(summ_workpackages()$Service)
+    # print(summ_workpackages()$Service)
     selectInput("selected_workpackages",
                 label = "Select services for inclusion in the costing",
                 choices = unique(summ_workpackages()$Service),
@@ -160,7 +160,7 @@ function(input, output){
   })
 
   selected_workpackages <- reactive({
-    print(summ_workpackages() |> names())
+    # print(summ_workpackages() |> names())
     summ_workpackages() |>
       dplyr::filter(Service %in% input$selected_workpackages)})
 
@@ -205,13 +205,13 @@ function(input, output){
 
   # calculate discount
   discount <- reactive({
-    print(paste("Costing: ", info()$initcosting))
-    print(paste("discount_db: ", info()$discount_db))
+    # print(paste("Costing: ", info()$initcosting))
+    # print(paste("discount_db: ", info()$discount_db))
     calc_discount(selected_workpackages(),
                   initcosting = info()$initcosting,
                   discount_db = info()$discount_db)})
   output$dt_discount <- renderDataTable({
-      print(discount())
+      # print(discount())
       discount()
     },
     rownames = FALSE
@@ -224,10 +224,11 @@ function(input, output){
            expenses = selected_expenses(),
            discount = discount(),
            overhead = overhead_tab(),
-           internal = info()$internal)
+           internal = info()$internal,
+           dlf = info()$dlf)
   })
   output$dt_totals <- renderDataTable({
-    print(total_cost())
+    # print(total_cost())
     total_cost()
   },
   rownames = FALSE
@@ -269,7 +270,7 @@ function(input, output){
 
   snf_costs <- reactive({
 
-    print(selected_workpackages())
+    # print(selected_workpackages())
     summ <- selected_workpackages() |>
       group_by(Service) |>
       summarize(across(c(Hours, Cost), sum))
@@ -281,7 +282,7 @@ function(input, output){
     cost <- dat * summ$Cost
     hours <- dat * summ$Hours
     nam <- names(dat)
-    print(nam)
+    # print(nam)
     # print(cost)
     # print(hours)
     tmp <- sapply(seq_along(hours), function(x){
@@ -291,7 +292,7 @@ function(input, output){
       set_names(names(hours)) |>
       set_rownames(row.names(hours))
     # names(tmp) <- paste("Year", 1 : ncol(tmp))
-    print(names(tmp))
+    # print(names(tmp))
     tmp
     # cost
   })
@@ -325,7 +326,7 @@ function(input, output){
     },
     content = function(file){
 
-      print(info())
+      # print(info())
       # dot <- reactiveValuesToList(info())
 
       inputs <- info()
@@ -342,7 +343,7 @@ function(input, output){
 
       inputs$break_tasks <- unlist(strsplit(input$break_tasks, ","))
 
-      print(str(inputs))
+      # print(str(inputs))
 
       show_modal_spinner(text = "Compiling PDF",
                          spin = "pixel")
@@ -379,7 +380,7 @@ function(input, output){
       # print(str(inputs))
 
       # show_modal_spinner(text = "Compiling file")
-      print("xl")
+      # print("xl")
 
       writexl::write_xlsx(dfs, file)
 

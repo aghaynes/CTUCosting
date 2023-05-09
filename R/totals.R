@@ -1,5 +1,5 @@
 #' @export
-totals <- function(workpackages, expenses, discount, overhead, internal){
+totals <- function(workpackages, expenses, discount, overhead, internal, dlf){
 
   total <- tibble::tribble(
     ~Description, ~`Cost (CHF)`,
@@ -13,6 +13,21 @@ totals <- function(workpackages, expenses, discount, overhead, internal){
   if(internal){
     total <- total %>%
       filter(Description != "University overhead")
+  }
+  if(dlf){
+    dlf_relevant_workpackages <- c("045.0", "045.1", "045.2", "045.3",
+                                   "050.1", "050.2", "050.3", "050.4")
+    dm_sum <- workpackages |>
+      filter(wp %in% dlf_relevant_workpackages) |>
+      pull(Cost) |> sum()
+
+    dm_discount <- -1 * min(3000, dm_sum * 1.1)
+    total <- rbind(total,
+                   tibble::tribble(
+                     ~Description, ~`Cost (CHF)`,
+                     "DLF discount", dm_discount
+                   ))
+
   }
 
   total <- rbind(total,
