@@ -15,12 +15,14 @@ Roxygen: list(markdown = TRUE)
 Depends:
     R (>= 2.10),
 Imports:
+    collapse,
+    data.table,
     dplyr,
     DT,
     glue,
-	gt,
+	  gt,
     magrittr,
-	pagedown,
+	  pagedown,
     redcaptools,
     shiny,
     shinyalert,
