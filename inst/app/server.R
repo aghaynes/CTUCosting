@@ -336,7 +336,11 @@ function(input, output){
       inputs$total <- total_cost()
       inputs$cturep <- input$cturep
       inputs$notes <- concat_notes(notes())
+      inputs$break_totals <- input$break_totals
+      inputs$break_notes <- input$break_notes
       # print(concat_notes(notes()))
+
+      inputs$break_tasks <- unlist(strsplit(input$break_tasks, ","))
 
       print(str(inputs))
 
@@ -345,7 +349,8 @@ function(input, output){
 
       gen_pdf(
         output = file,
-        inputs = inputs
+        inputs = inputs,
+        copy_html = TRUE
       )
 
       remove_modal_spinner()
