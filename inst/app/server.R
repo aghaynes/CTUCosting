@@ -270,31 +270,8 @@ function(input, output){
 
   snf_costs <- reactive({
 
-    # print(selected_workpackages())
-    summ <- selected_workpackages() |>
-      group_by(Service) |>
-      summarize(across(c(Hours, Cost), sum))
+    snf_cost_table(selected_workpackages(), snf_table$data)
 
-    # print(summ)
-    # print(snf_table$data)
-    dat <- snf_table$data[, 1 : info()$duration]
-
-    cost <- dat * summ$Cost
-    hours <- dat * summ$Hours
-    nam <- names(dat)
-    # print(nam)
-    # print(cost)
-    # print(hours)
-    tmp <- sapply(seq_along(hours), function(x){
-      glue("{hours[, x]} hours <br/> CHF {cost[, x]}")
-    }) |>
-      as.data.frame() |>
-      set_names(names(hours)) |>
-      set_rownames(row.names(hours))
-    # names(tmp) <- paste("Year", 1 : ncol(tmp))
-    # print(names(tmp))
-    tmp
-    # cost
   })
 
   output$snf_cost <- renderDataTable(snf_costs(), escape = FALSE)
