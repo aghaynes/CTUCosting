@@ -76,12 +76,12 @@ get_workpackage_data <- function(d, meta){
 
   if(nrow(d$generic) > 0){
     workpackages <- workpackages %>%
-      bind_rows(lapply(seq_along(1:nrow(d$generic)),
+      data.table::rbindlist(lapply(seq_along(1:nrow(d$generic)),
                        function(x) {
                          # print(x)
                          d$generic[x,] %>% get_generic_df()
                        }) %>%
-                  bind_rows())
+                         data.table::rbindlist())
   }
   workpackages <- workpackages %>%
     left_join(servicenames) %>%
@@ -96,17 +96,6 @@ get_workpackage_data <- function(d, meta){
     filter(Units > 0)
 
   return(workpackages)
-}
-
-#' @export
-summarize_by_wp <- function(data){
-  data %>%
-    group_by(Service, wp, wp_lab) %>%
-    summarize(Description = paste(desc, collapse = ", "),
-              Hours = sum(Hours),
-              Rate = mean(Rate),
-              Cost = sum(Cost),
-    )
 }
 
 
@@ -130,6 +119,7 @@ get_wp_df <- function(d){
       filter(!is.na(desc) & desc != "")
   }
 }
+
 
 #' @export
 get_generic_df <- function(d){

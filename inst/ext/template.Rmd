@@ -1,9 +1,7 @@
 ---
 title: "A test document"
 output:
-    pagedown::html_paged:
-      # css: ["`r system.file('resources/css/style.scss', package = 'ctucosting')`", "`r system.file('resources/css/page-parts.css', package = 'ctucosting')`"]
-      template: "`r system.file('ext/template.html', package = 'ctucosting')`"
+    pagedown::html_paged
 knit: pagedown::chrome_print
 params:
   studyname: "Some Long, Ominous, Probably PithY, title"
@@ -26,10 +24,13 @@ params:
   discount: NULL
   expenses: NULL
   notes: NA
-# logo: "ub_Logo_english_2019_RGB_wb.png"
+  break_totals: FALSE
+  break_notes: FALSE
+  break_tasks: NULL
+header-logo: "`r system.file('ext/ub_Logo_english_2019_RGB_wb.png', package = 'ctucosting')`"
 ---
 
-![](`r system.file("ext/ub_Logo_english_2019_RGB_wb.png", package ="ctucosting")`){.logo .right}
+![](ub_Logo_english_2019_RGB_wb.png){.logo .right}
 
 
 <p> </p>
@@ -51,6 +52,8 @@ knitr::include_graphics("ub_Logo_english_2019_RGB_wb.png")
 htmltools::h2("Offer for providing CTU services")
 htmltools::h4(paste0("Costing for project: ", params$studyname, " (", params$acronym, ")"))
 ```
+
+[`r paste0("<b>", params$acronym, "</b><br>Date: ", Sys.Date())`]{#acro}
 
 Dear `r params$contact`,
 
@@ -84,67 +87,114 @@ Number of participants: **`r params$n_participants`** from **`r params$n_sites` 
 
 ### Tasks for CTU to provide {.unnumbered}
 
-```{r, echo = FALSE, eval = TRUE}
-if(!is.null(params$workpackages)){
-  params$workpackages %>% 
-    select_for_pdf() %>% 
-    group_by(Service) %>% 
-    mutate(Cost = format(Cost, big.mark = ",", nsmall = 2)) %>% 
-  gt::gt() %>% 
+```{r tasks, echo = FALSE, message=FALSE, warning=FALSE}
+library(gt)
+tmp <- params$workpackages %>%
+  select_for_pdf() %>%
+  group_by(Service) %>%
+  mutate(Cost = format(Cost, big.mark = ",", nsmall = 2))
+
+breaks <- as.numeric(params$break_tasks)
+n_breaks <- length(breaks)
+breaks_tf <- n_breaks > 0
+
+gt_fn <- function(x){
+  gt::gt(x) %>%
     gt::tab_options(table.font.size = "12px",
                     table.width = "100%",
                     row_group.background.color = "white",
-                    data_row.padding = "2px", 
-                    table.font.names = "Arial", 
-                    table.font.color = "black", 
-                    table.font.color.light = "black") %>% 
+                    data_row.padding = "2px",
+                    table.font.names = "Arial",
+                    table.font.color = "black",
+                    table.font.color.light = "black")
+}
+
+gt_widths <- function(x){
+  x %>%
     gt::cols_width(Task ~ "20%",
                    Description ~ "62.5%",
                    Hours ~ "7.5%",
                    Cost ~ "10%",
-                   ) #%>% 
-    # gt::tab_style(style = "vertical-align: top", locations = gt::cells_body(Description))
-  
+    )
 }
+
 ```
 
-`r ifelse(!is.null(params$expenses), "Expenses", "")`
-
-```{r, echo = FALSE, eval = TRUE}
-if(!is.null(params$expenses)){
-  gt::gt(params$expenses) %>% 
-    gt::tab_options(table.font.size = "12px",
-                    table.width = "100%",
-                    data_row.padding = "2px", 
-                    table.font.names = "Arial", 
-                    table.font.color = "black", 
-                    table.font.color.light = "black")
-}
+```{r tasks0, echo = FALSE, eval = !breaks_tf, message=FALSE}
+## no breaks
+tmp %>%
+  gt_fn() |>
+  gt_widths()
 ```
 
-Totals
+```{r tasks1, echo = FALSE, eval = breaks_tf & n_breaks > 0}
+ends <- c(breaks, nrow(tmp))
+starts <- c(1, breaks + 1)
 
-```{r, echo = FALSE, eval = TRUE}
-if(!is.null(params$total)){
-  gt::gt(params$total) %>% 
-    gt::tab_options(table.font.size = "12px",
-                    table.width = "100%",
-                    data_row.padding = "2px", 
-                    table.font.names = "Arial", 
-                    table.font.color = "black", 
-                    table.font.color.light = "black")
-}
+index <- (starts[1]):(ends[1])
+tmp2 <- tmp[index ,]
+# print(tmp2)
+
+tmp2 |>
+  as.data.frame() |>
+  gt_fn() |>
+  gt_widths()
 ```
 
-```{r, echo = FALSE, results='asis'}
+```{r tasks2, echo = FALSE, eval = breaks_tf & n_breaks >= 1}
+index <- (starts[2]):(ends[2])
+tmp2 <- tmp[index ,]
+# print(tmp2)
+
+tmp2 |>
+  as.data.frame() |>
+  gt_fn() |>
+  gt_widths()
+```
+
+```{r tasks3, echo = FALSE, eval = breaks_tf & n_breaks >= 2}
+index <- (starts[3]):(ends[3])
+tmp2 <- tmp[index ,]
+print(tmp2)
+
+tmp2 |>
+  as.data.frame() |>
+  gt_fn() |>
+  gt_widths()
+```
+
+
+```{r expenses, echo = FALSE, eval = !is.null(params$expenses)}
+cat("Expenses\n\n")
+gt_fn(params$expenses)
+```
+
+```{r breaktotals, echo = FALSE, results='asis', eval=params$break_totals}
+  cat("\\newpage")
+  cat("\n\n")
+```
+
+### Totals {.unnumbered}
+
+```{r totalstab, echo = FALSE, eval = !is.null(params$total)}
+gt_fn(params$total)
+```
+
+```{r notes, echo = FALSE, results='asis'}
 notes <- params$notes
 if(length(notes) > 0 && !is.na(notes) && notes != "NA"){
-  cat("Notes:\n\n")
+  cat("### Notes: {.unnumbered}\n\n")
   cat(notes)
   cat("\n\n")
 }
 ```
 
+```{r breaknotes, echo = FALSE, results='asis', eval=params$break_notes}
+  cat("\\newpage")
+  cat("\n\n")
+```
+
+### General notes:  {.unnumbered}
 
 ```{r, echo = FALSE, results='asis'}
 if(!params$conduct_time > 5) cat("Please note that costings for long projects may be reassessed at approximately 3 years.")
@@ -152,7 +202,7 @@ if(!params$conduct_time > 5) cat("Please note that costings for long projects ma
 
 This offer is valid for two months.
 
-For questions regarding the costing, please contact your CTU consultant or [info\@ctu.unibe.ch](mailto:info@ctu.unibe.ch){.email}.
+For questions regarding the costing, please contact your CTU consultant or [info.ctu\@unibe.ch](mailto:info.ctu@unibe.ch){.email}.
 
 ```{r, echo = FALSE, results='asis'}
 if(!params$internal) cat("Please consider that this cost estimate does not include VAT (7.7%).")
@@ -160,75 +210,7 @@ if(!params$internal) cat("Please consider that this cost estimate does not inclu
 
 The proposed hours may vary depending on the complexity of the trial. Only worked hours will be charged. Additional or not costed support will be charged at the agreed hourly rate.
 
-Note that the above mentioned hourly rate is subject to annual adaption. Check [www.ctu.unibe.ch](www.ctu.unibe.ch) for the most up-to-date hourly rate.
+Note that the above mentioned hourly rate is subject to annual adaptation. Check [www.ctu.unibe.ch](https://www.ctu.unibe.ch) for the most up-to-date hourly rate.
 
 
-<!-- <script> -->
-
-<!-- // Repeat table headers -->
-<!-- // from https://gitlab.pagedmedia.org/tools/pagedjs/issues/84 -->
-<!-- class RepeatingTableHeaders extends Paged.Handler { -->
-<!--   constructor(chunker, polisher, caller) { -->
-<!--     super(chunker, polisher, caller); -->
-<!--   } -->
-
-<!--   afterPageLayout(pageElement, page, breakToken, chunker) { -->
-<!--         // Find all split table elements -->
-<!--         let tables = pageElement.querySelectorAll("table[data-split-from]"); -->
-
-<!--         tables.forEach((table) => { -->
-<!--             // There is an edge case where the previous page table  -->
-<!--             // has zero height (isn't visible). -->
-<!--             // To avoid double header we will only add header if there is none. -->
-<!--             let tableHeader = table.querySelector("thead"); -->
-<!--             if (tableHeader) { -->
-<!--                 return; -->
-<!--             } -->
-
-<!--             console.log(tableHeader) -->
-
-<!--             // Get the reference UUID of the node -->
-<!--             let ref = table.dataset.ref; -->
-<!--             // Find the node in the original source -->
-<!--             let sourceTable = chunker.source.querySelector("[data-ref='" + ref + "']"); -->
-
-<!--             // Find if there is a header -->
-<!--             let sourceHeader = sourceTable.querySelector("thead"); -->
-<!--             if (sourceHeader) { -->
-<!--                 console.log("Table header was cloned, because it is splitted."); -->
-<!--                 // Clone the header element -->
-<!--                 let clonedHeader = sourceHeader.cloneNode(true); -->
-<!--                 // Insert the header at the start of the split table -->
-<!--                 table.insertBefore(clonedHeader, table.firstChild); -->
-
-<!--                 console.log(table) -->
-<!--             } -->
-<!--         }); -->
-
-<!--         // Find all tables -->
-<!--         tables = pageElement.querySelectorAll("table"); -->
-
-<!--         // special case which might not fit for everyone -->
-<!--         tables.forEach((table) => { -->
-<!--             // if the table has no rows in body, hide it. -->
-<!--             // This happens because my render engine creates empty tables. -->
-<!--             let sourceBody = table.querySelector("tbody > tr"); -->
-<!--             if (!sourceBody) { -->
-<!--                 console.log("Table was hidden, because it has no rows in tbody."); -->
-<!--                 table.style.visibility = "hidden"; -->
-<!--                 table.style.position = "absolute"; -->
-
-<!--                 var lineSpacer = table.nextSibling; -->
-<!--                 if (lineSpacer) { -->
-<!--                     lineSpacer.style.visibility = "hidden"; -->
-<!--                     lineSpacer.style.position = "absolute"; -->
-<!--                 } -->
-<!--             } -->
-<!--         }); -->
-<!--     } -->
-
-<!-- } -->
-
-<!-- Paged.registerHandlers(RepeatingTableHeaders); -->
-<!-- </script> -->
 

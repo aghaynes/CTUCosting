@@ -44,8 +44,12 @@ gen_pdf <- function(output,
                       internal = inputs$internal,
                       total = inputs$total,
                       discount = inputs$summ_discount,
-                      notes = inputs$notes
-                      )
+                      notes = inputs$notes,
+                      break_totals = inputs$break_totals,
+                      break_tasks = inputs$break_tasks,
+                      break_notes = inputs$break_notes
+                      ),
+                    clean = FALSE
                     )
 
   tmp <- readLines(html)
