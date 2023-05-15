@@ -72,16 +72,28 @@
 
 get_workpackage_data <- function(d, meta){
   workpackages <- lapply(d[2:13], get_wp_df) %>% # [5:6]: expected 3 pieces. additional pieces discarded in 29, 89
-    bind_rows()
+    data.table::rbindlist()
+
+
 
   if(nrow(d$generic) > 0){
-    workpackages <- workpackages %>%
-      data.table::rbindlist(lapply(seq_along(1:nrow(d$generic)),
-                       function(x) {
-                         # print(x)
-                         d$generic[x,] %>% get_generic_df()
-                       }) %>%
-                         data.table::rbindlist())
+    n <- d$generic |>
+      select(starts_with("gen_units"), starts_with("gen_hours")) |>
+      pivot_longer(cols = everything(), names_prefix = "gen_",
+                   names_sep = "_()", names_to = c("name", "name1")) |>
+      pivot_wider(names_from = "name", values_from = "value") |>
+      mutate(n = units * hours) |>
+      pull(n) |>
+      any()
+    if(n){
+      workpackages <- workpackages %>%
+        data.table::rbindlist(lapply(seq_along(1:nrow(d$generic)),
+                                     function(x) {
+                                       # print(x)
+                                       d$generic[x,] %>% get_generic_df()
+                                     }) %>%
+                                data.table::rbindlist())
+    }
   }
   workpackages <- workpackages %>%
     left_join(servicenames) %>%

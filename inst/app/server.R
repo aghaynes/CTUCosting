@@ -24,7 +24,7 @@ function(input, output){
       #                  type = "error",
       #                  )
       shinyalert("Oops!", "Please check your record and costing IDs... at least one does not exist in REDCap", type = "error")
-      fluidRow(span("Check your record and costing IDs", style="color:red"))
+      fluidRow(span("Check your record and costing IDs", style="color:red; margin-left: 15px;"))
     }
   })
 
@@ -47,28 +47,43 @@ function(input, output){
     x <- get_data(record = input$record_id, costing = input$costing, token = token)
     remove_modal_spinner()
     return(x)
+  }) |>
+    bindEvent(input$go)
+
+  record_meta_exists <- reactive(
+    nrow(d()[[1]]) > 0
+  )
+
+  output$bad_meta <- renderUI({
+    if(!record_meta_exists()){
+      shinyalert("Oops!", "Please check the costing meta information. It must be present.", type = "error")
+      fluidRow(span("Check meta information for the costing", style="color:red; margin-left: 15px;"))
+    }
   })
+
   meta <- reactive(get_metadata(token = token))
   notes <- reactive(get_notes(d()))
 
   info <- reactive({
     # print(d()$meta_information)
+    req(record_meta_exists())
     costing_info(d(), meta()$metadata)
   })
 
 
   output$costing <- renderUI({
+    req(record_meta_exists())
     fluidPage(
       fluidRow(
         # tags$h4(glue("{info()$acronym} ({info()$study})")),
         # glue("Costing {input$costing}   Rate: {info()$ratelab}   Duration: {info()$duration} years")
-        infoBoxOutput("vb_costing"),
-        infoBoxOutput("vb_inst"),
-        infoBoxOutput("vb_costingtxt"),
-        infoBoxOutput("vb_duration"),
-        infoBoxOutput("vb_rate"),
-        infoBoxOutput("vb_total"),
-        infoBoxOutput("vb_discount")
+        infoBoxOutput("vb_costing", width = 6),
+        infoBoxOutput("vb_inst", width = 6),
+        infoBoxOutput("vb_costingtxt", width = 6),
+        infoBoxOutput("vb_duration", width = 6),
+        infoBoxOutput("vb_rate", width = 6),
+        infoBoxOutput("vb_total", width = 6),
+        infoBoxOutput("vb_discount", width = 6)
       ),
       fluidRow(
         box(
