@@ -1,7 +1,7 @@
 Package: CTUCosting
 Type: Package
 Title: Machinery for CTU costings
-Version: 0.0.3
+Version: 0.0.4
 Authors@R:
     c(
     person(given = "Alan G.", family = "Haynes", role = "cre",
@@ -28,7 +28,8 @@ Imports:
     shinyalert,
     shinybusy,
     shinydashboard,
-    tibble
+    tibble,
+    writexl
 RoxygenNote: 7.2.3
 Suggests:
     knitr,
