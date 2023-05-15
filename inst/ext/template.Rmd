@@ -27,6 +27,7 @@ params:
   break_totals: FALSE
   break_notes: FALSE
   break_tasks: NULL
+  first_page_text: "template text"
 header-logo: "`r system.file('ext/ub_Logo_english_2019_RGB_wb.png', package = 'ctucosting')`"
 ---
 
@@ -57,11 +58,7 @@ htmltools::h4(paste0("Costing for project: ", params$studyname, " (", params$acr
 
 Dear `r params$contact`,
 
-Thank you for considering CTU Bern for your clinical research support requirements.
-
-The following pages detail the services discussed with our consultants and an estimate of the time required to perform those tasks. If you realise that some tasks are missing, please contact us and we can add that to this costing (this may entail additional discussion with other members of CTU).
-
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+`r params$first_page_text`
 
 With kind regards,
 
@@ -127,41 +124,29 @@ tmp %>%
   gt_widths()
 ```
 
-```{r tasks1, echo = FALSE, eval = breaks_tf & n_breaks > 0}
+```{r tasksloop, eval = n_breaks > 0, echo=FALSE, results = "asis", message = FALSE}
 ends <- c(breaks, nrow(tmp))
 starts <- c(1, breaks + 1)
 
-index <- (starts[1]):(ends[1])
-tmp2 <- tmp[index ,]
-# print(tmp2)
+# res <- lapply(seq_along(starts),
+#               \(x) {
+#                 index <- (starts[x]):(ends[x])
+#                 tmp[index ,]
+#               })
+res <- lapply(seq_along(starts),
+              \(x) {
+                knitr::knit_child(text = c("```{r, echo = FALSE, message = FALSE}",
+                                           glue("index <- (starts[{x}]):(ends[{x}])"),
+                                           "  tmp[index ,] |> ",
+                                           "  gt_fn() |> gt_widths()",
+                                           "```"),
+                                  quiet = TRUE)
+              })
 
-tmp2 |>
-  as.data.frame() |>
-  gt_fn() |>
-  gt_widths()
+cat(unlist(res), sep = "\n\n\\pagebreak\n\n")
+
 ```
 
-```{r tasks2, echo = FALSE, eval = breaks_tf & n_breaks >= 1}
-index <- (starts[2]):(ends[2])
-tmp2 <- tmp[index ,]
-# print(tmp2)
-
-tmp2 |>
-  as.data.frame() |>
-  gt_fn() |>
-  gt_widths()
-```
-
-```{r tasks3, echo = FALSE, eval = breaks_tf & n_breaks >= 2}
-index <- (starts[3]):(ends[3])
-tmp2 <- tmp[index ,]
-print(tmp2)
-
-tmp2 |>
-  as.data.frame() |>
-  gt_fn() |>
-  gt_widths()
-```
 
 
 ```{r expenses, echo = FALSE, eval = !is.null(params$expenses)}

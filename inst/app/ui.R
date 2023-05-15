@@ -8,6 +8,7 @@ dashboardPage(
       # passwordInput("token", "Load data via API token:", value = token),
       textInput("record_id", "Record to export:", value = "2"),
       textInput("costing", "Costing number:", value = "1"),
+      actionButton("go", "Download data"),
       uiOutput("rc_link"),
       hr(),
       div(style = "margin-left: 15px;", tags$u(tags$b("Filter tasks and expenses"))),
@@ -57,6 +58,7 @@ dashboardPage(
         }
       '))),
       uiOutput("bad_record"),
+      uiOutput("bad_meta"),
       uiOutput("costing")
     ),
   skin = "red"

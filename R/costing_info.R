@@ -87,7 +87,8 @@ costing_info <- function(data, metadata){
 
       intervention =          fn(metadata, data, "int_type"),
       internal =              data$sponsor_insel == 1,
-      discount_db =           ifelse(initcosting, data$discount, data$discount2)
+      discount_db =           ifelse(initcosting, data$discount, data$discount2),
+      costing_txt =           data$costing_txt
     )
   )
 
