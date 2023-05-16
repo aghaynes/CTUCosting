@@ -54,12 +54,23 @@ function(input, output){
   record_meta_exists <- reactive(
     record_meta_enough(d())
   )
+  record_tasks_exist <- reactive(
+    record_costings_exist(d())
+  )
 
   output$bad_meta <- renderUI({
     message("record_meta_exists:", record_meta_exists())
     if(!record_meta_exists()){
       shinyalert("Oops!", "Please check the costing meta information. It must be present.", type = "error")
       fluidRow(span("Check meta information for the costing", style="color:red; margin-left: 15px;"))
+    }
+  })
+
+  output$bad_costings <- renderUI({
+    if(!record_tasks_exist()){
+      shinyalert("Oops!", "There don't seem to be any tasks in this record/costing.", type = "error")
+      fluidRow(span("Enter tasks to be included in the costing into REDCap.", style="color:red; margin-left: 15px;"))
+
     }
   })
 
@@ -75,6 +86,7 @@ function(input, output){
 
   output$costing <- renderUI({
     req(record_meta_exists())
+    req(record_tasks_exist())
     fluidPage(
       fluidRow(
         # tags$h4(glue("{info()$acronym} ({info()$study})")),
@@ -171,7 +183,10 @@ function(input, output){
   # work packages ----
   wp <- reactive(get_workpackage_data(d(), meta()))
 
-  summ_workpackages <- reactive(summarize_by_wp(wp()))
+  summ_workpackages <- reactive({
+    req(record_tasks_exist())
+    summarize_by_wp(wp())
+  })
 
   output$select_workpackages <- renderUI({
     # print(summ_workpackages()$Service)

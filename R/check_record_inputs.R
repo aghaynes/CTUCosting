@@ -14,3 +14,9 @@ record_meta_enough <- function(datalist){
   nrow(md) > 0 && apply(md, 1, function(x) sum(!is.na(x) | x != "", na.rm = TRUE)) > 15
 }
 
+#' @export
+record_costings_exist <- function(datalist){
+  z <- datalist[-1]
+  any(sapply(z, nrow) > 0) && !is.na(z$full_time_equivalent$fte_div)
+}
+

@@ -59,6 +59,7 @@ dashboardPage(
       '))),
       uiOutput("bad_record"),
       uiOutput("bad_meta"),
+      uiOutput("bad_costings"),
       uiOutput("costing")
     ),
   skin = "red"
