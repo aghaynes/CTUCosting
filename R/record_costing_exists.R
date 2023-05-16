@@ -8,3 +8,9 @@ record_costing_exists <- function(record, costing, token){
   n >= 1
 }
 
+#' @export
+record_meta_enough <- function(datalist){
+  md <- datalist$meta_information
+  nrow(md) > 0 && apply(md, 1, function(x) sum(!is.na(x) | x != "", na.rm = TRUE)) > 15
+}
+

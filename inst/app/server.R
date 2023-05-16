@@ -28,6 +28,7 @@ function(input, output){
     }
   })
 
+
   output$rc_link <- renderUI({
     req(record_ok())
     actionButton("toRedcap", HTML("Click here to go to this <br/>costing in REDCap"),
@@ -51,10 +52,11 @@ function(input, output){
     bindEvent(input$go)
 
   record_meta_exists <- reactive(
-    nrow(d()[[1]]) > 0
+    record_meta_enough(d())
   )
 
   output$bad_meta <- renderUI({
+    message("record_meta_exists:", record_meta_exists())
     if(!record_meta_exists()){
       shinyalert("Oops!", "Please check the costing meta information. It must be present.", type = "error")
       fluidRow(span("Check meta information for the costing", style="color:red; margin-left: 15px;"))
@@ -112,30 +114,35 @@ function(input, output){
   })
 
   output$vb_costing <- renderInfoBox({
+    req(record_meta_exists())
     infoBox(glue("{info()$acronym} ({info()$study})"),
             title = "Project",
             icon = icon("signature"),
             color = "red")
   })
   output$vb_inst <- renderInfoBox({
+    req(record_meta_exists())
     infoBox(info()$sponsor,
             title = "Institute",
             icon = icon("building-columns"),
             color = "red")
   })
   output$vb_costingtxt <- renderInfoBox({
+    req(record_meta_exists())
     infoBox(info()$init_or_amendment_txt,
             title = "Consulting or Project",
             icon = icon(ifelse(info()$initcosting, "ticket", "folder-open")),
             color = "red")
   })
   output$vb_rate <- renderInfoBox({
+    req(record_meta_exists())
     infoBox(info()$ratelab,
             title = "Rate", icon =
             icon("money-bill-trend-up"),
             color = "red")
   })
   output$vb_duration <- renderInfoBox({
+    req(record_meta_exists())
     infoBox(info()$duration,
             title = "Study duration",
             subtitle = "years",
@@ -143,12 +150,14 @@ function(input, output){
             color = "red")
   })
   output$vb_total <- renderInfoBox({
+    req(record_meta_exists())
     infoBox(total_cost()$`Cost (CHF)`[nrow(total_cost())],
             title = "Total cost",
             icon = icon("dollar-sign"),
             color = "red")
   })
   output$vb_discount <- renderInfoBox({
+    req(record_meta_exists())
     infoBox(discount()$discount,
             title = "Discount percentage",
             subtitle = ifelse(info()$initcosting,
