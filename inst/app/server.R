@@ -54,12 +54,23 @@ function(input, output){
   record_meta_exists <- reactive(
     record_meta_enough(d())
   )
+  record_tasks_exist <- reactive(
+    record_costings_exist(d())
+  )
 
   output$bad_meta <- renderUI({
     message("record_meta_exists:", record_meta_exists())
     if(!record_meta_exists()){
       shinyalert("Oops!", "Please check the costing meta information. It must be present.", type = "error")
       fluidRow(span("Check meta information for the costing", style="color:red; margin-left: 15px;"))
+    }
+  })
+
+  output$bad_costings <- renderUI({
+    if(!record_tasks_exist()){
+      shinyalert("Oops!", "There don't seem to be any tasks in this record/costing.", type = "error")
+      fluidRow(span("Enter tasks to be included in the costing into REDCap.", style="color:red; margin-left: 15px;"))
+
     }
   })
 
@@ -75,6 +86,7 @@ function(input, output){
 
   output$costing <- renderUI({
     req(record_meta_exists())
+    req(record_tasks_exist())
     fluidPage(
       fluidRow(
         # tags$h4(glue("{info()$acronym} ({info()$study})")),
@@ -151,6 +163,8 @@ function(input, output){
   })
   output$vb_total <- renderInfoBox({
     req(record_meta_exists())
+    req(record_tasks_exist())
+    req(total_cost())
     infoBox(total_cost()$`Cost (CHF)`[nrow(total_cost())],
             title = "Total cost",
             icon = icon("dollar-sign"),
@@ -158,6 +172,8 @@ function(input, output){
   })
   output$vb_discount <- renderInfoBox({
     req(record_meta_exists())
+    req(record_tasks_exist())
+    req(discount())
     infoBox(discount()$discount,
             title = "Discount percentage",
             subtitle = ifelse(info()$initcosting,
@@ -166,14 +182,27 @@ function(input, output){
             icon = icon("percent"),
             color = "red")
   })
+  output$vb_proj_consulting <- renderInfoBox({
+    req(record_meta_exists())
+    req(record_tasks_exist())
+    req(discount())
+    infoBox(paste0(info()$projnum, " / ", info()$consultingnum),
+            title = "Project # / Consulting #",
+            icon = icon("folder"),
+            color = "red")
+  })
 
 
   # work packages ----
   wp <- reactive(get_workpackage_data(d(), meta()))
 
-  summ_workpackages <- reactive(summarize_by_wp(wp()))
+  summ_workpackages <- reactive({
+    req(record_tasks_exist())
+    summarize_by_wp(wp())
+  })
 
   output$select_workpackages <- renderUI({
+    req(record_tasks_exist())
     # print(summ_workpackages()$Service)
     selectInput("selected_workpackages",
                 label = "Select services for inclusion in the costing",
@@ -184,6 +213,7 @@ function(input, output){
   })
 
   selected_workpackages <- reactive({
+    req(record_tasks_exist())
     # print(summ_workpackages() |> names())
     summ_workpackages() |>
       dplyr::filter(Service %in% input$selected_workpackages)})
@@ -229,12 +259,17 @@ function(input, output){
 
   # calculate discount
   discount <- reactive({
+    req(record_tasks_exist())
     # print(paste("Costing: ", info()$initcosting))
     # print(paste("discount_db: ", info()$discount_db))
-    calc_discount(selected_workpackages(),
-                  initcosting = info()$initcosting,
-                  discount_db = info()$discount_db)})
+    if(nrow(selected_workpackages()) > 0){
+      calc_discount(selected_workpackages(),
+                    initcosting = info()$initcosting,
+                    discount_db = info()$discount_db)
+    }
+  })
   output$dt_discount <- renderDataTable({
+      req(record_tasks_exist())
       # print(discount())
       discount()
     },
@@ -244,6 +279,8 @@ function(input, output){
 
   # totals
   total_cost <- reactive({
+    req(record_tasks_exist())
+    req(discount())
     totals(workpackages = selected_workpackages(),
            expenses = selected_expenses(),
            discount = discount(),
@@ -262,7 +299,10 @@ function(input, output){
   ## init table
   snf_table <- reactiveValues(data = NULL)
   observe({
-    wp <- paste(selected_workpackages()$Service, selected_workpackages()$wp_lab, sep = ": ")
+    req(record_tasks_exist())
+    if(input$costing_type == "SNF"){
+    wp <- paste(selected_workpackages()$Service,
+                selected_workpackages()$wp_lab, sep = ": ")
     nrow <- length(wp)
     ncol <- info()$duration + 1 # + 1 for rowsums
     df <- as.data.frame(matrix(rep(0, ncol * nrow), nrow = nrow, ncol = ncol))
@@ -270,6 +310,7 @@ function(input, output){
     rownames(df) <- wp
     # add a column for rowsum?
     snf_table$data <- df
+    }
   })
   ## edit table
   observeEvent(input$snf_proportions_cell_edit, {
