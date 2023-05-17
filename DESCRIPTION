@@ -1,7 +1,7 @@
 Package: CTUCosting
 Type: Package
 Title: Machinery for CTU costings
-Version: 0.0.6
+Version: 0.0.7
 Authors@R:
     c(
     person(given = "Alan G.", family = "Haynes", role = "cre",
