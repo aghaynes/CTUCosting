@@ -83,6 +83,44 @@ function(input, output){
     costing_info(d(), meta()$metadata)
   })
 
+  n_downloads <- reactiveValues(n = 0)
+  observeEvent(input$go, n_downloads$n <- n_downloads$n  + 1)
+  output$control <- renderUI({
+    if(n_downloads$n < 1){
+      fluidRow(
+        div(style = "margin-left: 15px;",
+          tags$h3("Instructions"),
+          "Enter the record ID from REDCap in to ", tags$em('Record to export'), " on the left.",
+          tags$br(),
+          "Within each record, it is possible to add multiple costings, configured as events in REDCap.",
+          "Decide which costing number you need  and enter this in ", tags$em('Costing number'), ".",
+          tags$br(),
+          "Clicking ", tags$em('Download data'), "will do what it says.",
+          tags$br(),
+          "Once the user interface has loaded, it is possible to remove specific tasks or expenses from the costing using the controls in the 'Filter tasks and expenses section'.",
+          "This is useful if, for example, two versions of a costing were requested, one with a task and another without it.",
+          "It is not necessary to create two costings in REDCap, one is sufficient.",
+          tags$h4("Compiling the PDF report"),
+          "Once the relevant tasks and expenses are selected, produce the PDF costing.",
+          "Enter your name in the relevant field (this will be used as the signature) and click", tags$em('Generate PDF'), ".",
+          "Depending on your browser settings, the PDF might open or you might be prompted to save the PDF.",
+          tags$br(),
+          "Inspect the PDF.",
+          tags$br(),
+          "Some customisation is possible. If e.g. the table containing the tasks is long would be better being split in a different location,",
+          " the row number after to which to split can be entered in ", tags$em('Break tasks table in PDF'), "as a comma separated string ",
+          "(e.g. 4,8 will break the table after the 4th and 8th lines). Only the white rows of the table should be counted.",
+          tags$br(),
+          "It is also possible to insert page breaks at particular locations. Set the relevant check boxes as appropriate",
+          tags$h4("SNF"),
+          "For SNF projects, the ", tags$em('Costing type'), "can be modified to ", tags$em('SNF'), ".",
+          "This causes additional tables to added to the bottom of the page where the hours can be distributed among the project years.",
+          tags$br(),
+          "!!! This is still work in progress, the table is not yet included in the report!!"
+        )
+      )
+    }
+  })
 
   output$costing <- renderUI({
     req(record_meta_exists())
@@ -93,7 +131,8 @@ function(input, output){
         # glue("Costing {input$costing}   Rate: {info()$ratelab}   Duration: {info()$duration} years")
         infoBoxOutput("vb_costing", width = 6),
         infoBoxOutput("vb_inst", width = 6),
-        infoBoxOutput("vb_costingtxt", width = 6),
+        infoBoxOutput("vb_proj_consulting", width = 6),
+        # infoBoxOutput("vb_costingtxt", width = 6),
         infoBoxOutput("vb_duration", width = 6),
         infoBoxOutput("vb_rate", width = 6),
         infoBoxOutput("vb_total", width = 6),

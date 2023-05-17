@@ -57,6 +57,7 @@ dashboardPage(
           color: #333;
         }
       '))),
+      uiOutput("control"),
       uiOutput("bad_record"),
       uiOutput("bad_meta"),
       uiOutput("bad_costings"),
