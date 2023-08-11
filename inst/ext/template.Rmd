@@ -62,9 +62,7 @@ Dear `r params$contact`,
 
 With kind regards,
 
-Signature (necessary????)
-
-`r params$cturep`
+Your CTU team
 
 \newpage
 
