@@ -416,7 +416,8 @@ function(input, output){
       inputs$discount <- sum(discount()$discount_amount)
       inputs$expenses <- selected_expenses()
       inputs$total <- total_cost()
-      inputs$cturep <- input$cturep
+      # inputs$cturep <- input$cturep
+      inputs$first_page_text <- info()$costing_txt
       inputs$notes <- concat_notes(notes())
       inputs$break_totals <- input$break_totals
       inputs$break_notes <- input$break_notes
