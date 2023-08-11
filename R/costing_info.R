@@ -37,7 +37,9 @@ costing_info <- function(data, metadata){
 
   # DLF
   # LOGIC FOR DETERMINING WHETHER DLF FUNDING IS RELEVANT
-  dlf <- FALSE
+  dlf <- insel
+
+
 
   fn <- function(m, d, v){
     ifelse(!is.na(d[, v]),
@@ -55,6 +57,7 @@ costing_info <- function(data, metadata){
       acronym =               data$study_abbr,
       initcosting =           initcosting,
       init_or_amendment_txt = init_or_amendment_txt,
+      snf =                   data$rate == 4,
       ratelab =               rateopts$label[data$rate],
       dlf =                   dlf,
       # signatories
@@ -88,7 +91,7 @@ costing_info <- function(data, metadata){
       intervention =          fn(metadata, data, "int_type"),
       internal =              data$sponsor_insel == 1,
       discount_db =           ifelse(initcosting, data$discount, data$discount2),
-      costing_txt =           data$costing_txt
+      costing_txt =           ifelse(initcosting, data$costing_txt_init, data$costing_txt_amend)
     )
   )
 
