@@ -213,7 +213,7 @@ function(input, output){
     req(record_meta_exists())
     req(record_tasks_exist())
     req(discount())
-    infoBox(discount()$discount,
+    infoBox(ifelse(!info()$snf, discount()$discount, "N/A - SNF rates apply"),
             title = "Discount percentage",
             subtitle = ifelse(info()$initcosting,
                           "Enter this value in REDCap",
@@ -304,7 +304,9 @@ function(input, output){
     if(nrow(selected_workpackages()) > 0){
       calc_discount(selected_workpackages(),
                     initcosting = info()$initcosting,
-                    discount_db = info()$discount_db)
+                    discount_db = info()$discount_db,
+                    snf = info()$snf,
+                    dlf = info()$dlf)
     }
   })
   output$dt_discount <- renderDataTable({
