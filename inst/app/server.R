@@ -19,6 +19,7 @@ function(input, output){
   )
 
   output$bad_record <- renderUI({
+    req(input$go)
     if(!record_ok()){
       # showNotification(ui = "Check record and costing IDs - at least one of them does not exist in REDCap",
       #                  type = "error",
@@ -59,6 +60,7 @@ function(input, output){
   )
 
   output$bad_meta <- renderUI({
+    req(input$go)
     message("record_meta_exists:", record_meta_exists())
     if(!record_meta_exists()){
       shinyalert("Oops!", "Please check the costing meta information. It must be present.", type = "error")
@@ -375,12 +377,16 @@ function(input, output){
   proxy <- dataTableProxy("snf_proportions")
 
   snf_costs <- reactive({
+    # print(snf_table$data)
 
     snf_cost_table(selected_workpackages(), snf_table$data)
 
   })
 
-  output$snf_cost <- renderDataTable(snf_costs(), escape = FALSE)
+  output$snf_cost <- renderDataTable({
+    # print(snf_costs())
+    snf_costs()
+    }, escape = FALSE)
 
   output$snf_tab <- renderUI({
     if(input$costing_type == "SNF"){
