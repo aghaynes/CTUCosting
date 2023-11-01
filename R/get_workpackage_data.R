@@ -106,7 +106,8 @@ get_workpackage_data <- function(d, meta){
     rename(
       Rate = rate
     ) %>%
-    filter(Units > 0)
+    filter(Units > 0) |>
+    filter(Hours > 0)
 
   return(workpackages)
 }
