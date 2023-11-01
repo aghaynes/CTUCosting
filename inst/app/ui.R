@@ -6,7 +6,20 @@ page_navbar(
   theme = bs_theme(
     primary = "#E4003C",
     # bg = "#fff",
-    "navbar-bg" = "#E4003C"
+    "navbar-bg" = "#E4003C",
+    # ".bslib-value-box .value-box-area" = "font-size: 1.5rem !important"
+  ),
+  tags$head(
+    tags$style(HTML("
+       .bslib-value-box .value-box-area > :nth-child(2) {
+         font-size: 1.5rem !important;
+       }
+
+       .bslib-value-box .value-box-grid {
+         grid-template-columns: 80px 70% !important ;
+       }
+       "))
+
   ),
   nav_panel(
     "Instructions",
@@ -15,7 +28,7 @@ page_navbar(
       "Enter the record ID from REDCap in to ", tags$em('Record to export'), " on the left.",
       tags$br(),
       "Within each record, it is possible to add multiple costings, configured as events in REDCap.",
-      "Decide which costing number you need  and enter this in ", tags$em('Costing number'), ".",
+      "Decide which costing number you need and enter this in ", tags$em('Costing number.'),
       tags$br(),
       "Clicking ", tags$em('Download data'), "will do what it says.",
       tags$br(),
@@ -63,6 +76,7 @@ page_navbar(
       '<h7 style="font-size:10pt;">where necessary (e.g. versions with both full and light DM services were requested</h7>',
     ),
     uiOutput("select_workpackages"),
+    uiOutput("select_tasks"),
     uiOutput("select_expenses"),
     hr(),
     selectInput("costing_type", "Costing type", c("CTU standard", "SNF")),

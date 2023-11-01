@@ -95,8 +95,7 @@ function(input, output){
       layout_columns(
         value_box(title = "Costing",
                   value = textOutput("vb_costing_txt"),
-                  showcase = bsicons::bs_icon("folder"),
-                  style = "font-size: 12pt !important;"),
+                  showcase = bsicons::bs_icon("folder")),
         value_box(title = "Institute",
                   value = textOutput("vb_inst_txt"),
                   showcase = bsicons::bs_icon("bank")),
