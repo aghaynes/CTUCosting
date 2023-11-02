@@ -4,7 +4,9 @@
 #' @export
 get_notes <- function(data){
   vals <- lapply(data, function(x){
-    tmp <- x |> select(any_of("dml_notes_standard"), ends_with("notes"), any_of("dmf_notes_2"))
+    tmp <- x |>
+      select(any_of("dml_notes_standard"), ends_with("notes"), any_of("dmf_notes_2")) |>
+      select(where(~!is.na(.x)))
     if(ncol(tmp) > 1) tmp <- paste(tmp, collapse = "\n\n")
     unlist(tmp)
   })
