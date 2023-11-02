@@ -185,7 +185,7 @@ function(input, output){
     req(record_meta_exists())
     req(record_tasks_exist())
     req(discount())
-    ifelse(!info()$snf, discount()$discount, "N/A - SNF rates apply")
+    ifelse(!info()$snf, discount()$discount_perc, "N/A - SNF rates apply")
   })
   output$vb_proj_consulting_txt <- renderText({
     req(record_meta_exists())
