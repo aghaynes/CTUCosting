@@ -6,7 +6,7 @@ all_dataprep <- function(record = 1, costing = 1){
   d <- get_data(record = record, costing = costing)
   meta <- get_metadata()
 
-  info <- costing_info(d, meta$metadata, costing)
+  info <- costing_info(d, meta$metadata)
 
   # work packages ----
   # wp <- get_workpackage_data(d, d$meta)

@@ -4,7 +4,10 @@
 #' @export
 get_notes <- function(data){
   vals <- lapply(data, function(x){
-    tmp <- x |> select(ends_with("notes"))
+    tmp <- x |>
+      select(any_of("dml_notes_standard"), ends_with("notes"), any_of("dmf_notes_2"))
+    if(nrow(tmp) > 0) tmp <- tmp |> select(where(~any(!is.na(.x))))
+    if(ncol(tmp) > 1) tmp <- paste(tmp, collapse = "\n\n")
     unlist(tmp)
   })
 
@@ -19,6 +22,9 @@ get_notes <- function(data){
 concat_notes <- function(notes,
                          header_sep = "\n\n",
                          collapse = "\n\n"){
+
+  notes <- notes[!sapply(notes, function(x) x %in% c("NA", "NA\n\nNA"))]
+
   paste0("**", servicenames$Service[match(names(notes), servicenames$form)], "**",
         header_sep, notes, collapse = collapse)
 }

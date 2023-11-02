@@ -19,6 +19,7 @@ function(input, output){
   )
 
   output$bad_record <- renderUI({
+    req(input$go)
     if(!record_ok()){
       # showNotification(ui = "Check record and costing IDs - at least one of them does not exist in REDCap",
       #                  type = "error",
@@ -59,6 +60,7 @@ function(input, output){
   )
 
   output$bad_meta <- renderUI({
+    req(input$go)
     message("record_meta_exists:", record_meta_exists())
     if(!record_meta_exists()){
       shinyalert("Oops!", "Please check the costing meta information. It must be present.", type = "error")
@@ -85,98 +87,78 @@ function(input, output){
 
   n_downloads <- reactiveValues(n = 0)
   observeEvent(input$go, n_downloads$n <- n_downloads$n  + 1)
-  output$control <- renderUI({
-    if(n_downloads$n < 1){
-      fluidRow(
-        div(style = "margin-left: 15px;",
-          tags$h3("Instructions"),
-          "Enter the record ID from REDCap in to ", tags$em('Record to export'), " on the left.",
-          tags$br(),
-          "Within each record, it is possible to add multiple costings, configured as events in REDCap.",
-          "Decide which costing number you need  and enter this in ", tags$em('Costing number'), ".",
-          tags$br(),
-          "Clicking ", tags$em('Download data'), "will do what it says.",
-          tags$br(),
-          "Once the user interface has loaded, it is possible to remove specific tasks or expenses from the costing using the controls in the 'Filter tasks and expenses section'.",
-          "This is useful if, for example, two versions of a costing were requested, one with a task and another without it.",
-          "It is not necessary to create two costings in REDCap, one is sufficient.",
-          tags$h4("Compiling the PDF report"),
-          "Once the relevant tasks and expenses are selected, produce the PDF costing.",
-          "Enter your name in the relevant field (this will be used as the signature) and click", tags$em('Generate PDF'), ".",
-          "Depending on your browser settings, the PDF might open or you might be prompted to save the PDF.",
-          tags$br(),
-          "Inspect the PDF.",
-          tags$br(),
-          "Some customisation is possible. If e.g. the table containing the tasks is long would be better being split in a different location,",
-          " the row number after to which to split can be entered in ", tags$em('Break tasks table in PDF'), "as a comma separated string ",
-          "(e.g. 4,8 will break the table after the 4th and 8th lines). Only the white rows of the table should be counted.",
-          tags$br(),
-          "It is also possible to insert page breaks at particular locations. Set the relevant check boxes as appropriate",
-          tags$h4("SNF"),
-          "For SNF projects, the ", tags$em('Costing type'), "can be modified to ", tags$em('SNF'), ".",
-          "This causes additional tables to added to the bottom of the page where the hours can be distributed among the project years.",
-          tags$br(),
-          "!!! This is still work in progress, the table is not yet included in the report!!"
-        )
-      )
-    }
-  })
 
   output$costing <- renderUI({
     req(record_meta_exists())
     req(record_tasks_exist())
-    fluidPage(
-      fluidRow(
-        # tags$h4(glue("{info()$acronym} ({info()$study})")),
-        # glue("Costing {input$costing}   Rate: {info()$ratelab}   Duration: {info()$duration} years")
-        infoBoxOutput("vb_costing", width = 6),
-        infoBoxOutput("vb_inst", width = 6),
-        infoBoxOutput("vb_proj_consulting", width = 6),
-        # infoBoxOutput("vb_costingtxt", width = 6),
-        infoBoxOutput("vb_duration", width = 6),
-        infoBoxOutput("vb_rate", width = 6),
-        infoBoxOutput("vb_total", width = 6),
-        infoBoxOutput("vb_discount", width = 6)
-      ),
-      fluidRow(
-        box(
+    # fluidPage(
+      layout_columns(
+        value_box(title = "Costing",
+                  value = textOutput("vb_costing_txt"),
+                  showcase = bsicons::bs_icon("folder")),
+        value_box(title = "Institute",
+                  value = textOutput("vb_inst_txt"),
+                  showcase = bsicons::bs_icon("bank")),
+        value_box(title = "Project # / Consulting #",
+                  value = textOutput("vb_proj_consulting_txt"),
+                  showcase = bsicons::bs_icon("archive")),
+        value_box(title = "Study duration",
+                  value = textOutput("vb_duration_txt"),
+                  showcase = bsicons::bs_icon("clock")),
+        value_box(title = "Rate",
+                  value = textOutput("vb_rate_txt"),
+                  showcase = bsicons::bs_icon("graph-up-arrow")),
+        value_box(title = "Total cost",
+                  value = textOutput("vb_total_txt"),
+                  showcase = bsicons::bs_icon("cash")),
+        value_box(title = "Discount percentage",
+                  value = textOutput("vb_discount_txt"),
+                  showcase = bsicons::bs_icon("percent"),
+                  p(textOutput("vb_discount_redcap_txt"))),
+
+
+      accordion(
+        open = "Total",
+        accordion_panel(
+          "Work packages",
           dataTableOutput("dt_workpackages"),
-          title = "Work packages",
           width = 12
-        )
-      ),
-      fluidRow(
-        box(
+        ),
+      # ),
+      # fluidRow(
+      accordion_panel(
+          "Expenses",
           dataTableOutput("dt_expenses"),
-          title = "Expenses",
           width = 12
-        )
+        # )
       ),
-      fluidRow(
-        box(
+      # fluidRow(
+      accordion_panel(
+          "Total",
           dataTableOutput("dt_totals"),
-          title = "Total",
           width = 12
-        )
+        # )
+      )
+
       ),
-      uiOutput("snf_tab")
+      # fluidRow(
+      uiOutput("snf_tab"),
+
+
+      col_widths = c(12, 12, 4, 4,4,4,4, 12,12,12, 12)
 
     )
   })
 
-  output$vb_costing <- renderInfoBox({
+
+
+  output$vb_costing_txt <- renderText({
     req(record_meta_exists())
-    infoBox(glue("{info()$acronym} ({info()$study})"),
-            title = "Project",
-            icon = icon("signature"),
-            color = "red")
+    glue("{info()$acronym} ({info()$study})")
   })
-  output$vb_inst <- renderInfoBox({
+  output$vb_inst_txt <- renderText({
     req(record_meta_exists())
-    infoBox(info()$sponsor,
-            title = "Institute",
-            icon = icon("building-columns"),
-            color = "red")
+    info()$sponsor
   })
   output$vb_costingtxt <- renderInfoBox({
     req(record_meta_exists())
@@ -185,50 +167,39 @@ function(input, output){
             icon = icon(ifelse(info()$initcosting, "ticket", "folder-open")),
             color = "red")
   })
-  output$vb_rate <- renderInfoBox({
+  output$vb_rate_txt <- renderText({
     req(record_meta_exists())
-    infoBox(info()$ratelab,
-            title = "Rate", icon =
-            icon("money-bill-trend-up"),
-            color = "red")
+    info()$ratelab
   })
-  output$vb_duration <- renderInfoBox({
+  output$vb_duration_txt <- renderText({
     req(record_meta_exists())
-    infoBox(info()$duration,
-            title = "Study duration",
-            subtitle = "years",
-            icon = icon("clock"),
-            color = "red")
+    info()$duration
   })
-  output$vb_total <- renderInfoBox({
+  output$vb_total_txt <- renderText({
     req(record_meta_exists())
     req(record_tasks_exist())
     req(total_cost())
-    infoBox(total_cost()$`Cost (CHF)`[nrow(total_cost())],
-            title = "Total cost",
-            icon = icon("dollar-sign"),
-            color = "red")
+    total_cost()$`Cost (CHF)`[nrow(total_cost())]
   })
-  output$vb_discount <- renderInfoBox({
+  output$vb_discount_txt <- renderText({
     req(record_meta_exists())
     req(record_tasks_exist())
     req(discount())
-    infoBox(discount()$discount,
-            title = "Discount percentage",
-            subtitle = ifelse(info()$initcosting,
-                          "Enter this value in REDCap",
-                          "(from the initial costing)"),
-            icon = icon("percent"),
-            color = "red")
+    ifelse(!info()$snf, discount()$discount_perc, "N/A - SNF rates apply")
   })
-  output$vb_proj_consulting <- renderInfoBox({
+  output$vb_discount_redcap_txt <- renderText({
     req(record_meta_exists())
     req(record_tasks_exist())
     req(discount())
-    infoBox(paste0(info()$projnum, " / ", info()$consultingnum),
-            title = "Project # / Consulting #",
-            icon = icon("folder"),
-            color = "red")
+    ifelse(info()$initcosting,
+           "Enter this value in the 'Discount percentage' field in REDCap",
+           "(taken from the initial costing in REDCap)")
+  })
+  output$vb_proj_consulting_txt <- renderText({
+    req(record_meta_exists())
+    req(record_tasks_exist())
+    req(discount())
+    paste0(info()$projnum, " / ", info()$consultingnum)
   })
 
 
@@ -237,7 +208,9 @@ function(input, output){
 
   summ_workpackages <- reactive({
     req(record_tasks_exist())
-    summarize_by_wp(wp())
+    wp() |>
+      filter(desc %in% input$selected_tasks) |>
+      summarize_by_wp()
   })
 
   output$select_workpackages <- renderUI({
@@ -251,13 +224,27 @@ function(input, output){
     )
   })
 
+  output$select_tasks <- renderUI({
+    req(record_tasks_exist())
+    # print(summ_workpackages()$Service)
+    selectInput("selected_tasks",
+                label = "Select tasks for inclusion in the costing",
+                choices = unique(wp()$desc),
+                selected = unique(wp()$desc),
+                multiple = TRUE
+    )
+  })
+
   selected_workpackages <- reactive({
     req(record_tasks_exist())
     # print(summ_workpackages() |> names())
     summ_workpackages() |>
-      dplyr::filter(Service %in% input$selected_workpackages)})
+      dplyr::filter(Service %in% input$selected_workpackages)
+  })
 
-  output$dt_workpackages <- renderDataTable(selected_workpackages(),
+  output$dt_workpackages <- renderDataTable(selected_workpackages() |>
+                                              rename("Work Package" = wp,
+                                                     "Label" = wp_lab),
                                             rownames = FALSE)
 
   # expenses ----
@@ -292,7 +279,8 @@ function(input, output){
   })
   output$dt_expenses <- renderDataTable(
     selected_expenses() |>
-      select(Division, Description, Amount, wp_lab),
+      select(Division, Description, Amount, wp_lab) |>
+      rename("Work Package" = wp_lab),
     rownames = FALSE
   )
 
@@ -304,7 +292,9 @@ function(input, output){
     if(nrow(selected_workpackages()) > 0){
       calc_discount(selected_workpackages(),
                     initcosting = info()$initcosting,
-                    discount_db = info()$discount_db)
+                    discount_db = info()$discount_db,
+                    snf = info()$snf,
+                    dlf = info()$dlf)
     }
   })
   output$dt_discount <- renderDataTable({
@@ -373,12 +363,16 @@ function(input, output){
   proxy <- dataTableProxy("snf_proportions")
 
   snf_costs <- reactive({
+    # print(snf_table$data)
 
     snf_cost_table(selected_workpackages(), snf_table$data)
 
   })
 
-  output$snf_cost <- renderDataTable(snf_costs(), escape = FALSE)
+  output$snf_cost <- renderDataTable({
+    # print(snf_costs())
+    snf_costs()
+    }, escape = FALSE)
 
   output$snf_tab <- renderUI({
     if(input$costing_type == "SNF"){
@@ -416,7 +410,8 @@ function(input, output){
       inputs$discount <- sum(discount()$discount_amount)
       inputs$expenses <- selected_expenses()
       inputs$total <- total_cost()
-      inputs$cturep <- input$cturep
+      # inputs$cturep <- input$cturep
+      inputs$first_page_text <- info()$costing_txt
       inputs$notes <- concat_notes(notes())
       inputs$break_totals <- input$break_totals
       inputs$break_notes <- input$break_notes
