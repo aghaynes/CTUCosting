@@ -114,7 +114,7 @@ function(input, output){
         value_box(title = "Discount percentage",
                   value = textOutput("vb_discount_txt"),
                   showcase = bsicons::bs_icon("percent"),
-                  p("Enter this value in REDCap (from the initial costing)")),
+                  p(textOutput("vb_discount_redcap_txt"))),
 
 
       accordion(
@@ -186,6 +186,14 @@ function(input, output){
     req(record_tasks_exist())
     req(discount())
     ifelse(!info()$snf, discount()$discount_perc, "N/A - SNF rates apply")
+  })
+  output$vb_discount_redcap_txt <- renderText({
+    req(record_meta_exists())
+    req(record_tasks_exist())
+    req(discount())
+    ifelse(info()$initcosting,
+           "Enter this value in the 'Discount percentage' field in REDCap",
+           "(taken from the initial costing in REDCap)")
   })
   output$vb_proj_consulting_txt <- renderText({
     req(record_meta_exists())
