@@ -1,5 +1,5 @@
 #' @export
-totals <- function(workpackages, expenses, discount, overhead, internal, dlf){
+totals <- function(workpackages, expenses, discount, overhead, internal, dlf = FALSE){
 
   total <- tibble::tribble(
     ~Description, ~`Cost (CHF)`,
