@@ -234,7 +234,9 @@ function(input, output){
       dplyr::filter(Service %in% input$selected_workpackages)
   })
 
-  output$dt_workpackages <- renderDataTable(selected_workpackages(),
+  output$dt_workpackages <- renderDataTable(selected_workpackages() |>
+                                              rename("Work Package" = wp,
+                                                     "Label" = wp_lab),
                                             rownames = FALSE)
 
   # expenses ----
@@ -269,7 +271,8 @@ function(input, output){
   })
   output$dt_expenses <- renderDataTable(
     selected_expenses() |>
-      select(Division, Description, Amount, wp_lab),
+      select(Division, Description, Amount, wp_lab) |>
+      rename("Work Package" = wp_lab),
     rownames = FALSE
   )
 
