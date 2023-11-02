@@ -53,7 +53,7 @@ calc_discount <- function(workpackages, initcosting, discount_db,
            discount = as.numeric(
              as.character(
                cut(DiscountableHours,
-                   c(-Inf, seq(0,1000,100), Inf),
+                   c(-Inf, seq(0,1000,100)-1, Inf),
                    c(0, seq(0,1000,100)/100))
                )
              ),
