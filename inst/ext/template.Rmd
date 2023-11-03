@@ -28,11 +28,11 @@ params:
   break_notes: FALSE
   break_tasks: NULL
   first_page_text: "template text"
+  initcosting: TRUE
 header-logo: "`r system.file('ext/ub_Logo_english_2019_RGB_wb.png', package = 'ctucosting')`"
 ---
 
 ![](ub_Logo_english_2019_RGB_wb.png){.logo .right}
-
 
 <p> </p>
 
@@ -50,19 +50,28 @@ knitr::include_graphics("ub_Logo_english_2019_RGB_wb.png")
 <p> </p>
 
 ```{r, echo = FALSE}
-htmltools::h2("Offer for providing CTU services")
-htmltools::h4(paste0("Costing for project: ", params$studyname, " (", params$acronym, ")"))
+htmltools::h2("Cost proposal for CTU Bern services")
+htmltools::h4(paste0("Project ", ifelse(params$initcosting, 
+                                        params$consultingnum,
+                                        params$projnum), ": ", params$studyname, " (", params$acronym, ")"))
 ```
 
 [`r paste0("<b>", params$acronym, "</b><br>Date: ", Sys.Date())`]{#acro}
+Date of the proposal: `r format(Sys.Date(), format = "%d.%m.%Y")`
+
+<p> </p>
 
 Dear `r params$contact`,
 
 `r params$first_page_text`
 
-With kind regards,
+For questions regarding this offer, please contact your CTU Bern consultant or send and email to [info.ctu\@unibe.ch](mailto:info.ctu@unibe.ch){.email}.
 
-Your CTU team
+We look forward to your reply.
+
+With kind regards
+
+Your CTU Bern team
 
 \newpage
 
@@ -145,8 +154,6 @@ cat(unlist(res), sep = "\n\n\\pagebreak\n\n")
 
 ```
 
-
-
 ```{r expenses, echo = FALSE, eval = !is.null(params$expenses)}
 cat("Expenses\n\n")
 gt_fn(params$expenses)
@@ -177,11 +184,7 @@ if(length(notes) > 0 && !is.na(notes) && notes != "NA"){
   cat("\n\n")
 ```
 
-### General notes:  {.unnumbered}
-
-```{r, echo = FALSE, results='asis'}
-if(!params$conduct_time > 5) cat("Please note that costings for long projects may be reassessed at approximately 3 years.")
-```
+### General notes: {.unnumbered}
 
 This offer is valid for two months.
 
@@ -191,9 +194,6 @@ For questions regarding the costing, please contact your CTU consultant or [info
 if(!params$internal) cat("Please consider that this cost estimate does not include VAT (7.7%).")
 ```
 
-The proposed hours may vary depending on the complexity of the trial. Only worked hours will be charged. Additional or not costed support will be charged at the agreed hourly rate.
+The proposed hours may vary depending on the complexity of the trial. 
 
 Note that the above mentioned hourly rate is subject to annual adaptation. Check [www.ctu.unibe.ch](https://www.ctu.unibe.ch) for the most up-to-date hourly rate.
-
-
-
