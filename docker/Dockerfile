@@ -14,7 +14,6 @@ RUN curl -L http://bit.ly/google-chrome-stable -o google-chrome-stable.deb && \
 
 RUN Rscript -e 'install.packages(c("remotes"))'
 
-COPY CTUCosting CTUCosting
 COPY .Renviron .Renviron
 
 RUN Rscript -e 'remotes::install_local("CTUCosting", dependencies = TRUE)'
