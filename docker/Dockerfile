@@ -1,6 +1,8 @@
 # Base image https://hub.docker.com/u/rocker/
 FROM rocker/shiny:latest
 
+LABEL maintainer="Alan Haynes <alan.haynes@unibe.ch>"
+
 RUN apt-get update -qq && \
     apt-get install -y -qq --no-install-recommends \
         libz-dev \
@@ -14,10 +16,14 @@ RUN curl -L http://bit.ly/google-chrome-stable -o google-chrome-stable.deb && \
 
 RUN Rscript -e 'install.packages(c("remotes"))'
 
-COPY CTUCosting CTUCosting
-COPY .Renviron .Renviron
+COPY --chown=shiny:shiny CTUCosting CTUCosting
+COPY --chown=shiny:shiny .Renviron .Renviron
 
 RUN Rscript -e 'remotes::install_local("CTUCosting", dependencies = TRUE)'
+
+RUN chown -R shiny:shiny /usr/local/lib/R/site-library/CTUCosting/app/
+
+USER shiny
 
 EXPOSE 3838
 
