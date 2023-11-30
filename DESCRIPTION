@@ -15,19 +15,22 @@ Roxygen: list(markdown = TRUE)
 Depends:
     R (>= 2.10),
 Imports:
+    bsicons,
     bslib,
     collapse,
     data.table,
     dplyr,
     DT,
     glue,
-	  gt,
+    gt,
     magrittr,
-	  pagedown,
+    pagedown,
+    readxl,
     redcaptools,
     shiny,
     shinyalert,
     shinybusy,
+    shinydashboard,
     tibble,
     writexl
 RoxygenNote: 7.2.3
@@ -43,4 +46,3 @@ Remotes:
 VignetteBuilder: knitr
 LazyData: true
 Config/testthat/edition: 3
-

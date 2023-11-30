@@ -69,3 +69,6 @@ ratenames <- tibble::tribble(
 
 # clinic/institute heads
 clinic_heads <- read.csv(system.file("data/clinic_heads.csv", package = "CTUCosting"))
+
+# snf division lookup
+snf_division_lkup <- read.csv(system.file("data/snfworkpackagelookup.csv", package = "CTUCosting"))

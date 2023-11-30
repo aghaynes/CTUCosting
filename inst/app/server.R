@@ -2,6 +2,7 @@
 library(CTUCosting)
 library(magrittr)
 library(shinydashboard)
+library(bslib)
 library(glue)
 library(DT)
 library(dplyr)
@@ -217,7 +218,7 @@ function(input, output){
     req(record_tasks_exist())
     # print(summ_workpackages()$Service)
     selectInput("selected_workpackages",
-                label = "Select services for inclusion in the costing",
+                label = "Services in the following box will be included in the costing",
                 choices = unique(summ_workpackages()$Service),
                 selected = unique(summ_workpackages()$Service),
                 multiple = TRUE
@@ -228,7 +229,7 @@ function(input, output){
     req(record_tasks_exist())
     # print(summ_workpackages()$Service)
     selectInput("selected_tasks",
-                label = "Select tasks for inclusion in the costing",
+                label = "Tasks in the following box will be included in  the costing",
                 choices = unique(wp()$desc),
                 selected = unique(wp()$desc),
                 multiple = TRUE
@@ -266,7 +267,7 @@ function(input, output){
     # print(expenses() |> names())
     if(nrow(expenses()) > 0){
       selectInput("selected_expenses",
-                  label = "Select expenses for inclusion in the costing",
+                  label = 'Expenses in the following box will be included in the <h7 style="font-size:10pt;">costing</h7>',
                   choices = unique(expenses()$Description),
                   selected = unique(expenses()$Description),
                   multiple = TRUE
@@ -330,15 +331,16 @@ function(input, output){
   observe({
     req(record_tasks_exist())
     if(input$costing_type == "SNF"){
-    wp <- paste(selected_workpackages()$Service,
-                selected_workpackages()$wp_lab, sep = ": ")
-    nrow <- length(wp)
-    ncol <- info()$duration + 1 # + 1 for rowsums
-    df <- as.data.frame(matrix(rep(0, ncol * nrow), nrow = nrow, ncol = ncol))
-    names(df) <- c(paste("Year", 1 : info()$duration), "Row sum")
-    rownames(df) <- wp
-    # add a column for rowsum?
-    snf_table$data <- df
+
+      # wp <- paste(selected_workpackages()$Service,
+      #             selected_workpackages()$wp_lab, sep = ": ")
+      # nrow <- length(wp)
+      # ncol <- info()$duration + 1 # + 1 for rowsums
+      # df <- as.data.frame(matrix(rep(0, ncol * nrow), nrow = nrow, ncol = ncol))
+      # names(df) <- c(paste("Year", 1 : info()$duration), "Row sum")
+      # rownames(df) <- wp
+      # add a column for rowsum?
+      snf_table$data <- create_snf_proportions_table(selected_workpackages(), info()$duration)
     }
   })
   ## edit table
@@ -354,7 +356,8 @@ function(input, output){
 
   output$snf_proportions <- renderDataTable(
     snf_table$data |>
-      datatable(editable = TRUE) |>
+      datatable(editable = TRUE,
+                options = list(paging = FALSE)) |>
       formatStyle("Row sum",
                   backgroundColor = styleInterval(c(0.999, 1.001),
                                                   c("#fc4c4c", "#60fa48", "#fc4c4c"))),
@@ -371,14 +374,17 @@ function(input, output){
 
   output$snf_cost <- renderDataTable({
     # print(snf_costs())
-    snf_costs()
-    }, escape = FALSE)
+    snf_costs() |>
+      datatable(options = list(paging = FALSE),
+                escape = FALSE)
+    })
 
   output$snf_tab <- renderUI({
     if(input$costing_type == "SNF"){
       fluidRow(
         box(title = "Proportion of hours per year",
-            "Enter proportion of hours expected for each year and each work package",
+            "Enter proportion of hours expected for each year and each work package.",
+            "Click the yearly values and enter a value below 0 and 1. Each row should sum to 1. The right hand column will turn green when it does.",
             dataTableOutput("snf_proportions"),
             width = 12),
         box(title = "SNF costs",

@@ -5,7 +5,9 @@
 snf_cost_table <- function(workpackages, proportions){
 
   summ <- workpackages |>
-    group_by(wp) |>
+    left_join(snf_division_lkup |>
+                mutate(wp = sprintf("%05.1f", wp)), by = "wp") |>
+    group_by(snf_section) |>
     collapse::fsummarize(across(c(Hours, Cost), sum))
 
   # print(summ)

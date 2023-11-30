@@ -51,10 +51,13 @@ knitr::include_graphics("ub_Logo_english_2019_RGB_wb.png")
 
 ```{r, echo = FALSE}
 htmltools::h2("Cost proposal for CTU Bern services")
-htmltools::h4(paste0("Project ", ifelse(params$initcosting, 
-                                        params$consultingnum,
-                                        params$projnum), ": ", params$studyname, " (", params$acronym, ")"))
+if(!params$initcosting){
+  htmltools::h4("Amendment to an existing service agreement")
+}
+htmltools::h4(paste0("Project: ", params$studyname, " (", params$acronym, ")"))
 ```
+
+CTU internal `r ifelse(params$initcosting, "consulting", "project")` number: `r ifelse(params$initcosting, params$consultingnum, params$projnum)`
 
 [`r paste0("<b>", params$acronym, "</b><br>Date: ", Sys.Date())`]{#acro}
 Date of the proposal: `r format(Sys.Date(), format = "%d.%m.%Y")`
