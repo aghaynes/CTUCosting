@@ -55,7 +55,7 @@ Transfer the image to the shiny server via `scp ctucosting-vx.y.z.tar.gz usernam
 
 ``` r
 token <- Sys.getenv("CTUCosting_token")
-record <- 2
+record <- 4
 costing <- 1
 
 meta <- get_metadata(token = token)

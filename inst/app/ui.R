@@ -73,7 +73,9 @@ page_navbar(
     hr(),
     tags$u(tags$b("Filter tasks and expenses")),
     HTML(
-      '<h7 style="font-size:10pt;">where necessary (e.g. versions with both full and light DM services were requested</h7>',
+      '<h7 style="font-size:10pt;">where necessary (e.g. versions with both full and light DM services were requested)</h7>',
+      '<h7 style="font-size:10pt;">To remove them, click them and press delete.</h7>',
+      '<h7 style="font-size:10pt;">To restore them, click in the white area and those missing will pop up and can be selected.</h7>',
     ),
     uiOutput("select_workpackages"),
     uiOutput("select_tasks"),
