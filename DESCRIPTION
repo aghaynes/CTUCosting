@@ -32,6 +32,8 @@ Imports:
     shinybusy,
     shinydashboard,
     tibble,
+    tidyr,
+    vctrs,
     writexl
 RoxygenNote: 7.2.3
 Suggests:
