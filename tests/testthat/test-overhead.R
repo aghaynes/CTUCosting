@@ -11,5 +11,5 @@ wp <- tibble::tribble(
 
 test_that("overhead calculates 10%", {
   o <- overhead(wp)
-  expect_equal(overhead$overhead, sum(wp$Cost) * .1)
+  expect_equal(o$overhead, sum(wp$Cost) * .1)
 })

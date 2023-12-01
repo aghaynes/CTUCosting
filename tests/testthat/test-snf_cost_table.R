@@ -7,11 +7,11 @@
 test_that("snf_cost_table calculates correctly", {
   wp <- tibble::tribble(
     ~wp, ~Hours, ~Cost,
-    1, 5, 500,
-    1, 6, 600,
-    2, 2, 200,
-    2, 7, 700,
-    3, 10, 1000,
+    "050.1", 5, 500,
+    "050.1", 6, 600,
+    "100.1", 2, 200,
+    "100.1", 7, 700,
+    "080.1", 10, 1000,
   )
   props <- tibble::tribble(
     ~Year1, ~Year2, ~Year3,
@@ -26,7 +26,7 @@ test_that("snf_cost_table calculates correctly", {
                                   c((5 + 6) * .5, (2 + 7) * .2, 10 * .3),
                                   c((500 + 600) * .5, (200 + 700) * .2, 1000 * .3)))
 
-  expect_equal(tab$Year1[3] == tab$Year2[3])
+  expect_equal(tab$Year1[3], tab$Year2[3])
 
   expect_equal(nrow(tab), 3)
   expect_equal(ncol(tab), 3)

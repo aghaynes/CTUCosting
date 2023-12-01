@@ -9,4 +9,4 @@
 library(testthat)
 library(CTUCosting)
 
-test_check("ctucosting")
+test_check("CTUCosting")
