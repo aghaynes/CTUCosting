@@ -33,16 +33,16 @@ Suggests:
     bslib,
     DT,
     gt,
-    shinyalert,
-    shinybusy,
-    shinydashboard,
-    writexl
     knitr,
     markdown,
     patchwork,
     rmarkdown,
+    shinyalert,
+    shinybusy,
+    shinydashboard,
     testthat (>= 3.0.0),
-    vdiffr
+    vdiffr,
+    writexl
 Remotes:
     CTU-Bern/redcaptools
 VignetteBuilder: knitr
