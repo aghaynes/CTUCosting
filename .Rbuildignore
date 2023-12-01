@@ -4,4 +4,4 @@
 ^\.Rproj\.user$
 ^\.github$
 ^data-raw
-
+^docker
