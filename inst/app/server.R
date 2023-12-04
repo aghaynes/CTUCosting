@@ -1,7 +1,6 @@
 
 library(CTUCosting)
 library(magrittr)
-library(shinydashboard)
 library(bslib)
 library(glue)
 library(DT)
@@ -96,26 +95,33 @@ function(input, output){
       layout_columns(
         value_box(title = "Costing",
                   value = textOutput("vb_costing_txt"),
-                  showcase = bsicons::bs_icon("folder")),
+                  showcase = bsicons::bs_icon("folder"),
+                  theme = "primary"),
         value_box(title = "Institute",
                   value = textOutput("vb_inst_txt"),
-                  showcase = bsicons::bs_icon("bank")),
+                  showcase = bsicons::bs_icon("bank"),
+                  theme = "primary"),
         value_box(title = "Project # / Consulting #",
                   value = textOutput("vb_proj_consulting_txt"),
-                  showcase = bsicons::bs_icon("archive")),
+                  showcase = bsicons::bs_icon("archive"),
+                  theme = "primary"),
         value_box(title = "Study duration",
                   value = textOutput("vb_duration_txt"),
-                  showcase = bsicons::bs_icon("clock")),
+                  showcase = bsicons::bs_icon("clock"),
+                  theme = "primary"),
         value_box(title = "Rate",
                   value = textOutput("vb_rate_txt"),
-                  showcase = bsicons::bs_icon("graph-up-arrow")),
+                  showcase = bsicons::bs_icon("graph-up-arrow"),
+                  theme = "primary"),
         value_box(title = "Total cost",
                   value = textOutput("vb_total_txt"),
-                  showcase = bsicons::bs_icon("cash")),
+                  showcase = bsicons::bs_icon("cash"),
+                  theme = "primary"),
         value_box(title = "Discount percentage",
                   value = textOutput("vb_discount_txt"),
                   showcase = bsicons::bs_icon("percent"),
-                  p(textOutput("vb_discount_redcap_txt"))),
+                  p(textOutput("vb_discount_redcap_txt")),
+                  theme = "primary"),
 
 
       accordion(
@@ -161,13 +167,13 @@ function(input, output){
     req(record_meta_exists())
     info()$sponsor
   })
-  output$vb_costingtxt <- renderInfoBox({
-    req(record_meta_exists())
-    infoBox(info()$init_or_amendment_txt,
-            title = "Consulting or Project",
-            icon = icon(ifelse(info()$initcosting, "ticket", "folder-open")),
-            color = "red")
-  })
+  # output$vb_costingtxt <- renderInfoBox({
+  #   req(record_meta_exists())
+  #   infoBox(info()$init_or_amendment_txt,
+  #           title = "Consulting or Project",
+  #           icon = icon(ifelse(info()$initcosting, "ticket", "folder-open")),
+  #           color = "red")
+  # })
   output$vb_rate_txt <- renderText({
     req(record_meta_exists())
     info()$ratelab

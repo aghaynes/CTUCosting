@@ -39,7 +39,6 @@ Suggests:
     rmarkdown,
     shinyalert,
     shinybusy,
-    shinydashboard,
     testthat (>= 3.0.0),
     vdiffr,
     writexl
