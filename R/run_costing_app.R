@@ -1,4 +1,7 @@
-# run app
+#' run the shiny app
+#'
+#' @param opts list of options to pass to shiny::shinyAppDir
+#'
 #' @export
 
 run_costing_app <- function(opts = list()){

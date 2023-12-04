@@ -1,3 +1,13 @@
+#' Summarize by particular level
+#'
+#' summarize_by_wp summarizes by work package
+#'
+#' summarize_by_div summarizes by division
+#'
+#' @rdname summarize_by
+#'
+#' @param data A data frame with columns Service, wp, wp_lab, desc, Hours, Units, Rate, Cost
+#'
 #' @export
 summarize_by_wp <- function(data){
   Service <- wp <- wp_lab <- desc <- Hours <- Units <- Rate <- Cost <- NULL
@@ -10,7 +20,7 @@ summarize_by_wp <- function(data){
     )
 }
 
-
+#' @rdname summarize_by
 #' @export
 summarize_by_div <- function(data){
   div <- Hours <- Units <- Cost <- NULL

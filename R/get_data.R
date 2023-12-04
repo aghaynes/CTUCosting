@@ -1,9 +1,14 @@
-# get data from redcap
+
 
 # token <- readLines("O:/tokens/costing.txt")
 url <- "https://redcap.ctu.unibe.ch/api/"
 
 
+#' get data from redcap
+#'
+#' @param record record_id from redcap
+#' @param costing costing number (event number) from redcap
+#' @param token API token
 #' @importFrom redcaptools redcap_export_tbl redcap_export_byform redcap_export_meta
 #' @importFrom glue glue
 #' @export
@@ -23,6 +28,9 @@ get_data <- function(record, costing, token){
   #                   events = glue("costing_{costing}_arm_1"))
 }
 
+#' get metadata from redcap
+#'
+#' @param token API token
 #' @export
 get_metadata <- function(token) redcap_export_meta(token, url)
 

@@ -1,5 +1,9 @@
 
-
+#' generate PDF costing report
+#'
+#' @param output output file name
+#' @param inputs list of data passed to rmarkdown (see Rmd file for definitions)
+#' @param copy_html binary, whether to copy the html file to the output directory (primarily for testing purposes)
 #' @export
 gen_pdf <- function(output,
                     inputs,

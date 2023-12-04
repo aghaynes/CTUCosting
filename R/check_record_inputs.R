@@ -1,4 +1,9 @@
-
+#' check that a record and costing exists in a project
+#'
+#' @param record record_id to check
+#' @param costing costing number to check
+#' @param token redcap API token
+#'
 #' @export
 record_costing_exists <- function(record, costing, token){
 
@@ -11,12 +16,19 @@ record_costing_exists <- function(record, costing, token){
   n >= 1
 }
 
+
+#' check that sufficient metadata is available
+#'
+#' @param datalist list of dataframes from redcap
 #' @export
 record_meta_enough <- function(datalist){
   md <- datalist$meta_information
   nrow(md) > 0 && apply(md, 1, function(x) sum(!is.na(x) | x != "", na.rm = TRUE)) > 15
 }
 
+#' check that costings exist
+#'
+#' @param datalist list of dataframes from redcap
 #' @export
 record_costings_exist <- function(datalist){
   sw <- datalist$study_website
