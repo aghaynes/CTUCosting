@@ -8,6 +8,8 @@ url <- "https://redcap.ctu.unibe.ch/api/"
 #' @importFrom glue glue
 #' @export
 get_data <- function(record, costing, token){
+  record_id <- NULL
+
   d <- redcap_export_byform(token, url,
                        records = record,
                        events = glue("costing_{costing}_arm_1"))

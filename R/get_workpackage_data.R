@@ -2,7 +2,10 @@
 
 
 #' @importFrom tidyr pivot_wider pivot_longer separate
-#' @importFrom dplyr mutate select filter rename left_join row_number if_else group_by summarize
+#' @importFrom dplyr mutate select filter rename left_join row_number if_else
+#' @importFrom dplyr group_by summarize starts_with everything bind_rows across
+#' @importFrom dplyr matches
+#'
 #' @export
 # get_workpackage_data <- function(data, metadata){
 #   print(dim(data))
@@ -71,7 +74,10 @@
 # }
 
 get_workpackage_data <- function(d, meta){
-  workpackages <- lapply(d[2:13], get_wp_df) %>% # [5:6]: expected 3 pieces. additional pieces discarded in 29, 89
+
+  value <- name <- name1 <- hours <- Units <- Hours <- rate <- NULL
+
+  workpackages <- lapply(d[2:13], get_wp_df) |> # [5:6]: expected 3 pieces. additional pieces discarded in 29, 89
     data.table::rbindlist()
 
 
@@ -87,25 +93,25 @@ get_workpackage_data <- function(d, meta){
       pull(n) |>
       any()
     if(n){
-      workpackages <- workpackages %>%
+      workpackages <- workpackages |>
         bind_rows(lapply(seq_along(1:nrow(d$generic)),
                                      function(x) {
                                        # print(x)
-                                       d$generic[x,] %>% get_generic_df()
-                                     }) %>%
+                                       d$generic[x,] |> get_generic_df()
+                                     }) |>
                                 data.table::rbindlist())
     }
   }
-  workpackages <- workpackages %>%
-    left_join(servicenames) %>%
-    left_join(ratenames, by = c("service")) %>%
+  workpackages <- workpackages |>
+    left_join(servicenames) |>
+    left_join(ratenames, by = c("service")) |>
     left_join(rates_fn(d[[1]]),
-              "rate_name") %>% #View()
-    left_join(wp_codes(meta$metadata), by = c(wp = "val")) %>% #View()#names()
-    mutate(Cost = Units * Hours * rate) %>% #View()
+              "rate_name") |>  #View()
+    left_join(wp_codes(meta$metadata), by = c(wp = "val")) |>  #View()#names()
+    mutate(Cost = Units * Hours * rate) |>  #View()
     rename(
       Rate = rate
-    ) %>%
+    ) |>
     filter(Units > 0) |>
     filter(Hours > 0)
 
@@ -115,21 +121,24 @@ get_workpackage_data <- function(d, meta){
 
 #' @export
 get_wp_df <- function(d){
+
+  var <- wp <- hours <- service <- desc <- NULL
+
   # print(d)
   if(nrow(d) > 0){
-    d %>%
-      mutate(across(everything(), as.character)) %>%
+    d |>
+      mutate(across(everything(), as.character)) |>
       # select(-c(record_id, redcap_event_name, redcap_repeat_instrument, redcap_repeat_instance),
       #        -matches("date|total_hours|cost|notes|author|complete")) %>%
-      select(matches("_[[:digit:]]{1,2}")) %>%
+      select(matches("_[[:digit:]]{1,2}")) |>
       pivot_longer(matches("(hours|wp|desc|units)_"),
-                   names_sep = "_", names_to = c("service", "var", "item")) %>%
-      pivot_wider(names_from = var) %>%
+                   names_sep = "_", names_to = c("service", "var", "item")) |>
+      pivot_wider(names_from = var) |>
       mutate(across(c("hours", "units", "wp"), as.numeric),
-             wp = sprintf("%05.1f", wp)) %>%
+             wp = sprintf("%05.1f", wp)) |>
       rename(Units = units,
-             Hours = hours) %>%
-      select(service:wp) %>%
+             Hours = hours) |>
+      select(service:wp) |>
       filter(!is.na(desc) & desc != "")
   }
 }
@@ -139,10 +148,10 @@ get_wp_df <- function(d){
 get_generic_df <- function(d){
   if(nrow(d) > 0){
     # print(d)
-    tmp <- d %>%
+    tmp <- d |>
       get_wp_df()
     if(nrow(tmp) > 0){
-      tmp %>%
+      tmp |>
         mutate(service = d$gen_div)
     }
   }

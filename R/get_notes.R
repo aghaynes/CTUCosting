@@ -1,8 +1,11 @@
 #' extract external note fields
 #' @param data list of dataframes from get_data
-#' @importFrom dplyr select ends_with
+#' @importFrom dplyr select ends_with any_of where
 #' @export
 get_notes <- function(data){
+
+
+
   vals <- lapply(data, function(x){
     tmp <- x |>
       select(any_of("dml_notes_standard"), ends_with("notes"), any_of("dmf_notes_2"))
@@ -18,6 +21,7 @@ get_notes <- function(data){
 #' concatenate external note fields with division/workpackage
 #' @param notes list of notes from get_notes
 #' @param header_sep separater between workpackage and note
+#' @param collapse line break between notes
 #' @export
 concat_notes <- function(notes,
                          header_sep = "\n\n",

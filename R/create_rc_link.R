@@ -1,4 +1,9 @@
 #' create a link to redcap for a specific costing
+#'
+#' @param record record_id to link to
+#' @param costing costing number
+#' @param token redcap token
+#'
 #' @export
 create_rc_link <- function(record, costing, token){
 

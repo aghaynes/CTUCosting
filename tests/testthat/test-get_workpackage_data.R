@@ -1,5 +1,5 @@
-data(d, package = "CTUCosting")
-data(meta, package = "CTUCosting")
+d <- get_testdata_r1()
+meta <- get_testdata_meta()
 
 wp <- get_workpackage_data(d, meta)
 test_that("get_workpackage_data - check variable names", {

@@ -15,32 +15,34 @@ Roxygen: list(markdown = TRUE)
 Depends:
     R (>= 2.10),
 Imports:
-    bsicons,
-    bslib,
     collapse,
     data.table,
     dplyr,
-    DT,
     glue,
-    gt,
     magrittr,
     pagedown,
     readxl,
     redcaptools,
     shiny,
-    shinyalert,
-    shinybusy,
-    shinydashboard,
     tibble,
-    writexl
+    tidyr,
+    vctrs
 RoxygenNote: 7.2.3
 Suggests:
+    bsicons,
+    bslib,
+    DT,
+    gt,
     knitr,
     markdown,
     patchwork,
     rmarkdown,
+    shinyalert,
+    shinybusy,
+    shinydashboard,
     testthat (>= 3.0.0),
-    vdiffr
+    vdiffr,
+    writexl
 Remotes:
     CTU-Bern/redcaptools
 VignetteBuilder: knitr

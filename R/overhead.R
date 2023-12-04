@@ -1,8 +1,11 @@
 
+#' @importFrom dplyr ungroup summarize
 #' @export
 overhead <- function(workpackages){
-  workpackages %>%
-    ungroup() %>%
+  Cost <- pm <- NULL
+
+  workpackages |>
+    ungroup() |>
     summarize(Cost = sum(Cost),
               pm = Cost * .1,
               overhead = pm)

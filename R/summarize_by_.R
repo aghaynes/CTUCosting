@@ -1,7 +1,8 @@
 #' @export
 summarize_by_wp <- function(data){
-  data %>%
-    group_by(Service, wp, wp_lab) %>%
+  Service <- wp <- wp_lab <- desc <- Hours <- Units <- Rate <- Cost <- NULL
+  data |>
+    group_by(Service, wp, wp_lab) |>
     collapse::fsummarize(Description = paste(desc, collapse = ", "),
               Hours = sum(Hours * Units),
               Rate = mean(Rate),
@@ -12,9 +13,10 @@ summarize_by_wp <- function(data){
 
 #' @export
 summarize_by_div <- function(data){
-  data %>%
-    left_join(divnames) %>%
-    group_by(div) %>%
+  div <- Hours <- Units <- Cost <- NULL
+  data |>
+    left_join(divnames) |>
+    group_by(div) |>
     collapse::fsummarize(#Description = paste(desc, collapse = ", "),
       Hours = sum(Hours * Units),
       # Rate = mean(Rate),

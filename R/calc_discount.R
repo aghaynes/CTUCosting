@@ -1,13 +1,19 @@
 
 
+#' Calculate discount for project
+#'
 #' @importFrom vctrs vec_cast
 #' @param workpackages work package data (dataframe)
 #' @param initcosting binary, initial costing for project?
 #' @param discount_db previous discount applied to project, from REDCap
 #' @param snf binary, is this an SNF project?
+#' @importFrom dplyr ungroup summarize mutate filter
 #' @export
 calc_discount <- function(workpackages, initcosting, discount_db,
                           snf = FALSE, dlf = FALSE){
+
+  wp <- Hours <- DiscountableHours <- discount <- discount_perc <- discount_amount <-
+    Cost <- NULL
 
   summ_discount <- workpackages  |>
     # remove fixed price units

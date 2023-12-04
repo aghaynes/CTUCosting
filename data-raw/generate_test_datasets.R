@@ -10,5 +10,6 @@ costing <- 1
 meta <- get_metadata(token = token)
 d <- get_data(record = record, costing = costing, token = token)
 
-usethis::use_data(meta, overwrite = TRUE)
-usethis::use_data(d, overwrite = TRUE)
+saveRDS(d, file = "inst/data/record1.rds")
+saveRDS(meta, file = "inst/data/meta.rds")
+
