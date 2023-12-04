@@ -1,8 +1,7 @@
 
 
-token <- Sys.getenv("CTUCosting_token")
-record <- 1
-d <- get_data(record, 1, token)
+d <- get_testdata_r1()
+meta <- get_testdata_meta()
 #
 notes <- get_notes(d)
 #

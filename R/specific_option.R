@@ -7,9 +7,10 @@
 #' @return
 #' @export
 specific_option <- function(metadata, data, var){
+  field_name <- val <- lab <- NULL
   reference <- data[[var]]
-  singlechoice_opts(metadata %>%
-                      filter(field_name == var)) %>%
-    filter(val == reference) %>%
+  singlechoice_opts(metadata |>
+                      filter(field_name == var)) |>
+    filter(val == reference) |>
     pull(lab)
 }

@@ -2,6 +2,9 @@
 #' @importFrom dplyr pull
 #' @export
 costing_info <- function(data, metadata){
+
+  Clinic <- Head.of.clinic <- NULL
+
   data <- data$meta_information
   # data <- d$meta_information
   consultingnum <- data$consulting_num
@@ -24,8 +27,8 @@ costing_info <- function(data, metadata){
   insel <- data$sponsor_insel == 1
   if(insel){
     inst <- specific_option(metadata, data, "institute")
-    sign <- clinic_heads %>%
-      filter(Clinic == inst) %>%
+    sign <- clinic_heads |>
+      filter(Clinic == inst) |>
       pull(Head.of.clinic)
   } else {
     inst <- data$company

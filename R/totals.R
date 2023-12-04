@@ -1,6 +1,7 @@
+#' @importFrom dplyr bind_rows mutate
 #' @export
 totals <- function(workpackages, expenses, discount, overhead, internal, dlf = FALSE){
-
+  `Cost (CHF)` <- NULL
   total <- tibble::tribble(
     ~Description, ~`Cost (CHF)`,
     "Work packages", sum(workpackages$Cost),
@@ -10,7 +11,7 @@ totals <- function(workpackages, expenses, discount, overhead, internal, dlf = F
   )
 
   if(!internal){
-    total <- total %>%
+    total <- total |>
       bind_rows(
         tibble::tribble(
           ~Description, ~`Cost (CHF)`,
