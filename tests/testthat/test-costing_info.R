@@ -1,6 +1,6 @@
 
-data(d, package = "CTUCosting")
-data(meta, package = "CTUCosting")
+d <- get_testdata_r1()
+meta <- get_testdata_meta()
 
 test_that("costing_info extracts correct information", {
   info <- costing_info(d, meta$metadata)
