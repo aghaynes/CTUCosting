@@ -7,6 +7,7 @@
 #' @param initcosting binary, initial costing for project?
 #' @param discount_db previous discount applied to project, from REDCap
 #' @param snf binary, is this an SNF project?
+#' @param dlf binary, is this a project with DLF support? (unused)
 #' @importFrom dplyr ungroup summarize mutate filter
 #' @export
 calc_discount <- function(workpackages, initcosting, discount_db,

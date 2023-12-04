@@ -1,4 +1,8 @@
-# costing information
+#' extract generic costing information from redcap data
+#'
+#' @param data dataset from redcap
+#' @param metadata dataset from redcap (i.e. meta$metdata)
+#'
 #' @importFrom dplyr pull
 #' @export
 costing_info <- function(data, metadata){

@@ -4,7 +4,7 @@
 #'
 #' @format A list of data frames, mostly empty
 # "d"
-get_testdata_r1 <- function() readRDS(system.file("data", "record1.rds", package = "CTUCosting"))
+get_testdata_r1 <- function() readRDS(system.file("intdata", "record1.rds", package = "CTUCosting"))
 
 
 #' Record TEST, costing 1, from REDCap for unit testing purposes
@@ -13,5 +13,5 @@ get_testdata_r1 <- function() readRDS(system.file("data", "record1.rds", package
 #'
 #' @format A list of 5 data frames
 # "meta"
-get_testdata_meta <- function() readRDS(system.file("data", "meta.rds", package = "CTUCosting"))
+get_testdata_meta <- function() readRDS(system.file("intdata", "meta.rds", package = "CTUCosting"))
 

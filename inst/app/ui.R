@@ -1,13 +1,13 @@
 
-# library(shinydashboard)
 library(bslib)
 
 page_navbar(
   theme = bs_theme(
     primary = "#E4003C",
-    # bg = "#fff",
+    # # bg = "#fff",
     "navbar-bg" = "#E4003C",
     # ".bslib-value-box .value-box-area" = "font-size: 1.5rem !important"
+    preset="bootstrap"
   ),
   tags$head(
     tags$style(HTML("

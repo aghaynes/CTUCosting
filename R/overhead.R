@@ -1,4 +1,7 @@
-
+#' calculate overhead from workpackages
+#'
+#' @param workpackages A tibble with the workpackages
+#'
 #' @importFrom dplyr ungroup summarize
 #' @export
 overhead <- function(workpackages){

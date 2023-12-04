@@ -10,6 +10,6 @@ costing <- 1
 meta <- get_metadata(token = token)
 d <- get_data(record = record, costing = costing, token = token)
 
-saveRDS(d, file = "inst/data/record1.rds")
-saveRDS(meta, file = "inst/data/meta.rds")
+saveRDS(d, file = "inst/intdata/record1.rds")
+saveRDS(meta, file = "inst/intdata/meta.rds")
 

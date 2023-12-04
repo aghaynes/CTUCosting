@@ -9,7 +9,7 @@ rateopts <- tibble::tribble(
 )
 
 # lookup table of service to service name to division and formname
-servicenames <- read.csv(system.file("data/servicenames.csv", package = "CTUCosting"))
+servicenames <- read.csv(system.file("intdata/servicenames.csv", package = "CTUCosting"))
 #   tibble::tribble(
 #   ~service, ~Service,                    ~div ,   ~form,
 #   "docdev", "Document development",      "MON",   "document_development",
@@ -31,7 +31,7 @@ servicenames <- read.csv(system.file("data/servicenames.csv", package = "CTUCost
 # )
 
 # lookup table of division abbreviation and full name
-divnames <- read.csv(system.file("data/divisionnames.csv", package = "CTUCosting"))
+divnames <- read.csv(system.file("intdata/divisionnames.csv", package = "CTUCosting"))
 #   tibble::tribble(
 #   ~div, ~division,
 #   "ADMIN", "Administration",
@@ -68,7 +68,7 @@ ratenames <- tibble::tribble(
 )
 
 # clinic/institute heads
-clinic_heads <- read.csv(system.file("data/clinic_heads.csv", package = "CTUCosting"))
+clinic_heads <- read.csv(system.file("intdata/clinic_heads.csv", package = "CTUCosting"))
 
 # snf division lookup
-snf_division_lkup <- read.csv(system.file("data/snfworkpackagelookup.csv", package = "CTUCosting"))
+snf_division_lkup <- read.csv(system.file("intdata/snfworkpackagelookup.csv", package = "CTUCosting"))
