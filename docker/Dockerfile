@@ -18,7 +18,7 @@ RUN Rscript -e 'install.packages(c("remotes"))'
 
 COPY --chown=shiny:shiny .Renviron .Renviron
 
-RUN Rscript -e 'remotes::install_local("CTUCosting", dependencies = TRUE)'
+RUN Rscript -e 'remotes::install_github("CTU-Bern/CTUCosting", dependencies = TRUE)'
 
 RUN chown -R shiny:shiny /usr/local/lib/R/site-library/CTUCosting/app/
 
