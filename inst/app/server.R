@@ -213,20 +213,13 @@ function(input, output){
   # work packages ----
   wp <- reactive(get_workpackage_data(d(), meta()))
 
-  summ_workpackages <- reactive({
-    req(record_tasks_exist())
-    wp() |>
-      filter(desc %in% input$selected_tasks) |>
-      summarize_by_wp()
-  })
-
   output$select_workpackages <- renderUI({
     req(record_tasks_exist())
     # print(summ_workpackages()$Service)
     selectInput("selected_workpackages",
                 label = "Services in the following box will be included in the costing",
-                choices = unique(summ_workpackages()$Service),
-                selected = unique(summ_workpackages()$Service),
+                choices = unique(wp()$Service),
+                selected = unique(wp()$Service),
                 multiple = TRUE
     )
   })
@@ -234,10 +227,12 @@ function(input, output){
   output$select_tasks <- renderUI({
     req(record_tasks_exist())
     # print(summ_workpackages()$Service)
+    tmp <- wp() |>
+      dplyr::filter(Service %in% input$selected_workpackages)
     selectInput("selected_tasks",
                 label = "Tasks in the following box will be included in  the costing",
-                choices = unique(wp()$desc),
-                selected = unique(wp()$desc),
+                choices = unique(tmp$desc),
+                selected = unique(tmp$desc),
                 multiple = TRUE
     )
   })
@@ -245,8 +240,16 @@ function(input, output){
   selected_workpackages <- reactive({
     req(record_tasks_exist())
     # print(summ_workpackages() |> names())
-    summ_workpackages() |>
+    wp() |>
       dplyr::filter(Service %in% input$selected_workpackages)
+  })
+
+  summ_workpackages <- reactive({
+    req(record_tasks_exist())
+    wp() |>
+      filter(Service %in% input$selected_workpackages) |>
+      filter(desc %in% input$selected_tasks) |>
+      summarize_by_wp()
   })
 
   output$dt_workpackages <- renderDataTable(selected_workpackages() |>
