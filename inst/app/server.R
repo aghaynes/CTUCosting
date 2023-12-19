@@ -15,7 +15,7 @@ function(input, output){
   record_ok <- reactive(
     record_costing_exists(record = input$record_id,
                           costing = input$costing,
-                          token = token)
+                          token = input$token)
   )
 
   output$bad_record <- renderUI({
@@ -46,7 +46,7 @@ function(input, output){
     req(record_ok())
     print(paste("RECORD =", input$record_id, "COSTING =", input$costing))
     show_modal_spinner(text = "Downloading data")
-    x <- get_data(record = input$record_id, costing = input$costing, token = token)
+    x <- get_data(record = input$record_id, costing = input$costing, token = input$token)
     remove_modal_spinner()
     return(x)
   }) |>
@@ -108,6 +108,7 @@ function(input, output){
         value_box(title = "Study duration",
                   value = textOutput("vb_duration_txt"),
                   showcase = bsicons::bs_icon("clock"),
+                  "years",
                   theme = "primary"),
         value_box(title = "Rate",
                   value = textOutput("vb_rate_txt"),
@@ -241,7 +242,8 @@ function(input, output){
     req(record_tasks_exist())
     # print(summ_workpackages() |> names())
     wp() |>
-      dplyr::filter(Service %in% input$selected_workpackages)
+      filter(Service %in% input$selected_workpackages) |>
+      filter(desc %in% input$selected_tasks)
   })
 
   summ_workpackages <- reactive({
@@ -252,10 +254,17 @@ function(input, output){
       summarize_by_wp()
   })
 
-  output$dt_workpackages <- renderDataTable(selected_workpackages() |>
-                                              rename("Work Package" = wp,
-                                                     "Label" = wp_lab),
-                                            rownames = FALSE)
+  output$dt_workpackages <- renderDataTable(
+    summ_workpackages() |>
+      rename("Work Package" = wp,
+             "Label" = wp_lab) |>
+      # select(-c(div, form, rate_name, service)) |>
+      relocate(Service) |>
+      datatable(rownames = FALSE) |>
+      formatCurrency("Cost",
+                     currency = "",
+                     interval = 3,
+                     mark = ","))
 
   # expenses ----
   expenses <- reactive({
@@ -276,7 +285,7 @@ function(input, output){
     # print(expenses() |> names())
     if(nrow(expenses()) > 0){
       selectInput("selected_expenses",
-                  label = 'Expenses in the following box will be included in the <h7 style="font-size:10pt;">costing</h7>',
+                  label = 'Expenses in the following box will be included in the costing',
                   choices = unique(expenses()$Description),
                   selected = unique(expenses()$Description),
                   multiple = TRUE

@@ -21,10 +21,26 @@ page_navbar(
        "))
 
   ),
+
+  # costing information pane
+  nav_panel(
+    "Create an offer",
+    uiOutput("bad_record"),
+    uiOutput("bad_meta"),
+    uiOutput("bad_costings"),
+    uiOutput("costing"),
+    ),
+
+  # instruction pane
   nav_panel(
     "Instructions",
     div(
       tags$h3("Instructions"),
+      "We use REDCap API tokens to enhance security of our data.",
+      "You can find the API token by clicking 'API' under the applications menu in REDCap.",
+      actionButton("toRedcapAPI", HTML("Click here to go to the API page in REDCap"),
+                   onclick = glue("window.open('https://redcap.ctu.unibe.ch/redcap_v13.7.5/API/project_api.php?pid=1132', '_blank')")),
+      tags$br(),
       "Enter the record ID from REDCap in to ", tags$em('Record to export'), " on the left.",
       tags$br(),
       "Within each record, it is possible to add multiple costings, configured as events in REDCap.",
@@ -32,7 +48,7 @@ page_navbar(
       tags$br(),
       "Clicking ", tags$em('Download data'), "will do what it says.",
       tags$br(),
-      "Once the user interface has loaded, it is possible to remove specific tasks or expenses from the costing using the controls in the 'Filter tasks and expenses section'.",
+      "Once the user interface has loaded (on the Create a costing tab), it is possible to remove specific tasks or expenses from the costing using the controls in the 'Filter tasks and expenses section'.",
       "This is useful if, for example, two versions of a costing were requested, one with a task and another without it.",
       "It is not necessary to create two costings in REDCap, one is sufficient.",
       tags$h4("Compiling the PDF report"),
@@ -42,30 +58,26 @@ page_navbar(
       tags$br(),
       "Inspect the PDF.",
       tags$br(),
-      "Some customisation is possible. If e.g. the table containing the tasks is long would be better being split in a different location,",
+      "Some customisation is possible. If e.g. the table containing the tasks is long, it would be better being split in a different location,",
       " the row number after to which to split can be entered in ", tags$em('Break tasks table in PDF'), "as a comma separated string ",
       "(e.g. 4,8 will break the table after the 4th and 8th lines). Only the white rows of the table should be counted.",
       tags$br(),
-      "It is also possible to insert page breaks at particular locations. Set the relevant check boxes as appropriate",
+      "It is also possible to insert page breaks at particular locations. Set the relevant check boxes as appropriate.",
       tags$h4("SNF"),
       "For SNF projects, the ", tags$em('Costing type'), "can be modified to ", tags$em('SNF'), ".",
-      "This causes additional tables to added to the bottom of the page where the hours can be distributed among the project years.",
+      "This causes additional tables to added to be the bottom of the page where the hours can be distributed among the project years.",
       tags$br(),
       "!!! This is still work in progress, the table is not yet included in the report!!"
     )
   ),
-  #
-  nav_panel(
-    "Create a costing",
-    uiOutput("bad_record"),
-    uiOutput("bad_meta"),
-    uiOutput("bad_costings"),
-    uiOutput("costing"),
-    ),
 
   title = "CTU Costing",
 
   sidebar = sidebar(
+    passwordInput("token", "Copy your API token from REDCap and paste it here:",
+              placeholder = "copy it from the API application in REDCap"),
+    actionButton("toRedcapAPI", HTML("REDCap API page"),
+                 onclick = "window.open('https://redcap.ctu.unibe.ch/redcap_v13.7.5/API/project_api.php?pid=1132', '_blank')"),
     textInput("record_id", "Record to export:", value = "2"),
     textInput("costing", "Costing number:", value = "1"),
     actionButton("go", "Download data"),
@@ -95,7 +107,7 @@ page_navbar(
         "Breaking them into smaller pieces can remedy this.",
         "If this is required, enter breaks as comma separated values below (e.g. 3,5)"),
     textInput("break_tasks", "Break tasks table in PDF after line(s)",
-              placeholder = "enter values separated by commas (e.g. 3,4)"),
+              placeholder = "e.g. 3,4"),
     div(style = "font-size:10pt;",
         "Other page breaks might also be desirable:"),
     checkboxInput("break_totals", "Insert page break before totals section?"),
