@@ -297,15 +297,21 @@ function(input, output){
   # calculate discount
   discount <- reactive({
     req(record_tasks_exist())
+    out <- NA
     # print(paste("Costing: ", info()$initcosting))
     # print(paste("discount_db: ", info()$discount_db))
+    # print(paste("snf: ", info()$snf))
+    # print(paste("dlf: ", info()$dlf))
     if(nrow(selected_workpackages()) > 0){
-      calc_discount(selected_workpackages(),
+      # print(selected_workpackages())
+      out <- calc_discount(selected_workpackages(),
                     initcosting = info()$initcosting,
                     discount_db = info()$discount_db,
                     snf = info()$snf,
                     dlf = info()$dlf)
+      # print(out)
     }
+    out
   })
   output$dt_discount <- renderDataTable({
       req(record_tasks_exist())

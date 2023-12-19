@@ -24,7 +24,7 @@ calc_discount <- function(workpackages, initcosting, discount_db,
                       "045.3", "050.3", # DM lock archive
                       "060.3" # Website hosting/domain
                       )) |>
-    mutate(DiscountableHours = Hours)
+    mutate(DiscountableHours = Hours * Units)
 
   # Discussion with ST, 21.8.2023 - DLF discount no longer available. Discount
   #   through other sources
@@ -52,7 +52,7 @@ calc_discount <- function(workpackages, initcosting, discount_db,
   summ_discount <- summ_discount |>
     # summarize remaining packages
     ungroup()  |>
-    summarize(Hours = sum(Hours),
+    summarize(Hours = sum(Hours * Units),
               DiscountableHours = sum(DiscountableHours),
               Cost = sum(Cost)) |>
     mutate(Service = "CTU",
