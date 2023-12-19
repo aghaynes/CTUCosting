@@ -16,7 +16,7 @@ totals <- function(workpackages, expenses, discount, overhead, internal, dlf = F
   total <- tibble::tribble(
     ~Description, ~`Cost (CHF)`,
     "Work packages", sum(workpackages$Cost),
-    "Expenses", sum(expenses$exp_cost),
+    "Expenses", sum(expenses$Amount),
     paste0("Discount due to number of hours (", discount$discount_perc, "%)"), -sum(discount$discount_amount),
     "Internal project management (10%)", overhead$pm,
   )
