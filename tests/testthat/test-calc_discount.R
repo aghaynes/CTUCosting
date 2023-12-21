@@ -1,18 +1,18 @@
 
 # test that calc_discount returns appropriate result
 wp <- tibble::tribble(
-  ~wp, ~Hours, ~Cost,
-  "045.0",  100,  1000,
-  "100.0",  100,  1000,
-  "100.1",  100,  1000,
-  "100.2",  100,  1000,
+  ~wp, ~Hours, ~Cost, ~Units,
+  "045.0",  100,  1000, 1,
+  "100.0",  100,  1000, 1,
+  "100.1",  100,  1000, 1,
+  "100.2",  100,  1000, 1,
 )
 
 wp2 <- tibble::tribble(
-  ~wp, ~Hours, ~Cost,
-  "100.0",  100,  1000,
-  "100.1",  100,  1000,
-  "100.2",  100,  1000,
+  ~wp, ~Hours, ~Cost, ~Units,
+  "100.0",  100,  1000, 1,
+  "100.1",  100,  1000, 1,
+  "100.2",  100,  1000, 1,
 )
 
 test_that("calc_discount returns appropriate result for initial", {
