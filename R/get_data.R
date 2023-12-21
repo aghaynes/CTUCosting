@@ -17,7 +17,7 @@ get_data <- function(record, costing, token){
 
   d <- redcap_export_byform(token, url,
                        records = record,
-                       events = glue("costing_{costing}_arm_1"))
+                       events = paste0("costing_", costing, "_arm_1"))
 
   lapply(d, function(x){
     x |> filter(record_id == record)
