@@ -31,6 +31,7 @@ function(input, output){
 
 
   output$rc_link <- renderUI({
+    req(input$token)
     req(record_ok())
     actionButton("toRedcap", HTML("Click here to go to this <br/>costing in REDCap"),
                  onclick = glue("window.open('{create_rc_link(record = input$record_id,
@@ -43,6 +44,7 @@ function(input, output){
   })
 
   d <- reactive({
+    req(input$token)
     req(record_ok())
     print(paste("RECORD =", input$record_id, "COSTING =", input$costing))
     show_modal_spinner(text = "Downloading data")
