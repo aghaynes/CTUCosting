@@ -107,7 +107,7 @@ page_navbar(
         "Breaking them into smaller pieces can remedy this.",
         "If this is required, enter breaks as comma separated values below (e.g. 3,5)"),
     textInput("break_tasks", "Break tasks table in PDF after line(s)",
-              placeholder = "e.g. 3,4"),
+              placeholder = "e.g. 3,5"),
     div(style = "font-size:10pt;",
         "Other page breaks might also be desirable:"),
     checkboxInput("break_totals", "Insert page break before totals section?"),
