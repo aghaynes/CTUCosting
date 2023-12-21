@@ -34,7 +34,7 @@ function(input, output, session){
     req(input$token)
     req(record_ok())
     actionButton("toRedcap", HTML("Click here to go to this <br/>costing in REDCap"),
-                 onclick = glue("window.open('{create_rc_link(record = input$record_id,
+                 onclick = glue::glue("window.open('{create_rc_link(record = input$record_id,
                                  costing = input$costing,
                                  token = token)}', '_blank')"))
     # tags$a(href = create_rc_link(record = input$record_id,
@@ -177,7 +177,7 @@ function(input, output, session){
 
   output$vb_costing_txt <- renderText({
     req(record_meta_exists())
-    glue("{info()$acronym} ({info()$study})")
+    glue::glue("{info()$acronym} ({info()$study})")
   })
   output$vb_inst_txt <- renderText({
     req(record_meta_exists())
