@@ -9,13 +9,13 @@ library(shinybusy)
 library(shinyalert)
 token <- Sys.getenv("CTUCosting_token")
 
-function(input, output){
+function(input, output, session){
 
   # check valid record and costing
   record_ok <- reactive(
     record_costing_exists(record = input$record_id,
                           costing = input$costing,
-                          token = token)
+                          token = input$token)
   )
 
   output$bad_record <- renderUI({
@@ -31,6 +31,7 @@ function(input, output){
 
 
   output$rc_link <- renderUI({
+    req(input$token)
     req(record_ok())
     actionButton("toRedcap", HTML("Click here to go to this <br/>costing in REDCap"),
                  onclick = glue("window.open('{create_rc_link(record = input$record_id,
@@ -42,11 +43,25 @@ function(input, output){
     #        "Click here to go to this costing in REDCap", target = "_blank")
   })
 
+  observe({
+    query <- parseQueryString(session$clientData$url_search)
+    if (!is.null(query[['record']])) {
+      updateTextInput(session, "record_id", value = query[['record']])
+    }
+  })
+  observe({
+    query <- parseQueryString(session$clientData$url_search)
+    if (!is.null(query[['costing']])) {
+      updateTextInput(session, "costing", value = query[['costing']])
+    }
+  })
+
   d <- reactive({
+    req(input$token)
     req(record_ok())
     print(paste("RECORD =", input$record_id, "COSTING =", input$costing))
     show_modal_spinner(text = "Downloading data")
-    x <- get_data(record = input$record_id, costing = input$costing, token = token)
+    x <- get_data(record = input$record_id, costing = input$costing, token = input$token)
     remove_modal_spinner()
     return(x)
   }) |>
@@ -108,6 +123,7 @@ function(input, output){
         value_box(title = "Study duration",
                   value = textOutput("vb_duration_txt"),
                   showcase = bsicons::bs_icon("clock"),
+                  "years",
                   theme = "primary"),
         value_box(title = "Rate",
                   value = textOutput("vb_rate_txt"),
@@ -213,20 +229,13 @@ function(input, output){
   # work packages ----
   wp <- reactive(get_workpackage_data(d(), meta()))
 
-  summ_workpackages <- reactive({
-    req(record_tasks_exist())
-    wp() |>
-      filter(desc %in% input$selected_tasks) |>
-      summarize_by_wp()
-  })
-
   output$select_workpackages <- renderUI({
     req(record_tasks_exist())
     # print(summ_workpackages()$Service)
     selectInput("selected_workpackages",
                 label = "Services in the following box will be included in the costing",
-                choices = unique(summ_workpackages()$Service),
-                selected = unique(summ_workpackages()$Service),
+                choices = unique(wp()$Service),
+                selected = unique(wp()$Service),
                 multiple = TRUE
     )
   })
@@ -234,10 +243,12 @@ function(input, output){
   output$select_tasks <- renderUI({
     req(record_tasks_exist())
     # print(summ_workpackages()$Service)
+    tmp <- wp() |>
+      dplyr::filter(Service %in% input$selected_workpackages)
     selectInput("selected_tasks",
                 label = "Tasks in the following box will be included in  the costing",
-                choices = unique(wp()$desc),
-                selected = unique(wp()$desc),
+                choices = unique(tmp$desc),
+                selected = unique(tmp$desc),
                 multiple = TRUE
     )
   })
@@ -245,14 +256,30 @@ function(input, output){
   selected_workpackages <- reactive({
     req(record_tasks_exist())
     # print(summ_workpackages() |> names())
-    summ_workpackages() |>
-      dplyr::filter(Service %in% input$selected_workpackages)
+    wp() |>
+      filter(Service %in% input$selected_workpackages) |>
+      filter(desc %in% input$selected_tasks)
   })
 
-  output$dt_workpackages <- renderDataTable(selected_workpackages() |>
-                                              rename("Work Package" = wp,
-                                                     "Label" = wp_lab),
-                                            rownames = FALSE)
+  summ_workpackages <- reactive({
+    req(record_tasks_exist())
+    wp() |>
+      filter(Service %in% input$selected_workpackages) |>
+      filter(desc %in% input$selected_tasks) |>
+      summarize_by_wp()
+  })
+
+  output$dt_workpackages <- renderDataTable(
+    summ_workpackages() |>
+      rename("Work Package" = wp,
+             "Label" = wp_lab) |>
+      # select(-c(div, form, rate_name, service)) |>
+      relocate(Service) |>
+      datatable(rownames = FALSE) |>
+      formatCurrency("Cost",
+                     currency = "",
+                     interval = 3,
+                     mark = ","))
 
   # expenses ----
   expenses <- reactive({
@@ -273,7 +300,7 @@ function(input, output){
     # print(expenses() |> names())
     if(nrow(expenses()) > 0){
       selectInput("selected_expenses",
-                  label = 'Expenses in the following box will be included in the <h7 style="font-size:10pt;">costing</h7>',
+                  label = 'Expenses in the following box will be included in the costing',
                   choices = unique(expenses()$Description),
                   selected = unique(expenses()$Description),
                   multiple = TRUE
@@ -294,15 +321,21 @@ function(input, output){
   # calculate discount
   discount <- reactive({
     req(record_tasks_exist())
+    out <- NA
     # print(paste("Costing: ", info()$initcosting))
     # print(paste("discount_db: ", info()$discount_db))
+    # print(paste("snf: ", info()$snf))
+    # print(paste("dlf: ", info()$dlf))
     if(nrow(selected_workpackages()) > 0){
-      calc_discount(selected_workpackages(),
+      # print(selected_workpackages())
+      out <- calc_discount(selected_workpackages(),
                     initcosting = info()$initcosting,
                     discount_db = info()$discount_db,
                     snf = info()$snf,
                     dlf = info()$dlf)
+      # print(out)
     }
+    out
   })
   output$dt_discount <- renderDataTable({
       req(record_tasks_exist())
@@ -417,7 +450,7 @@ function(input, output){
       # dot <- reactiveValuesToList(info())
 
       inputs <- info()
-      inputs$workpackages <- selected_workpackages()
+      inputs$workpackages <- summ_workpackages()
       inputs$summ_discount <- discount()
       inputs$discount <- sum(discount()$discount_amount)
       inputs$expenses <- selected_expenses()

@@ -35,8 +35,12 @@ costing_info <- function(data, metadata){
       filter(Clinic == inst) |>
       pull(Head.of.clinic)
   } else {
-    inst <- data$company
-    sign <- data$institute_auth
+    if(data$institute_noninsel == 88){
+      inst <- data$company
+      sign <- data$institute_auth
+    } else {
+      inst <- specific_option(metadata, data, "institute_noninsel")
+    }
   }
 
   rate <- specific_option(metadata, data, "rate")
