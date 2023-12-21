@@ -14,7 +14,9 @@ create_rc_link <- function(record, costing, token){
                      names() |>
     (function(x)gsub("^X", "", x))()
 
-  glue("https://redcap.ctu.unibe.ch/redcap_v{version}/DataEntry/index.php?pid=1132&id={record}&event_id={event}&page=meta_information")
+  paste0("https://redcap.ctu.unibe.ch/redcap_v", version,
+         "/DataEntry/index.php?pid=1132&id=", record,
+         "&event_id=", event, "&page=meta_information")
 
 }
 

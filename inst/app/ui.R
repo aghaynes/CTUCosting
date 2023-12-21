@@ -39,7 +39,7 @@ page_navbar(
       "We use REDCap API tokens to enhance security of our data.",
       "You can find the API token by clicking 'API' under the applications menu in REDCap.",
       actionButton("toRedcapAPI", HTML("Click here to go to the API page in REDCap"),
-                   onclick = glue("window.open('https://redcap.ctu.unibe.ch/redcap_v13.7.5/API/project_api.php?pid=1132', '_blank')")),
+                   onclick = "window.open('https://redcap.ctu.unibe.ch/redcap_v13.7.5/API/project_api.php?pid=1132', '_blank')"),
       tags$br(),
       "Enter the record ID from REDCap in to ", tags$em('Record to export'), " on the left.",
       tags$br(),

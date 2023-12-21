@@ -26,7 +26,7 @@ snf_cost_table <- function(workpackages, proportions){
   # print(hours)
 
   tmp <- sapply(seq_along(hours), function(x){
-    glue("{sprintf('%1.1f', hours[, x])} hours <br/> CHF {cost[, x]}")
+    paste0(sprintf('%1.1f', hours[, x]), " hours <br/> CHF ", cost[, x])
   }) |>
     as.data.frame() |>
     magrittr::set_names(names(hours)) |>
