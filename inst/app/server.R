@@ -9,7 +9,7 @@ library(shinybusy)
 library(shinyalert)
 token <- Sys.getenv("CTUCosting_token")
 
-function(input, output){
+function(input, output, session){
 
   # check valid record and costing
   record_ok <- reactive(
@@ -41,6 +41,19 @@ function(input, output){
     #                              costing = input$costing,
     #                              token = token),
     #        "Click here to go to this costing in REDCap", target = "_blank")
+  })
+
+  observe({
+    query <- parseQueryString(session$clientData$url_search)
+    if (!is.null(query[['record']])) {
+      updateTextInput(session, "record_id", value = query[['record']])
+    }
+  })
+  observe({
+    query <- parseQueryString(session$clientData$url_search)
+    if (!is.null(query[['costing']])) {
+      updateTextInput(session, "costing", value = query[['costing']])
+    }
   })
 
   d <- reactive({
