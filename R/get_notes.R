@@ -7,15 +7,18 @@ get_notes <- function(data){
 
 
   vals <- lapply(data, function(x){
-    tmp <- x |>
-      select(any_of("dml_notes_standard"), ends_with("notes"), any_of("dmf_notes_2"))
-    if(nrow(tmp) > 0) tmp <- tmp |> select(where(~any(!is.na(.x))))
-    if(ncol(tmp) > 1) tmp <- paste(tmp, collapse = "\n\n")
-    unlist(tmp)
+    if(nrow(x) > 0){
+      tmp <- x |>
+        select(any_of("dml_notes_standard"), ends_with("notes"), any_of("dmf_notes_2"))
+      if(nrow(tmp) > 0) tmp <- tmp |> select(where(~any(!is.na(.x))))
+      if(ncol(tmp) > 1) tmp <- paste(tmp, collapse = "\n\n")
+      unlist(tmp)
+    }
   })
 
   tmp <- vals[unlist(sapply(vals, function(x) length(x) > 0 && !is.na(x)))]
   tmp
+
 }
 
 #' concatenate external note fields with division/workpackage
