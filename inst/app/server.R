@@ -437,7 +437,7 @@ function(input, output){
       # dot <- reactiveValuesToList(info())
 
       inputs <- info()
-      inputs$workpackages <- selected_workpackages()
+      inputs$workpackages <- summ_workpackages()
       inputs$summ_discount <- discount()
       inputs$discount <- sum(discount()$discount_amount)
       inputs$expenses <- selected_expenses()
