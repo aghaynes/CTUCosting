@@ -64,6 +64,7 @@ function(input, output, session){
     show_modal_spinner(text = "Downloading data")
     x <- get_data(record = input$record_id, costing = input$costing, token = input$token)
     remove_modal_spinner()
+    print(str(x, 2))
     return(x)
   }) |>
     bindEvent(input$go)
@@ -98,7 +99,9 @@ function(input, output, session){
   info <- reactive({
     # print(d()$meta_information)
     req(record_meta_exists())
-    costing_info(d(), meta()$metadata)
+    ci <- costing_info(d(), meta()$metadata)
+    print(ci)
+    ci
   })
 
   n_downloads <- reactiveValues(n = 0)
