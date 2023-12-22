@@ -31,7 +31,7 @@ function(input, output, session){
 
   output$rc_link <- renderUI({
     req(input$token)
-    print(paste("TOKEN:", input$token))
+    #print(paste("TOKEN:", input$token))
     req(record_ok())
     actionButton("toRedcap", HTML("Click here to go to this <br/>costing in REDCap"),
                  onclick = paste0("window.open('",
@@ -178,6 +178,7 @@ function(input, output, session){
 
   output$vb_costing_txt <- renderText({
     req(record_meta_exists())
+    print(paste("ACRONYM:", info()$acronym))
     paste0(info()$acronym, "(", info()$study, ")")
   })
   output$vb_inst_txt <- renderText({
@@ -193,6 +194,7 @@ function(input, output, session){
   # })
   output$vb_rate_txt <- renderText({
     req(record_meta_exists())
+    print(paste("RATE LAB:", info()$ratelab))
     info()$ratelab
   })
   output$vb_duration_txt <- renderText({
@@ -223,6 +225,7 @@ function(input, output, session){
     req(record_meta_exists())
     req(record_tasks_exist())
     req(discount())
+    print(paste("PROJNUM:", info()$rpojnum))
     paste0(info()$projnum, " / ", info()$consultingnum)
   })
 
@@ -233,6 +236,7 @@ function(input, output, session){
   output$select_workpackages <- renderUI({
     req(record_tasks_exist())
     # print(summ_workpackages()$Service)
+    print(paste("N SERVICES:", length(unique(wp()$Service))))
     selectInput("selected_workpackages",
                 label = "Services in the following box will be included in the costing",
                 choices = unique(wp()$Service),
@@ -246,6 +250,7 @@ function(input, output, session){
     # print(summ_workpackages()$Service)
     tmp <- wp() |>
       dplyr::filter(Service %in% input$selected_workpackages)
+    print(paste("N TASKS:", nrow(tmp)))
     selectInput("selected_tasks",
                 label = "Tasks in the following box will be included in  the costing",
                 choices = unique(tmp$desc),
@@ -270,7 +275,8 @@ function(input, output, session){
       summarize_by_wp()
   })
 
-  output$dt_workpackages <- renderDataTable(
+  output$dt_workpackages <- renderDataTable({
+    print(head(summ_workpackages()))
     summ_workpackages() |>
       rename("Work Package" = wp,
              "Label" = wp_lab) |>
@@ -280,7 +286,8 @@ function(input, output, session){
       formatCurrency("Cost",
                      currency = "",
                      interval = 3,
-                     mark = ","))
+                     mark = ",")
+  })
 
   # expenses ----
   expenses <- reactive({
