@@ -31,6 +31,7 @@ function(input, output, session){
 
   output$rc_link <- renderUI({
     req(input$token)
+    print(paste("TOKEN:", input$token))
     req(record_ok())
     actionButton("toRedcap", HTML("Click here to go to this <br/>costing in REDCap"),
                  onclick = paste0("window.open('",
