@@ -63,7 +63,7 @@ function(input, output, session){
     show_modal_spinner(text = "Downloading data")
     x <- get_data(record = input$record_id, costing = input$costing, token = input$token)
     remove_modal_spinner()
-    print(str(x, 2))
+    # print(str(x, 2))
     return(x)
   }) |>
     bindEvent(input$go)
@@ -99,13 +99,14 @@ function(input, output, session){
     # print(d()$meta_information)
     req(record_meta_exists())
     ci <- costing_info(d(), meta()$metadata)
-    print(ci)
+    # print(ci)
     ci
   })
 
   n_downloads <- reactiveValues(n = 0)
   observeEvent(input$go, n_downloads$n <- n_downloads$n  + 1)
 
+  # info boxes ----
   output$costing <- renderUI({
     req(record_meta_exists())
     req(record_tasks_exist())
@@ -467,7 +468,7 @@ function(input, output, session){
 
 
 
-  # downloads
+  # downloads ----
   ## PDF
   output$pdf <- downloadHandler(
     filename = function(cons_num = info()$consultingnum,
