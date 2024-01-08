@@ -38,8 +38,8 @@ header-logo: "`r system.file('ext/ub_Logo_english_2019_RGB_wb.png', package = 'c
 
 <p> </p>
 
-```{r, fig.align = "right", out.width="40%", echo = FALSE}
-knitr::include_graphics("ub_Logo_english_2019_RGB_wb.png")
+```{r, fig.align = "right", echo = FALSE, out.width = "25%"}
+knitr::include_graphics("UNI_Logo_DCR_CTU.png", dpi = 300)
 
 ```
 
