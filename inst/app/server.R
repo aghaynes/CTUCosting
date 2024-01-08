@@ -6,7 +6,6 @@ library(DT)
 library(dplyr)
 library(shinybusy)
 library(shinyalert)
-token <- Sys.getenv("CTUCosting_token")
 
 function(input, output, session){
 
@@ -37,10 +36,10 @@ function(input, output, session){
                  onclick = paste0("window.open('",
                                   create_rc_link(record = input$record_id,
                                  costing = input$costing,
-                                 token = token), "', '_blank')"))
+                                 token = input$token), "', '_blank')"))
     # tags$a(href = create_rc_link(record = input$record_id,
     #                              costing = input$costing,
-    #                              token = token),
+    #                              token = input$token),
     #        "Click here to go to this costing in REDCap", target = "_blank")
   })
 
@@ -93,7 +92,7 @@ function(input, output, session){
     }
   })
 
-  meta <- reactive(get_metadata(token = token))
+  meta <- reactive(get_metadata(token = input$token))
   notes <- reactive(get_notes(d()))
 
   info <- reactive({
