@@ -127,14 +127,14 @@ gt_widths <- function(x){
 
 ```
 
-```{r tasks0, echo = FALSE, eval = !breaks_tf, message=FALSE}
+```{r tasks0, echo = FALSE, eval = !breaks_tf, message=FALSE, warning=FALSE}
 ## no breaks
 tmp %>%
   gt_fn() |>
   gt_widths()
 ```
 
-```{r tasksloop, eval = n_breaks > 0, echo=FALSE, results = "asis", message = FALSE}
+```{r tasksloop, eval = n_breaks > 0, echo=FALSE, results = "asis", message = FALSE, warning=FALSE}
 ends <- c(breaks, nrow(tmp))
 starts <- c(1, breaks + 1)
 
@@ -169,11 +169,11 @@ gt_fn(params$expenses)
 
 ### Totals {.unnumbered}
 
-```{r totalstab, echo = FALSE, eval = !is.null(params$total)}
+```{r totalstab, echo = FALSE, eval = !is.null(params$total), warning=FALSE}
 gt_fn(params$total)
 ```
 
-```{r notes, echo = FALSE, results='asis'}
+```{r notes, echo = FALSE, results='asis', warning=FALSE}
 notes <- params$notes
 if(length(notes) > 0 && !is.na(notes) && notes != "NA"){
   cat("### Notes: {.unnumbered}\n\n")
@@ -182,7 +182,7 @@ if(length(notes) > 0 && !is.na(notes) && notes != "NA"){
 }
 ```
 
-```{r breaknotes, echo = FALSE, results='asis', eval=params$break_notes}
+```{r breaknotes, echo = FALSE, results='asis', eval=params$break_notes, warning=FALSE}
   cat("\\newpage")
   cat("\n\n")
 ```
