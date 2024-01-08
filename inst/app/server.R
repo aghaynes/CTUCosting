@@ -63,7 +63,7 @@ function(input, output, session){
     show_modal_spinner(text = "Downloading data")
     x <- get_data(record = input$record_id, costing = input$costing, token = input$token)
     remove_modal_spinner()
-    print(str(x, 2))
+    # print(str(x, 2))
     return(x)
   }) |>
     bindEvent(input$go)
@@ -99,13 +99,14 @@ function(input, output, session){
     # print(d()$meta_information)
     req(record_meta_exists())
     ci <- costing_info(d(), meta()$metadata)
-    print(ci)
+    # print(ci)
     ci
   })
 
   n_downloads <- reactiveValues(n = 0)
   observeEvent(input$go, n_downloads$n <- n_downloads$n  + 1)
 
+  # info boxes ----
   output$costing <- renderUI({
     req(record_meta_exists())
     req(record_tasks_exist())
@@ -279,7 +280,8 @@ function(input, output, session){
 
   output$dt_workpackages <- renderDataTable({
     print(head(summ_workpackages()))
-    summ_workpackages() |>
+    if(nrow(summ_workpackages()) > 0){
+      out <- summ_workpackages() |>
       rename("Work Package" = wp,
              "Label" = wp_lab) |>
       # select(-c(div, form, rate_name, service)) |>
@@ -289,7 +291,17 @@ function(input, output, session){
                      currency = "",
                      interval = 3,
                      mark = ",")
-  })
+    } else {
+      out <- tribble(~Service, ~'Work Package', ~Label, ~Description,
+              ~Hours, ~Rate, ~Cost) |>
+        datatable() |>
+        formatCurrency("Cost",
+                       currency = "",
+                       interval = 3,
+                       mark = ",")
+    }
+    out
+  }, server = FALSE)
 
   # expenses ----
   expenses <- reactive({
@@ -325,10 +337,16 @@ function(input, output, session){
     selected_expenses() |>
       select(Division, Description, Amount, wp_lab) |>
       rename("Work Package" = wp_lab),
-    rownames = FALSE
+    rownames = FALSE,
+    server = FALSE
   )
 
-  # calculate discount
+  # Full time equivalents ----
+  fte <- reactive({
+    d()$fte
+  })
+
+  # calculate discount ----
   discount <- reactive({
     req(record_tasks_exist())
     out <- NA
@@ -352,7 +370,8 @@ function(input, output, session){
       # print(discount())
       discount()
     },
-    rownames = FALSE
+    rownames = FALSE,
+    server = FALSE
   )
   overhead_tab <- reactive(overhead(selected_workpackages()))
 
@@ -371,10 +390,11 @@ function(input, output, session){
     # print(total_cost())
     total_cost()
   },
-  rownames = FALSE
+  rownames = FALSE,
+  server = FALSE
   )
 
-  # SNF format
+  # SNF format ----
   ## init table
   snf_table <- reactiveValues(data = NULL)
   observe({
@@ -410,7 +430,8 @@ function(input, output, session){
       formatStyle("Row sum",
                   backgroundColor = styleInterval(c(0.999, 1.001),
                                                   c("#fc4c4c", "#60fa48", "#fc4c4c"))),
-    editable = TRUE)
+    editable = TRUE,
+    server = FALSE)
 
   proxy <- dataTableProxy("snf_proportions")
 
@@ -426,7 +447,7 @@ function(input, output, session){
     snf_costs() |>
       datatable(options = list(paging = FALSE),
                 escape = FALSE)
-    })
+    }, server = FALSE)
 
   output$snf_tab <- renderUI({
     if(input$costing_type == "SNF"){
@@ -447,7 +468,7 @@ function(input, output, session){
 
 
 
-  # downloads
+  # downloads ----
   ## PDF
   output$pdf <- downloadHandler(
     filename = function(cons_num = info()$consultingnum,
