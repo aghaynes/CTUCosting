@@ -31,6 +31,10 @@ page_navbar(
     uiOutput("costing"),
     ),
 
+  # SNF costings
+  nav_panel("SNF costings",
+            uiOutput("snf_tab")),
+
   # instruction pane
   nav_panel(
     "Instructions",
@@ -73,6 +77,11 @@ page_navbar(
     )
   ),
 
+
+  nav_panel("Console",
+            actionButton("updateLog", "Update Log"),
+            verbatimTextOutput("console")),
+
   title = "CTU Costing",
 
   sidebar = sidebar(
@@ -97,9 +106,9 @@ page_navbar(
     uiOutput("select_tasks"),
     uiOutput("select_expenses"),
     hr(),
-    selectInput("costing_type", "Costing type", c("CTU standard", "SNF")),
+    # selectInput("costing_type", "Costing type", c("CTU standard", "SNF")),
     HTML(
-      '<h7 style="font-size:10pt;">For SNF projects, select SNF and complete the table that appears on the right</h7>'
+      '<h7 style="font-size:10pt;">For SNF projects, go to the SNF costings tab and  complete the tables. </h7>'
     ),
     hr(),
     tags$u(tags$b("Generate costing outputs")),

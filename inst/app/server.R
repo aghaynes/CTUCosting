@@ -7,7 +7,22 @@ library(dplyr)
 library(shinybusy)
 library(shinyalert)
 
+options(shiny.reactlog=TRUE)
+try(sink())
+try(sink())
+tmpfile <- tempfile(fileext = ".txt")
+tmpcon <- file(tmpfile, open = "wt")
+# sink(tmpcon, append = TRUE, type = "output")
+# sink(tmpcon, append = TRUE, type = "message")
+print(Sys.time())
+print(paste("log file:", tmpfile))
+
 function(input, output, session){
+
+  output$console <- renderPrint({
+    readLines(tmpfile)
+  }) |>
+    bindEvent(input$updateLog)
 
   # check valid record and costing
   record_ok <- reactive(
@@ -32,6 +47,7 @@ function(input, output, session){
     req(input$token)
     #print(paste("TOKEN:", input$token))
     req(record_ok())
+    cat(file=stderr(), "Link to redcap done", "\n")
     actionButton("toRedcap", HTML("Click here to go to this <br/>costing in REDCap"),
                  onclick = paste0("window.open('",
                                   create_rc_link(record = input$record_id,
@@ -59,6 +75,7 @@ function(input, output, session){
   d <- reactive({
     req(input$token)
     req(record_ok())
+    cat(file=stderr(), "Downloading data", "\n")
     print(paste("RECORD =", input$record_id, "COSTING =", input$costing))
     show_modal_spinner(text = "Downloading data")
     x <- get_data(record = input$record_id, costing = input$costing, token = input$token)
@@ -78,6 +95,7 @@ function(input, output, session){
   output$bad_meta <- renderUI({
     req(input$go)
     message("record_meta_exists:", record_meta_exists())
+    cat(file=stderr(), "record_meta_exists:", record_meta_exists(), "\n")
     if(!record_meta_exists()){
       shinyalert("Oops!", "Please check the costing meta information. It must be present.", type = "error")
       fluidRow(span("Check meta information for the costing", style="color:red; margin-left: 15px;"))
@@ -106,7 +124,7 @@ function(input, output, session){
   n_downloads <- reactiveValues(n = 0)
   observeEvent(input$go, n_downloads$n <- n_downloads$n  + 1)
 
-  # info boxes ----
+  # main page UI ----
   output$costing <- renderUI({
     req(record_meta_exists())
     req(record_tasks_exist())
@@ -169,8 +187,6 @@ function(input, output, session){
 
       ),
       # fluidRow(
-      uiOutput("snf_tab"),
-
 
       col_widths = c(12, 12, 4, 4,4,4,4, 12,12,12, 12)
 
@@ -399,7 +415,7 @@ function(input, output, session){
   snf_table <- reactiveValues(data = NULL)
   observe({
     req(record_tasks_exist())
-    if(input$costing_type == "SNF"){
+    # if(input$costing_type == "SNF"){
 
       # wp <- paste(selected_workpackages()$Service,
       #             selected_workpackages()$wp_lab, sep = ": ")
@@ -410,7 +426,7 @@ function(input, output, session){
       # rownames(df) <- wp
       # add a column for rowsum?
       snf_table$data <- create_snf_proportions_table(selected_workpackages(), info()$duration)
-    }
+    # }
   })
   ## edit table
   observeEvent(input$snf_proportions_cell_edit, {
@@ -430,8 +446,7 @@ function(input, output, session){
       formatStyle("Row sum",
                   backgroundColor = styleInterval(c(0.999, 1.001),
                                                   c("#fc4c4c", "#60fa48", "#fc4c4c"))),
-    editable = TRUE,
-    server = FALSE)
+    editable = TRUE)
 
   proxy <- dataTableProxy("snf_proportions")
 
@@ -447,9 +462,10 @@ function(input, output, session){
     snf_costs() |>
       datatable(options = list(paging = FALSE),
                 escape = FALSE)
-    }, server = FALSE)
+    })
 
   output$snf_tab <- renderUI({
+    req(record_tasks_exist())
     if(input$costing_type == "SNF"){
       fluidRow(
         box(title = "Proportion of hours per year",
@@ -539,7 +555,6 @@ function(input, output, session){
       # remove_modal_spinner()
     }
   )
-
 
 }
 
