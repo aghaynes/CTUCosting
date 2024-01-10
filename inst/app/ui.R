@@ -73,6 +73,11 @@ page_navbar(
     )
   ),
 
+
+  nav_panel("Console",
+            actionButton("updateLog", "Update Log"),
+            verbatimTextOutput("console")),
+
   title = "CTU Costing",
 
   sidebar = sidebar(
