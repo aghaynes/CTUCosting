@@ -12,8 +12,8 @@ try(sink())
 try(sink())
 tmpfile <- tempfile(fileext = ".txt")
 tmpcon <- file(tmpfile, open = "wt")
-# sink(tmpcon, append = TRUE, type = "output")
-# sink(tmpcon, append = TRUE, type = "message")
+sink(tmpcon, append = TRUE, type = "output")
+sink(tmpcon, append = TRUE, type = "message")
 print(Sys.time())
 print(paste("log file:", tmpfile))
 
@@ -169,21 +169,21 @@ function(input, output, session){
           dataTableOutput("dt_workpackages"),
           width = 12
         ),
-      # ),
-      # fluidRow(
       accordion_panel(
           "Expenses",
           dataTableOutput("dt_expenses"),
           width = 12
-        # )
+        ),
+      accordion_panel(
+          "Full time equivalents",
+          dataTableOutput("dt_fte"),
+          width = 12
       ),
-      # fluidRow(
       accordion_panel(
           "Total",
           dataTableOutput("dt_totals"),
           width = 12
-        # )
-      )
+        )
 
       ),
       # fluidRow(
@@ -295,8 +295,8 @@ function(input, output, session){
   })
 
   output$dt_workpackages <- renderDataTable({
-    print(head(summ_workpackages()))
     if(nrow(summ_workpackages()) > 0){
+      print(head(summ_workpackages()))
       out <- summ_workpackages() |>
       rename("Work Package" = wp,
              "Label" = wp_lab) |>
@@ -359,12 +359,23 @@ function(input, output, session){
 
   # Full time equivalents ----
   fte <- reactive({
-    d()$fte
+    d() |> get_ftes(meta = meta())
   })
+
+  output$dt_fte <- renderDataTable({
+    fte()$costs |>
+      rename(Cost = cost,
+             FTEs = prop) |>
+      datatable(rownames = FALSE) |>
+      formatCurrency("Cost",
+                     currency = "",
+                     interval = 3,
+                     mark = ",")
+  }, server = FALSE)
 
   # calculate discount ----
   discount <- reactive({
-    req(record_tasks_exist())
+    # req(record_tasks_exist())
     out <- NA
     # print(paste("Costing: ", info()$initcosting))
     # print(paste("discount_db: ", info()$discount_db))
@@ -377,7 +388,7 @@ function(input, output, session){
                     discount_db = info()$discount_db,
                     snf = info()$snf,
                     dlf = info()$dlf)
-      # print(out)
+      # print(paste("DISCOUNT:", out))
     }
     out
   })
@@ -391,15 +402,15 @@ function(input, output, session){
   )
   overhead_tab <- reactive(overhead(selected_workpackages()))
 
-  # totals
+  # totals ----
   total_cost <- reactive({
     req(record_tasks_exist())
-    req(discount())
     totals(workpackages = selected_workpackages(),
            expenses = selected_expenses(),
            discount = discount(),
            overhead = overhead_tab(),
            internal = info()$internal,
+           fte = fte(),
            dlf = info()$dlf)
   })
   output$dt_totals <- renderDataTable({
@@ -415,18 +426,7 @@ function(input, output, session){
   snf_table <- reactiveValues(data = NULL)
   observe({
     req(record_tasks_exist())
-    # if(input$costing_type == "SNF"){
-
-      # wp <- paste(selected_workpackages()$Service,
-      #             selected_workpackages()$wp_lab, sep = ": ")
-      # nrow <- length(wp)
-      # ncol <- info()$duration + 1 # + 1 for rowsums
-      # df <- as.data.frame(matrix(rep(0, ncol * nrow), nrow = nrow, ncol = ncol))
-      # names(df) <- c(paste("Year", 1 : info()$duration), "Row sum")
-      # rownames(df) <- wp
-      # add a column for rowsum?
-      snf_table$data <- create_snf_proportions_table(selected_workpackages(), info()$duration)
-    # }
+    snf_table$data <- create_snf_proportions_table(selected_workpackages(), info()$duration)
   })
   ## edit table
   observeEvent(input$snf_proportions_cell_edit, {
@@ -495,11 +495,11 @@ function(input, output, session){
 
       # print(info())
       # dot <- reactiveValuesToList(info())
-
+      print("preparing PDF inputs")
       inputs <- info()
       inputs$workpackages <- summ_workpackages()
       inputs$summ_discount <- discount()
-      inputs$discount <- sum(discount()$discount_amount)
+      inputs$discount <- max(0, try(sum(discount()$discount_amount)), na.rm = TRUE)
       inputs$expenses <- selected_expenses()
       inputs$total <- total_cost()
       # inputs$cturep <- input$cturep
@@ -508,6 +508,8 @@ function(input, output, session){
       inputs$break_totals <- input$break_totals
       inputs$break_notes <- input$break_notes
       # print(concat_notes(notes()))
+      print("fte input")
+      inputs$fte <- fte()
 
       inputs$break_tasks <- unlist(strsplit(input$break_tasks, ","))
 
@@ -515,7 +517,7 @@ function(input, output, session){
 
       show_modal_spinner(text = "Compiling PDF",
                          spin = "pixel")
-
+      print("gen_pdf():")
       gen_pdf(
         output = file,
         inputs = inputs,
