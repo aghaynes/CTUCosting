@@ -29,6 +29,7 @@ params:
   break_tasks: NULL
   first_page_text: "template text"
   initcosting: TRUE
+  fte: list(fte = FALSE)
 header-logo: "`r system.file('ext/ub_Logo_english_2019_RGB_wb.png', package = 'ctucosting')`"
 ---
 
@@ -94,7 +95,7 @@ Number of participants: **`r params$n_participants`** from **`r params$n_sites` 
 
 ### Tasks for CTU to provide {.unnumbered}
 
-```{r tasks, echo = FALSE, message=FALSE, warning=FALSE}
+```{r tasks, echo = FALSE, message=FALSE, warning=FALSE, eval = nrow(params$workpackages) > 0}
 library(gt)
 tmp <- params$workpackages %>%
   select_for_pdf() %>%
@@ -155,6 +156,12 @@ res <- lapply(seq_along(starts),
 
 cat(unlist(res), sep = "\n\n\\pagebreak\n\n")
 
+```
+
+
+```{r ftes, echo = FALSE, eval = params$fte$fte}
+cat("Full time equivalents\n\n")
+gt_fn(params$fte$costs)
 ```
 
 ```{r expenses, echo = FALSE, eval = !is.null(params$expenses)}

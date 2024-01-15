@@ -1,7 +1,7 @@
 Package: CTUCosting
 Type: Package
 Title: Machinery for CTU costings
-Version: 0.3.2
+Version: 0.3.4
 Authors@R:
     c(
     person(given = "Alan G.", family = "Haynes", role = "cre",
@@ -36,6 +36,7 @@ Suggests:
     knitr,
     markdown,
     patchwork,
+    reactlog,
     rmarkdown,
     shinyalert,
     shinybusy,

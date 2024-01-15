@@ -7,21 +7,63 @@
 #' @param discount A tibble with the discount
 #' @param overhead A tibble with the overhead
 #' @param internal A boolean indicating whether the project is internal or not
+#' @param fte fte cost data
 #' @param dlf A boolean indicating whether the project is a DLF project or not (unused)
 #'
 #' @importFrom dplyr bind_rows mutate
 #' @export
-totals <- function(workpackages, expenses, discount, overhead, internal, dlf = FALSE){
+totals <- function(workpackages, expenses, discount, overhead, internal, fte, dlf = FALSE){
   `Cost (CHF)` <- NULL
+
+  print("totals(): FTE:")
+  print(fte)
+  ftes <- fte$fte
+
   total <- tibble::tribble(
     ~Description, ~`Cost (CHF)`,
-    "Work packages", sum(workpackages$Cost),
-    "Expenses", sum(expenses$Amount),
-    paste0("Discount due to number of hours (", discount$discount_perc, "%)"), -sum(discount$discount_amount),
-    "Internal project management (10%)", overhead$pm,
   )
 
+  if(nrow(workpackages) > 0){
+    print("totals(): workpackages loop")
+    total <- total |>
+      bind_rows(
+        tibble::tribble(
+          ~Description, ~`Cost (CHF)`,
+          "Work packages", sum(workpackages$Cost),
+          paste0("Discount due to number of hours (", discount$discount_perc, "%)"), -sum(discount$discount_amount),
+          "Internal project management (10%)", overhead$pm,
+        )
+      )
+  }
+
+  if(nrow(expenses) > 0){
+    print("totals(): expenses loop")
+    total <- total |>
+      bind_rows(
+        tibble::tribble(
+          ~Description, ~`Cost (CHF)`,
+          "Expenses", sum(expenses$Amount),
+        )
+      )
+  }
+
+  if(ftes){
+    print("totals(): fte loop")
+
+    total <- total |>
+      bind_rows(
+        tibble::tribble(
+          ~Description, ~`Cost (CHF)`,
+          "FTE costs", sum(fte$costs$cost),
+        )
+      )
+
+  }
+
+
   if(!internal){
+    print("totals(): internal loop")
+
     total <- total |>
       bind_rows(
         tibble::tribble(
