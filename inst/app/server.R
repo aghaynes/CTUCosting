@@ -496,35 +496,35 @@ function(input, output, session){
       # print(info())
       # dot <- reactiveValuesToList(info())
       print("preparing PDF inputs")
-      inputs <- info()
-      inputs$workpackages <- summ_workpackages()
-      inputs$summ_discount <- discount()
-      inputs$discount <- max(0, try(sum(discount()$discount_amount)), na.rm = TRUE)
-      inputs$expenses <- selected_expenses()
-      inputs$total <- total_cost()
-      # inputs$cturep <- input$cturep
-      inputs$first_page_text <- info()$costing_txt
-      inputs$notes <- concat_notes(notes())
-      inputs$break_totals <- input$break_totals
-      inputs$break_notes <- input$break_notes
-      # print(concat_notes(notes()))
-      print("fte input")
-      inputs$fte <- fte()
-
-      inputs$break_tasks <- unlist(strsplit(input$break_tasks, ","))
-
-      # print(str(inputs))
-
-      show_modal_spinner(text = "Compiling PDF",
-                         spin = "pixel")
-      print("gen_pdf():")
-      gen_pdf(
-        output = file,
-        inputs = inputs,
-        copy_html = TRUE
-      )
-
-      remove_modal_spinner()
+      # inputs <- info()
+      # inputs$workpackages <- summ_workpackages()
+      # inputs$summ_discount <- discount()
+      # inputs$discount <- max(0, try(sum(discount()$discount_amount)), na.rm = TRUE)
+      # inputs$expenses <- selected_expenses()
+      # inputs$total <- total_cost()
+      # # inputs$cturep <- input$cturep
+      # inputs$first_page_text <- info()$costing_txt
+      # inputs$notes <- concat_notes(notes())
+      # inputs$break_totals <- input$break_totals
+      # inputs$break_notes <- input$break_notes
+      # # print(concat_notes(notes()))
+      # print("fte input")
+      # inputs$fte <- fte()
+      #
+      # inputs$break_tasks <- unlist(strsplit(input$break_tasks, ","))
+      #
+      # # print(str(inputs))
+      #
+      # show_modal_spinner(text = "Compiling PDF",
+      #                    spin = "pixel")
+      # print("gen_pdf():")
+      # gen_pdf(
+      #   output = file,
+      #   inputs = inputs,
+      #   copy_html = TRUE
+      # )
+      #
+      # remove_modal_spinner()
     }
   )
 
