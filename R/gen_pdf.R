@@ -55,7 +55,8 @@ gen_pdf <- function(output,
                       break_tasks = inputs$break_tasks,
                       break_notes = inputs$break_notes,
                       first_page_text = inputs$costing_txt,
-                      initcosting = inputs$initcosting
+                      initcosting = inputs$initcosting,
+                      fte = inputs$fte
                       ),
                     clean = FALSE
                     )
