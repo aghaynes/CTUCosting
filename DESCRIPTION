@@ -19,6 +19,7 @@ Imports:
     data.table,
     dplyr,
     glue,
+    gt,
     magrittr,
     pagedown,
     readxl,
@@ -26,13 +27,13 @@ Imports:
     shiny,
     tibble,
     tidyr,
-    vctrs
+    vctrs,
+    writexl
 RoxygenNote: 7.2.3
 Suggests:
     bsicons,
     bslib,
     DT,
-    gt,
     knitr,
     markdown,
     patchwork,
@@ -41,8 +42,7 @@ Suggests:
     shinyalert,
     shinybusy,
     testthat (>= 3.0.0),
-    vdiffr,
-    writexl
+    vdiffr
 Remotes:
     CTU-Bern/redcaptools
 VignetteBuilder: knitr
