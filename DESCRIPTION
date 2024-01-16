@@ -1,12 +1,12 @@
 Package: CTUCosting
 Type: Package
 Title: Machinery for CTU costings
-Version: 0.3.4
+Version: 0.3.5
 Authors@R:
     c(
     person(given = "Alan G.", family = "Haynes", role = "cre",
-    email = "alan.haynes@ctu.unibe.ch"))
-Maintainer: Alan Haynes <alan.haynes@ctu.unibe.ch>
+    email = "alan.haynes@unibe.ch"))
+Maintainer: Alan Haynes <alan.haynes@unibe.ch>
 Description: Machinery for CTU costings
 License: MIT
 URL: https://github.com/CTU-Bern/CTUCostings
