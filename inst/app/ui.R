@@ -112,9 +112,16 @@ page_navbar(
     ),
     hr(),
     tags$u(tags$b("Generate costing outputs")),
+    # actionButton("pdf", "Generate PDF"),
+#
+#     HTML('<a href="ub_16pt-cmyk.pdf"> fdsdf </a>'),
+#
     downloadButton("pdf", "Generate PDF"),
     downloadButton("admin", "Generate admin info"),
     tags$u(tags$b("PDF customisations")),
+    checkboxInput("include_design", "Include detail on study design?", value = TRUE),
+    checkboxInput("include_int", "Include detail on interventional type?", value = TRUE),
+    checkboxInput("include_participants", "Include details on participants?", value = TRUE),
     div(style = "font-size:10pt;",
         "Longer tables, those that are too long for the page, do not always render correctly.",
         "Breaking them into smaller pieces can remedy this.",
@@ -123,6 +130,7 @@ page_navbar(
               placeholder = "e.g. 3,5"),
     div(style = "font-size:10pt;",
         "Other page breaks might also be desirable:"),
+    checkboxInput("break_ftes", "Insert page break before FTEs section?"),
     checkboxInput("break_totals", "Insert page break before totals section?"),
     checkboxInput("break_notes", "Insert page break before notes section?"),
 
