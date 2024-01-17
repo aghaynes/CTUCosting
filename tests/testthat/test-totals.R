@@ -92,7 +92,7 @@ test_that("fte totals", {
   expect_equal(nrow(tot3), 7)
   expect_equal(unlist(tot3[2,2]), "  -90.00", ignore_attr = TRUE)
   expect_equal(unlist(tot3[7,2]), "5,810.00", ignore_attr = TRUE)
-  expect_equal(unlist(tot3[6,2]), unlist(tot3[3,2]), ignore_attr = TRUE)
+  expect_equal(unlist(tot3[5,2]), unlist(tot3[3,2]), ignore_attr = TRUE)
   expect_true("Internal project management (10%)" %in% tot3$Description)
   expect_true("University overhead (10%)" %in% tot3$Description)
 
@@ -110,6 +110,5 @@ test_that("fte totals", {
   expect_true("Internal project management (10%)" %in% tot4$Description)
   expect_true(!"University overhead (10%)" %in% tot4$Description)
   expect_true("FTE costs" %in% tot4$Description)
-
 
 })

@@ -47,6 +47,18 @@ totals <- function(workpackages, expenses, discount, overhead, internal, fte, dl
       )
   }
 
+  if(!internal){
+    print("totals(): internal loop")
+
+    total <- total |>
+      bind_rows(
+        tibble::tribble(
+          ~Description, ~`Cost (CHF)`,
+          "University overhead (10%)", overhead$overhead
+        )
+      )
+  }
+
   if(ftes){
     print("totals(): fte loop")
 
@@ -58,19 +70,6 @@ totals <- function(workpackages, expenses, discount, overhead, internal, fte, dl
         )
       )
 
-  }
-
-
-  if(!internal){
-    print("totals(): internal loop")
-
-    total <- total |>
-      bind_rows(
-        tibble::tribble(
-          ~Description, ~`Cost (CHF)`,
-          "University overhead (10%)", overhead$overhead
-        )
-      )
   }
 
   # if(dlf){
