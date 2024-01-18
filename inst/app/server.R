@@ -484,7 +484,7 @@ function(input, output, session){
 
   # pass snf_cost into pdf function, together with input$costing_type
 
-
+  print(getwd())
 
   # downloads ----
   ## PDF
