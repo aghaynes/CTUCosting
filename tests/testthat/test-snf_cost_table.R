@@ -20,7 +20,7 @@ test_that("snf_cost_table calculates correctly", {
     0.3, 0.3, 0.4
   )
 
-  tab <- snf_cost_table(wp, props)
+  tab <- snf_cost_table(wp, props)$shiny
 
   expect_equal(tab$Year1, sprintf("%1.1f hours <br/> CHF %1.0f",
                                   c((5 + 6) * .5, (2 + 7) * .2, 10 * .3),

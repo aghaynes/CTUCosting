@@ -24,12 +24,16 @@ params:
   discount: NULL
   expenses: NULL
   notes: NA
+  break_ftes: FALSE
   break_totals: FALSE
   break_notes: FALSE
   break_tasks: NULL
   first_page_text: "template text"
   initcosting: TRUE
   fte: list(fte = FALSE)
+  include_design: TRUE
+  include_int: TRUE
+  include_participants: TRUE
 header-logo: "`r system.file('ext/ub_Logo_english_2019_RGB_wb.png', package = 'ctucosting')`"
 ---
 
@@ -87,24 +91,25 @@ Sponsor: **`r params$sponsor`**
 
 Responsible: **`r params$contact`**
 
-Study design: **`r params$design`**
+```{r, eval = params$include_design, results='asis', echo = FALSE}
+cat(paste0("Study design: **", params$design, "**\n\n"))
+```
 
-Type of intervention: **`r params$intervention`**
+```{r, eval = params$include_int, results='asis', echo = FALSE}
+cat(paste0("Type of intervention: **", params$intervention, "**\n\n"))
+```
 
-Number of participants: **`r params$n_participants`** from **`r params$n_sites` `r params$location`** site(s) over a study time of **`r params$conduct_time`** years.
+```{r, eval = params$include_participants, results='asis', echo = FALSE}
+cat(paste0("Number of participants: **", params$n_participants, "** from **", 
+    params$n_sites, " ", params$location, "** site(s) over a study time of **", 
+    params$conduct_time, "** years."))
+```
+
 
 ### Tasks for CTU to provide {.unnumbered}
 
-```{r tasks, echo = FALSE, message=FALSE, warning=FALSE, eval = nrow(params$workpackages) > 0}
-library(gt)
-tmp <- params$workpackages %>%
-  select_for_pdf() %>%
-  group_by(Service) %>%
-  mutate(Cost = format(Cost, big.mark = ",", nsmall = 2))
-
-breaks <- as.numeric(params$break_tasks)
-n_breaks <- length(breaks)
-breaks_tf <- n_breaks > 0
+```{r, echo = FALSE, message=FALSE, warning=FALSE}
+breaks_tf <- n_breaks <- FALSE
 
 gt_fn <- function(x){
   gt::gt(x) %>%
@@ -125,10 +130,24 @@ gt_widths <- function(x){
                    Cost ~ "10%",
     )
 }
+```
+
+
+```{r tasks, echo = FALSE, message=FALSE, warning=FALSE, eval = nrow(params$workpackages) > 0}
+library(gt)
+tmp <- params$workpackages %>%
+  select_for_pdf() %>%
+  group_by(Service) %>%
+  mutate(Cost = format(Cost, big.mark = ",", nsmall = 2))
+
+breaks <- as.numeric(params$break_tasks)
+n_breaks <- length(breaks)
+breaks_tf <- n_breaks > 0
+
 
 ```
 
-```{r tasks0, echo = FALSE, eval = !breaks_tf, message=FALSE, warning=FALSE}
+```{r tasks0, echo = FALSE, eval =  nrow(params$workpackages) > 0 & !breaks_tf, message=FALSE, warning=FALSE}
 ## no breaks
 tmp %>%
   gt_fn() |>
@@ -158,10 +177,25 @@ cat(unlist(res), sep = "\n\n\\pagebreak\n\n")
 
 ```
 
+```{r breakftes, echo = FALSE, results='asis', eval=params$break_ftes}
+  cat("\\newpage")
+  cat("\n\n")
+```
+
+```{r ftes_title, echo = FALSE, eval = params$fte$fte, results='asis'}
+cat("### Full time equivalents {.unnumbered}\n\n")
+
+cat(paste0("Position title: **", params$fte$role, "**"))
+```
 
 ```{r ftes, echo = FALSE, eval = params$fte$fte}
-cat("Full time equivalents\n\n")
-gt_fn(params$fte$costs)
+params$fte$costs |> 
+  rename(Description = desc, 
+         FTE = prop, 
+         `Number of years` = units, 
+         Cost = cost) |> 
+  mutate(Cost = format(Cost, big.mark = ",", nsmall = 2)) |> 
+  gt_fn()
 ```
 
 ```{r expenses, echo = FALSE, eval = !is.null(params$expenses)}
@@ -198,10 +232,10 @@ if(length(notes) > 0 && !is.na(notes) && notes != "NA"){
 
 This offer is valid for two months.
 
-For questions regarding the costing, please contact your CTU consultant or [info.ctu\@unibe.ch](mailto:info.ctu@unibe.ch){.email}.
+For questions regarding the costing, please contact your CTU consultant or [ctu-info.dcr\@unibe.ch](mailto:ctu-info.dcr@unibe.ch){.email}.
 
 ```{r, echo = FALSE, results='asis'}
-if(!params$internal) cat("Please consider that this cost estimate does not include VAT (7.7%).")
+if(!params$internal) cat("Please consider that this cost estimate does not include VAT (8.1%) that might incur.")
 ```
 
 The proposed hours may vary depending on the complexity of the trial. 

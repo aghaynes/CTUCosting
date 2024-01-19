@@ -51,12 +51,16 @@ gen_pdf <- function(output,
                       total = inputs$total,
                       discount = inputs$summ_discount,
                       notes = inputs$notes,
+                      break_ftes = inputs$break_ftes,
                       break_totals = inputs$break_totals,
                       break_tasks = inputs$break_tasks,
                       break_notes = inputs$break_notes,
                       first_page_text = inputs$costing_txt,
                       initcosting = inputs$initcosting,
-                      fte = inputs$fte
+                      fte = inputs$fte,
+                      include_design = inputs$include_design,
+                      include_int = inputs$include_int,
+                      include_participants = inputs$include_participants
                       ),
                     clean = FALSE
                     )

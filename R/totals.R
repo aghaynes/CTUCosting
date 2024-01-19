@@ -29,20 +29,21 @@ totals <- function(workpackages, expenses, discount, overhead, internal, fte, dl
       bind_rows(
         tibble::tribble(
           ~Description, ~`Cost (CHF)`,
-          "Work packages", sum(workpackages$Cost),
+          "Tasks billed by the hour", sum(workpackages$Cost),
           paste0("Discount due to number of hours (", discount$discount_perc, "%)"), -sum(discount$discount_amount),
           "Internal project management (10%)", overhead$pm,
         )
       )
   }
 
-  if(nrow(expenses) > 0){
-    print("totals(): expenses loop")
+  if(!internal){
+    print("totals(): internal loop")
+
     total <- total |>
       bind_rows(
         tibble::tribble(
           ~Description, ~`Cost (CHF)`,
-          "Expenses", sum(expenses$Amount),
+          "University overhead (10%)", overhead$overhead
         )
       )
   }
@@ -60,15 +61,13 @@ totals <- function(workpackages, expenses, discount, overhead, internal, fte, dl
 
   }
 
-
-  if(!internal){
-    print("totals(): internal loop")
-
+  if(nrow(expenses) > 0){
+    print("totals(): expenses loop")
     total <- total |>
       bind_rows(
         tibble::tribble(
           ~Description, ~`Cost (CHF)`,
-          "University overhead (10%)", overhead$overhead
+          "Expenses", sum(expenses$Amount),
         )
       )
   }
