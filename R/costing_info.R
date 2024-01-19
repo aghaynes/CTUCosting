@@ -102,7 +102,8 @@ costing_info <- function(data, metadata){
       intervention =          fn(metadata, data, "int_type"),
       internal =              data$sponsor_insel == 1,
       discount_db =           ifelse(initcosting, data$discount, data$discount2),
-      costing_txt =           ifelse(initcosting, data$costing_txt_init, data$costing_txt_amend)
+      costing_txt =           ifelse(initcosting, data$costing_txt_init, data$costing_txt_amend),
+      complexity =            fn(metadata, data, "study_complexity")
     )
   )
 
