@@ -33,7 +33,7 @@ get_ftes <- function(d, meta){
     long <- tibble::tribble(
       ~desc, ~prop, ~units, ~cost,
     )
-    division <- NA
+    div <- NA
     role <- NA
   }
 
@@ -44,7 +44,7 @@ get_ftes <- function(d, meta){
     list(
       fte = fte,
       costs = long,
-      division = div,
+      div = div,
       role = role
     ))
 
