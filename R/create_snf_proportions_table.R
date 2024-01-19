@@ -1,4 +1,3 @@
-
 #' create SNF table for entering proportions of hours per year
 #' @export
 #' @param wp workpackage data

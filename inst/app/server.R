@@ -424,15 +424,22 @@ function(input, output, session){
   )
 
   # SNF format ----
-  ## init table
-  snf_table <- reactiveValues(data = NULL)
+  ## init tables (these store the data to be used elsewhere) ----
+  snf_table <- reactiveValues(data = NULL,
+                              expenses = NULL)
   observe({
     req(record_tasks_exist())
     snf_table$data <- create_snf_proportions_table(selected_workpackages(), info()$duration)
   })
-  ## edit table
+  observe({
+    req(record_tasks_exist())
+    snf_table$expenses <- create_snf_expense_proportions_table(selected_expenses(), info()$duration)
+  })
+  ## work packages ----
+  # update the snf_table object when the table is edited
   observeEvent(input$snf_proportions_cell_edit, {
-    print("updating proportions table")
+    print("updating cost proportions table")
+    # print(snf_table$data)
     info <- input$snf_proportions_cell_edit
     i <- info$row
     j <- info$col
@@ -441,7 +448,7 @@ function(input, output, session){
     # update rowsums?
     snf_table$data[, "Row sum"] <- apply(snf_table$data[, 1:info()$duration], 1, sum)
   })
-
+  # editable proportions table
   output$snf_proportions <- renderDataTable({
     print("snf_proportions")
     snf_table$data |>
@@ -452,16 +459,14 @@ function(input, output, session){
                                                   c("#fc4c4c", "#60fa48", "#fc4c4c")))
     },
     editable = TRUE)
-
-  proxy <- dataTableProxy("snf_proportions")
-
+  # reactive containing the workpackage time/cost distributed through time
   snf_costs <- reactive({
+    print("updating costs")
     # print(snf_table$data)
-
+    # print(snf_table$data |> str())
     snf_cost_table(summ_workpackages(), snf_table$data)
-
   })
-
+  # print the table
   output$snf_cost <- renderDataTable({
     # print(snf_costs())
     snf_costs()$shiny |>
@@ -469,28 +474,75 @@ function(input, output, session){
                 escape = FALSE)
     })
 
-  output$snf_tab <- renderUI({
+  ## expenses ----
+  # update the snf_table object when the table is edited
+  observeEvent(input$snf_expenses_proportions_cell_edit, {
+    print("updating expenses proportions table")
+    # print(snf_table$expenses)
+    info <- input$snf_expenses_proportions_cell_edit
+    i <- info$row
+    j <- info$col
+    v <- info$value
+    print(v)
+    print(snf_table$expenses[i, j])
+    snf_table$expenses[i, j] <- isolate(coerceValue(v, snf_table$expenses[i, j]))
+    print("value set")
+    # update rowsums?
+    snf_table$expenses[, "Row sum"] <- apply(snf_table$expenses[, 1:info()$duration], 1, sum)
+  })
+  # editable proportions table
+  output$snf_expenses_proportions <- renderDataTable({
+    print("snf_expenses_proportions")
+    snf_table$expenses |>
+      datatable(editable = TRUE,
+                options = list(paging = FALSE)) |>
+      formatStyle("Row sum",
+                  backgroundColor = styleInterval(c(0.999, 1.001),
+                                                  c("#fc4c4c", "#60fa48", "#fc4c4c")))
+    },
+    editable = TRUE)
+  # reactive containing the expenses distributed through time
+  snf_expenses <- reactive({
+    print("updating expenses")
+    # print(snf_table$expenses)
+    # print(snf_table$expenses |> str())
+    snf_expenses_cost_table(selected_expenses(), snf_table$expenses)
+  })
+  # print the table
+  output$snf_expense <- renderDataTable({
+    print("snf_expense")
+    snf_expenses()$shiny |>
+      datatable(options = list(paging = FALSE),
+                escape = FALSE)
+    })
+
+  ## UI ----
+  output$snf_ui <- renderUI({
     req(record_tasks_exist())
 
     accordion(
       open = TRUE,
       accordion_panel(
-        "Proportion of hours per year",
+        "Distribute working time across the project time",
         "Enter proportion of hours expected for each year and each work package.",
         "Click the yearly values and enter a value below 0 and 1. Each row should sum to 1. The right hand column will turn green when it does.",
         dataTableOutput("snf_proportions"),
+        "Those proportions equate to the following amounts per year:",
+        dataTableOutput("snf_cost"),
         width = 12
       ),
       accordion_panel(
-        "SNF costs",
-        dataTableOutput("snf_cost"),
+        "Distribute expenses across the project time",
+        dataTableOutput("snf_expenses_proportions"),
+        "Those proportions equate to the following amounts per year:",
+        dataTableOutput("snf_expense"),
         width = 12
       ),
       accordion_panel(
         "Download SNF style budget",
         "The excel file returned here is to be provided to the sponsor for submission to the SNF.",
         "Please make sure to open the file and click 'enable editing', so that Excel can evaluate the formulae.",
-        downloadButton("snf_excel", "Download SNF style budget"),
+        downloadButton("snf_excel", "Download SNF style budget")
       )
       )
 
@@ -585,6 +637,7 @@ function(input, output, session){
 
       output <- snf_iict_yearly_budget(
         hours = snf_costs()$hours,
+        expenses = snf_expenses()$cost,
         info = info(),
         debug = TRUE
       )

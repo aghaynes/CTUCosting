@@ -28,7 +28,7 @@
 #' @importFrom openxlsx loadWorkbook writeData saveWorkbook
 #' @importFrom purrr walk
 #' @export
-snf_iict_yearly_budget <- function(hours, info, debug = FALSE){
+snf_iict_yearly_budget <- function(hours, expenses, info, debug = FALSE){
 
   # excel file to use
 
@@ -104,7 +104,21 @@ snf_iict_yearly_budget <- function(hours, info, debug = FALSE){
               }, hoursrow = hoursrow)
          })
 
-
+  # add expenses ----
+  print("SNF budget: expenses")
+  # expenses total only!
+  print(expenses)
+  if(!is.na(expenses)){
+    walk(1:ncol(expenses),
+         function(column){
+           value <- expenses[nrow(expenses), column]
+           writeData(wb, sheet = "Budget",
+                     x = value,
+                     startRow = 113,
+                     startCol = column + 3)
+         }
+    )
+  }
   # save workbook
   if(debug) print("SNF budget: saving")
   saveWorkbook(wb, file.path(tmpdir, filename), overwrite = TRUE)

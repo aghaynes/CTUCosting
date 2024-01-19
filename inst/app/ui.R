@@ -33,7 +33,7 @@ page_navbar(
 
   # SNF costings
   nav_panel("SNF costings",
-            uiOutput("snf_tab")),
+            uiOutput("snf_ui")),
 
   # instruction pane
   nav_panel(
