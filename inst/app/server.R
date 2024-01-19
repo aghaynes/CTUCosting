@@ -432,6 +432,7 @@ function(input, output, session){
   })
   ## edit table
   observeEvent(input$snf_proportions_cell_edit, {
+    print("updating proportions table")
     info <- input$snf_proportions_cell_edit
     i <- info$row
     j <- info$col
@@ -441,13 +442,15 @@ function(input, output, session){
     snf_table$data[, "Row sum"] <- apply(snf_table$data[, 1:info()$duration], 1, sum)
   })
 
-  output$snf_proportions <- renderDataTable(
+  output$snf_proportions <- renderDataTable({
+    print("snf_proportions")
     snf_table$data |>
       datatable(editable = TRUE,
                 options = list(paging = FALSE)) |>
       formatStyle("Row sum",
                   backgroundColor = styleInterval(c(0.999, 1.001),
-                                                  c("#fc4c4c", "#60fa48", "#fc4c4c"))),
+                                                  c("#fc4c4c", "#60fa48", "#fc4c4c")))
+    },
     editable = TRUE)
 
   proxy <- dataTableProxy("snf_proportions")
@@ -455,36 +458,45 @@ function(input, output, session){
   snf_costs <- reactive({
     # print(snf_table$data)
 
-    snf_cost_table(selected_workpackages(), snf_table$data)
+    snf_cost_table(summ_workpackages(), snf_table$data)
 
   })
 
   output$snf_cost <- renderDataTable({
     # print(snf_costs())
-    snf_costs() |>
+    snf_costs()$shiny |>
       datatable(options = list(paging = FALSE),
                 escape = FALSE)
     })
 
   output$snf_tab <- renderUI({
     req(record_tasks_exist())
-    if(input$costing_type == "SNF"){
-      fluidRow(
-        box(title = "Proportion of hours per year",
-            "Enter proportion of hours expected for each year and each work package.",
-            "Click the yearly values and enter a value below 0 and 1. Each row should sum to 1. The right hand column will turn green when it does.",
-            dataTableOutput("snf_proportions"),
-            width = 12),
-        box(title = "SNF costs",
-            dataTableOutput("snf_cost"),
-            width = 12)
+
+    accordion(
+      open = TRUE,
+      accordion_panel(
+        "Proportion of hours per year",
+        "Enter proportion of hours expected for each year and each work package.",
+        "Click the yearly values and enter a value below 0 and 1. Each row should sum to 1. The right hand column will turn green when it does.",
+        dataTableOutput("snf_proportions"),
+        width = 12
+      ),
+      accordion_panel(
+        "SNF costs",
+        dataTableOutput("snf_cost"),
+        width = 12
+      ),
+      accordion_panel(
+        "Download SNF style budget",
+        "The excel file returned here is to be provided to the sponsor for submission to the SNF.",
+        "Please make sure to open the file and click 'enable editing', so that Excel can evaluate the formulae.",
+        downloadButton("snf_excel", "Download SNF style budget"),
       )
-    }
+      )
+
   })
 
   # pass snf_cost into pdf function, together with input$costing_type
-
-  print(getwd())
 
   # downloads ----
   ## PDF
@@ -561,6 +573,24 @@ function(input, output, session){
       writexl::write_xlsx(dfs, file)
 
       # remove_modal_spinner()
+    }
+  )
+
+  output$snf_excel <- downloadHandler(
+    filename = function(cons_num = info()$consultingnum,
+                        studyname = info()$acronym){
+      paste0("SNF_Costing_", cons_num, "_", studyname, "_", Sys.Date(), ".xlsx")
+    },
+    content = function(file){
+
+      output <- snf_iict_yearly_budget(
+        hours = snf_costs()$hours,
+        info = info(),
+        debug = TRUE
+      )
+
+      file.copy(output, file)
+
     }
   )
 
