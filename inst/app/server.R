@@ -8,21 +8,21 @@ library(shinybusy)
 library(shinyalert)
 
 options(shiny.reactlog=TRUE)
-try(sink())
-try(sink())
-tmpfile <- tempfile(fileext = ".txt")
-tmpcon <- file(tmpfile, open = "wt")
-sink(tmpcon, append = TRUE, type = "output")
-sink(tmpcon, append = TRUE, type = "message")
-print(Sys.time())
-print(paste("log file:", tmpfile))
+# try(sink())
+# try(sink())
+# tmpfile <- tempfile(fileext = ".txt")
+# tmpcon <- file(tmpfile, open = "wt")
+# sink(tmpcon, append = TRUE, type = "output")
+# sink(tmpcon, append = TRUE, type = "message")
+# print(Sys.time())
+# print(paste("log file:", tmpfile))
 
 function(input, output, session){
 
-  output$console <- renderPrint({
-    readLines(tmpfile)
-  }) |>
-    bindEvent(input$updateLog)
+  # output$console <- renderPrint({
+  #   readLines(tmpfile)
+  # }) |>
+  #   bindEvent(input$updateLog)
 
   # check valid record and costing
   record_ok <- reactive(
