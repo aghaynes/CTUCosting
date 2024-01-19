@@ -4,14 +4,14 @@
 \alias{snf_iict_yearly_budget}
 \title{Fill out the SNF IICT budget file, distributing hours over years}
 \usage{
-snf_iict_yearly_budget(hours, info, output)
+snf_iict_yearly_budget(hours, expenses, info, debug = FALSE)
 }
 \arguments{
 \item{hours}{A data frame with the hours per year (result from snf_cost_table)}
 
 \item{info}{A list with the project information}
 
-\item{rates}{A data frame with the rates}
+\item{debug}{return extra logging information for debugging}
 }
 \description{
 SNF has a specific budget form for IICT budgets.

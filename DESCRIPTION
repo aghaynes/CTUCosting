@@ -1,7 +1,7 @@
 Package: CTUCosting
 Type: Package
 Title: Machinery for CTU costings
-Version: 0.3.5
+Version: 0.3.6
 Authors@R:
     c(
     person(given = "Alan G.", family = "Haynes", role = "cre",
@@ -21,7 +21,9 @@ Imports:
     glue,
     gt,
     magrittr,
+    openxlsx,
     pagedown,
+    purrr,
     readxl,
     redcaptools,
     shiny,
