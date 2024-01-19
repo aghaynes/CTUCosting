@@ -1,6 +1,6 @@
 #' create SNF table for entering proportions of hours per year
 #' @export
-#' @param wp workpackage data
+#' @param expenses expenses data
 #' @param years number of years
 
 create_snf_expense_proportions_table <- function(expenses, years){

@@ -7,9 +7,9 @@
 snf_expenses_cost_table(expenses, proportions)
 }
 \arguments{
-\item{proportions}{the matrix of proportions of hours per year per workpackage}
+\item{expenses}{typically the output from selected_expenses}
 
-\item{workpackages}{typically the output from selected_workpackages}
+\item{proportions}{the matrix of proportions of hours per year per workpackage}
 }
 \description{
 function to convert from total costs per workpackage to cost per year per workpackage

@@ -23,6 +23,7 @@
 #' SNF has a specific budget form for IICT budgets.
 #'
 #' @param hours A data frame with the hours per year (result from snf_cost_table)
+#' @param expenses A data frame with the expenses per year (result from snf_expenses_cost_table)
 #' @param info A list with the project information
 #' @param debug return extra logging information for debugging
 #' @importFrom openxlsx loadWorkbook writeData saveWorkbook

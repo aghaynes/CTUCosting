@@ -9,6 +9,8 @@ snf_iict_yearly_budget(hours, expenses, info, debug = FALSE)
 \arguments{
 \item{hours}{A data frame with the hours per year (result from snf_cost_table)}
 
+\item{expenses}{A data frame with the expenses per year (result from snf_expenses_cost_table)}
+
 \item{info}{A list with the project information}
 
 \item{debug}{return extra logging information for debugging}

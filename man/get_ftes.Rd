@@ -6,6 +6,11 @@
 \usage{
 get_ftes(d, meta)
 }
+\arguments{
+\item{d}{downloaded data}
+
+\item{meta}{metadata}
+}
 \description{
 Extract FTE data from downloaded data
 }

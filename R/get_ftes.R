@@ -1,5 +1,6 @@
 #' Extract FTE data from downloaded data
-#'
+#' @param d downloaded data
+#' @param meta metadata
 #' @importFrom dplyr join_by
 #' @export
 

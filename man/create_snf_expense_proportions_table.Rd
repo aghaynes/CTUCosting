@@ -7,9 +7,9 @@
 create_snf_expense_proportions_table(expenses, years)
 }
 \arguments{
-\item{years}{number of years}
+\item{expenses}{expenses data}
 
-\item{wp}{workpackage data}
+\item{years}{number of years}
 }
 \description{
 create SNF table for entering proportions of hours per year

@@ -1,5 +1,5 @@
 #' function to convert from total costs per workpackage to cost per year per workpackage
-#' @param workpackages typically the output from selected_workpackages
+#' @param expenses typically the output from selected_expenses
 #' @param proportions  the matrix of proportions of hours per year per workpackage
 #' @importFrom dplyr across mutate group_by left_join starts_with
 #' @export
