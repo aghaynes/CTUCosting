@@ -13,7 +13,9 @@ create_snf_proportions_table <- function(wp, years){
                 mutate(wp = sprintf("%05.1f", wp)), by = "wp") |>
     summarize(.by = snf_section,
               Hours = sum(Hours),
-              Cost = sum(Cost))
+              Cost = sum(Cost),
+              snf_section_start = first(snf_section_start)) |>
+    arrange(snf_section_start)
 
     nrow <- length(wp$snf_section)
     ncol <- years + 1

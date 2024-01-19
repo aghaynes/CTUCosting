@@ -8,9 +8,12 @@ snf_cost_table <- function(workpackages, proportions){
 
   summ <- workpackages |>
     left_join(snf_division_lkup |>
-                mutate(wp = sprintf("%05.1f", wp)), by = "wp") |>
+                mutate(wp = sprintf("%05.1f", wp)), by = "wp") |> #View()
     group_by(snf_section) |>
-    collapse::fsummarize(across(c(Hours, Cost), sum))
+    # select(Hours, Cost, snf_section) |>
+    summarize(across(c(Hours, Cost), sum),
+              snf_section_start = first(snf_section_start)) |>
+    arrange(snf_section_start)
 
   # print(summ)
 
@@ -30,9 +33,14 @@ snf_cost_table <- function(workpackages, proportions){
   }) |>
     as.data.frame() |>
     magrittr::set_names(names(hours)) |>
-    magrittr::set_rownames(row.names(hours))
+    magrittr::set_rownames(summ$snf_section)
 
-  return(tmp)
+  cost$row <- summ$snf_section_start + 1
+  hours$row <- summ$snf_section_start
+
+  return(list(shiny = tmp,
+              hours = hours,
+              cost = cost))
 
 }
 
