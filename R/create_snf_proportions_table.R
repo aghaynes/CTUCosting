@@ -2,6 +2,7 @@
 #' @export
 #' @param wp workpackage data
 #' @param years number of years
+#' @importFrom dplyr arrange first
 
 create_snf_proportions_table <- function(wp, years){
 
