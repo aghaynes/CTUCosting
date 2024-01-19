@@ -85,21 +85,6 @@ snf_iict_yearly_budget <- function(hours, info, debug = FALSE){
             x = info$complexity,
             startRow = 12, startCol = 2)
 
-  # # add 0s ----
-  # if(debug) print("SNF budget: zeros")
-  # time_rows <- c(21, 23, 27, 29, 33, 35, 37, 39, 41, 43, 47, 49, 51,
-  #   53, 57, 59, 61, 63, 67, 69, 71, 73, 77, 79, 81, 83,
-  #   87, 89, 91, 93, 95, 97, 101, 103, 105, 107, 109, 111)
-  # empty_time_rows <- time_rows[!time_rows %in% hours$row]
-  # walk(time_rows, function(row){
-  #   walk(1:(ncol(hours))-1, function(col, row){
-  #     writeData(wb, sheet = "Budget",
-  #               x = 0,
-  #               startRow = row,
-  #               startCol = col + 3)
-  #   }, row = row)
-  # })
-
   # add hours ---
   print("SNF budget: hours")
   walk(seq_along(rownames(hours)),
@@ -119,50 +104,6 @@ snf_iict_yearly_budget <- function(hours, info, debug = FALSE){
               }, hoursrow = hoursrow)
          })
 
-  # add rates ----
-  # if(debug) print("SNF budget: rates")
-  # ## CSM and Regulatory affairs (= CSM)
-  # walk(c(22, 24, 28, 30), function(row){
-  #   writeData(wb, sheet = "Budget",
-  #             x = info$rate_csm,
-  #             startRow = row,
-  #             startCol = 2)
-  # })
-  # ## data management
-  # walk(c(34, 36, 38, 40, 42, 44), function(row){
-  #   writeData(wb, sheet = "Budget",
-  #             x = info$rate_dm,
-  #             startRow = row,
-  #             startCol = 2)
-  # })
-  # ## monitoring
-  # walk(c(48, 50, 52, 54, 58, 60, 62, 64), function(row){
-  #   writeData(wb, sheet = "Budget",
-  #             x = info$rate_mon,
-  #             startRow = row,
-  #             startCol = 2)
-  # })
-  # ## QM/QA
-  # walk(c(68, 70, 72, 74), function(row){
-  #   writeData(wb, sheet = "Budget",
-  #             x = info$rate_qm,
-  #             startRow = row,
-  #             startCol = 2)
-  # })
-  # ## stats
-  # walk(c(88, 90, 92, 94, 96, 98), function(row){
-  #   writeData(wb, sheet = "Budget",
-  #             x = info$rate_qm,
-  #             startRow = row,
-  #             startCol = 2)
-  # })
-  # ## services we dont provide - safety event management, study personnel
-  # walk(c(78, 80, 82, 84, 102, 104, 106, 108, 110, 112), function(row){
-  #   writeData(wb, sheet = "Budget",
-  #             x = 0,
-  #             startRow = row,
-  #             startCol = 2)
-  # })
 
   # save workbook
   if(debug) print("SNF budget: saving")
