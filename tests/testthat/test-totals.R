@@ -61,7 +61,7 @@ test_that("external totals", {
   expect_equal(nrow(tot3), 6)
   expect_equal(unlist(tot3[2,2]), "  -90.00", ignore_attr = TRUE)
   expect_equal(unlist(tot3[6,2]), "5,710.00", ignore_attr = TRUE)
-  expect_equal(unlist(tot3[5,2]), unlist(tot3[3,2]), ignore_attr = TRUE)
+  expect_equal(unlist(tot3[4,2]), unlist(tot3[3,2]), ignore_attr = TRUE)
   expect_true("Internal project management (10%)" %in% tot3$Description)
   expect_true("University overhead (10%)" %in% tot3$Description)
 
@@ -75,7 +75,7 @@ test_that("external totals", {
   expect_equal(nrow(tot4), 6)
   expect_equal(unlist(tot4[2,2]), " -150.00", ignore_attr = TRUE)
   expect_equal(unlist(tot4[6,2]), "5,650.00", ignore_attr = TRUE)
-  expect_equal(unlist(tot4[5,2]), unlist(tot4[3,2]), ignore_attr = TRUE)
+  expect_equal(unlist(tot4[4,2]), unlist(tot4[3,2]), ignore_attr = TRUE)
   expect_true("Internal project management (10%)" %in% tot4$Description)
   expect_true("University overhead (10%)" %in% tot4$Description)
 
@@ -92,7 +92,7 @@ test_that("fte totals", {
   expect_equal(nrow(tot3), 7)
   expect_equal(unlist(tot3[2,2]), "  -90.00", ignore_attr = TRUE)
   expect_equal(unlist(tot3[7,2]), "5,810.00", ignore_attr = TRUE)
-  expect_equal(unlist(tot3[5,2]), unlist(tot3[3,2]), ignore_attr = TRUE)
+  expect_equal(unlist(tot3[4,2]), unlist(tot3[3,2]), ignore_attr = TRUE)
   expect_true("Internal project management (10%)" %in% tot3$Description)
   expect_true("University overhead (10%)" %in% tot3$Description)
 
@@ -106,7 +106,7 @@ test_that("fte totals", {
   expect_equal(nrow(tot4), 6)
   expect_equal(unlist(tot4[2,2]), " -150.00", ignore_attr = TRUE)
   expect_equal(unlist(tot4[6,2]), "5,350.00", ignore_attr = TRUE)
-  expect_equal(unlist(tot4[5,2]), "  100.00", ignore_attr = TRUE)
+  expect_equal(unlist(tot4[4,2]), "  100.00", ignore_attr = TRUE)
   expect_true("Internal project management (10%)" %in% tot4$Description)
   expect_true(!"University overhead (10%)" %in% tot4$Description)
   expect_true("FTE costs" %in% tot4$Description)
