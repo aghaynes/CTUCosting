@@ -1,5 +1,3 @@
-
-
 #' Calculate discount for project
 #'
 #' @importFrom vctrs vec_cast
