@@ -11,7 +11,7 @@ rs,20.3,Submission to other authorities,Regulatory affairs,27
 csm,30.1,Study set-up,Project management,21
 csm,30.2,Study conduct,Project management,21
 csm,30.3,Study completion,Project management,21
-csm,30.5,Clinical Study Management: Research Assistant,NOT INCLUDED - RA,
+csm,30.5,Clinical Study Management: Research Assistant,Project management,21
 dm,40.1,Database Set-up,Data management: eCRF/project database and additional database(s) development & implementation ,33
 dm,40.2,Database Maintenance,"Data management: User management, maintenance including amendments, regular reports (interim and final), data exports",37
 dm,40.3,Database Locking and Archiving,Data management: Closure and archiving,41
@@ -22,14 +22,14 @@ dml,45.3,Database Locking and Archiving,Data management: Closure and archiving,4
 dmf,50.1,Database Set-up,Data management: eCRF/project database and additional database(s) development & implementation ,33
 dmf,50.2,Database Maintenance,"Data management: User management, maintenance including amendments, regular reports (interim and final), data exports",37
 dmf,50.3,Database Locking and Archiving,Data management: Closure and archiving,41
-dmf,50.4,Datamanagement Research Assistant,NOT INCLUDED - RA,
+dmf,50.4,Datamanagement Research Assistant,"Data management: User management, maintenance including amendments, regular reports (interim and final), data exports",37
 dm,55,Data Management 2mt Service,Other costs,113
 dm,60.1,Study Website Development,Other costs,113
 dm,60.2,Study Website Maintenance,Other costs,113
 dm,60.3,Study Website Webhosting and domain,Other costs,113
 dm,70.1,Cloud Development,Other costs,113
 dm,70.2,Cloud Maintenance,Other costs,113
-dm,70.3,Cloud maintenance (Research Assistant),NOT INCLUDED - RA,
+dm,70.3,Cloud maintenance (Research Assistant),"Data management: User management, maintenance including amendments, regular reports (interim and final), data exports",37
 dm,70.4,Cloud: Hosting & Maintenance (price per year),Other costs,113
 dm,70.5,Cloud Storage,Other costs,113
 sta,80.1,Study Planning,"Statistics: Planning, Statistical Analysis Plan ",87
@@ -38,8 +38,8 @@ sta,80.3,Regular Reporting,"Statistics: Conduct, regular reports",91
 sta,80.4,Statistics Expenses,Other costs,113
 cdm,90.1,Central Data Monitoring Planning,Central Data Monitoring: Planning,57
 cdm,90.2,Central Data Monitoring Conduct,Central Data Monitoring: Conduct including reports,61
-cdm,90.3,Central Data Monitoring Planning (Research Assistant),NOT INCLUDED - RA,
-cdm,90.4,Central Data Monitoring Conduct (Research Assistant),NOT INCLUDED - RA,
+cdm,90.3,Central Data Monitoring Planning (Research Assistant),Central Data Monitoring: Planning,57
+cdm,90.4,Central Data Monitoring Conduct (Research Assistant),Central Data Monitoring: Conduct including reports,61
 mon,100.1,On-Site Monitoring Planning,On-site monitoring: Planning,47
 mon,100.2,On-Site Monitoring Conduct,"On-site monitoring: Conduct of visits, including preparation and reports and follow-up (if applicable)",51
 mon,100.4,On-Site Monitoring Expenses,Other costs,113
@@ -50,11 +50,11 @@ ci,110.4,CI Clinical Investigation Expenses,NOT INCLUDED - CI,
 ci,110.5,CI Fix price per year,NOT INCLUDED - CI,
 ci,110.6,CI Room rental,NOT INCLUDED - CI,
 ci,110.7,CI Patient x,NOT INCLUDED - CI,
-qm,120.1,QMS Support,NOT INCLUDED - QM,
-qm,120.1,QM QMS Support,NOT INCLUDED - QM,
-qm,120.2,Inspection Support,NOT INCLUDED - QM,
-qm,120.2,QM Inspection Support,NOT INCLUDED - QM,
-qm,120.9,QM Other,NOT INCLUDED - QM,
+qm,120.1,QMS Support,Quality management and quality assurance: General,67
+qm,120.1,QM QMS Support,Quality management and quality assurance: General,67
+qm,120.2,Inspection Support,Quality management and quality assurance: General,67
+qm,120.2,QM Inspection Support,Quality management and quality assurance: General,67
+qm,120.9,QM Other,Quality management and quality assurance: General,67
 dm,130.1,Database Set-up (2mt)*,Other costs,113
 dm,130.2,Database Maintenance (2mt)*,Other costs,113
 dm,130.3,Database Locking and Archiving (2mt)*,Other costs,113
