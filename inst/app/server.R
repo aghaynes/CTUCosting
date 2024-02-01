@@ -198,7 +198,7 @@ function(input, output, session){
   output$vb_costing_txt <- renderText({
     req(record_meta_exists())
     print(paste("ACRONYM:", info()$acronym))
-    paste0(info()$acronym, "(", info()$study, ")")
+    paste0(info()$acronym, " (", info()$study, ")")
   })
   output$vb_inst_txt <- renderText({
     req(record_meta_exists())
@@ -542,7 +542,7 @@ function(input, output, session){
         "Download SNF style budget",
         "The excel file returned here is to be provided to the sponsor for submission to the SNF.",
         "Please make sure to open the file and click 'enable editing', so that Excel can evaluate the formulae.",
-        downloadButton("snf_excel", "Download SNF style budget")
+        downloadButton("snf_excel", "Download SNF budget")
       )
       )
 
@@ -566,7 +566,7 @@ function(input, output, session){
       inputs$workpackages <- summ_workpackages()
       inputs$summ_discount <- discount()
       inputs$discount <- max(0, try(sum(discount()$discount_amount)), na.rm = TRUE)
-      inputs$expenses <- selected_expenses()
+      inputs$expenses <- selected_expenses() |> select_expenses_for_pdf()
       inputs$total <- total_cost()
       # inputs$cturep <- input$cturep
       inputs$first_page_text <- info()$costing_txt
@@ -607,13 +607,10 @@ function(input, output, session){
     content = function(file){
 
       dfs <- list(
-        info = info() |>
-          as.data.frame() |>
-          mutate(across(everything(), as.character)) |>
-          tidyr::pivot_longer(everything())
-        , workpackages = selected_workpackages()
+        info = info() |> info_to_dataframe()
+        , workpackages = summ_workpackages() |> select_for_admin()
         # , discount <- sum(discount()$discount_amount)
-        , expenses = selected_expenses()
+        , expenses = selected_expenses() |> select_expenses_for_admin()
         , total = total_cost()
       )
 
