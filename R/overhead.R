@@ -1,6 +1,6 @@
 #' calculate overhead from workpackages
 #'
-#' @param workpackages A tibble with the workpackages
+#' @param discount the output from the calc_discount function
 #'
 #' @importFrom dplyr ungroup summarize
 #' @export

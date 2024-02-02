@@ -4,10 +4,10 @@
 \alias{overhead}
 \title{calculate overhead from workpackages}
 \usage{
-overhead(workpackages)
+overhead(discount)
 }
 \arguments{
-\item{workpackages}{A tibble with the workpackages}
+\item{discount}{the output from the calc_discount function}
 }
 \description{
 calculate overhead from workpackages
