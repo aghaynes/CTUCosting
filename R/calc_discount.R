@@ -1,5 +1,3 @@
-
-
 #' Calculate discount for project
 #'
 #' @importFrom vctrs vec_cast
@@ -20,11 +18,16 @@ calc_discount <- function(workpackages, initcosting, discount_db,
     # remove fixed price units
     # filter(!str_detect(Description, "fee")) |> # this is covered by the work packages
     # or based on work packages?
-    filter(!wp %in% c("045.0", "050.0", # DM setup
-                      "045.3", "050.3", # DM lock archive
-                      "060.3" # Website hosting/domain
-                      )) |>
-    mutate(DiscountableHours = Hours * Units)
+    mutate(
+      all_hours = Hours * Units,
+      DiscountableHours = if_else(!wp %in% c("045.0", "050.0", # DM setup
+                                             "045.3", "050.3", # DM lock archive
+                                             "060.3" # Website hosting/domain
+      ), all_hours, 0),
+      DiscountableCost = if_else(!wp %in% c("045.0", "050.0", # DM setup
+                                            "045.3", "050.3", # DM lock archive
+                                            "060.3" # Website hosting/domain
+      ), Cost, 0))
 
   # Discussion with ST, 21.8.2023 - DLF discount no longer available. Discount
   #   through other sources
@@ -54,7 +57,8 @@ calc_discount <- function(workpackages, initcosting, discount_db,
     ungroup()  |>
     summarize(Hours = sum(Hours * Units),
               DiscountableHours = sum(DiscountableHours),
-              Cost = sum(Cost)) |>
+              Cost = sum(Cost),
+              DiscountableCost = sum(DiscountableCost)) |>
     mutate(Service = "CTU",
            Description = "Total",
            discount = as.numeric(
@@ -80,7 +84,7 @@ calc_discount <- function(workpackages, initcosting, discount_db,
   # }
 
   summ_discount |>
-    mutate(discount_amount = Cost * (discount_perc / 100),
+    mutate(discount_amount = DiscountableCost * (discount_perc / 100),
            new_amount = Cost - discount_amount #- dlf
            )
 

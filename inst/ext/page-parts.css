@@ -27,8 +27,8 @@
   padding: 10px;
 }
 p.close {
-  margin-top: 5px;
-  margin-bottom: 0px;
+  margin-top: 0px;
+  margin-bottom: 5px;
 }
 
 h1 {
@@ -41,11 +41,14 @@ h2 {
 
 p {
   font-size: 12px;
+  line-height: 1.5;
 }
 
 body {
   font-family: Arial;
   font-size: 12px;
+  margin-top: 0px;
+  margin-bottom: 0px;
 }
 
 @page {

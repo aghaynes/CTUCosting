@@ -1,6 +1,3 @@
-test_that("multiplication works", {
-  expect_equal(2 * 2, 4)
-})
 
 wp <- tibble::tribble(
   ~wp, ~Hours, ~Cost,
@@ -10,6 +7,9 @@ wp <- tibble::tribble(
   "080.1", 10, 120*10
 )
 
-create_snf_proportions_table(wp, 3)
+d <- create_snf_proportions_table(wp, 3)
 
-
+test_that("create_snf_proportions_table example works", {
+  expect_equal(ncol(d), 4)
+  expect_equal(nrow(d), 3)
+})

@@ -4,7 +4,6 @@
 #' @param data dataset from redcap
 #' @param var the variable of interest
 #'
-#' @return
 #' @export
 specific_option <- function(metadata, data, var){
   field_name <- val <- lab <- NULL

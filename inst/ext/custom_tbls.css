@@ -39,11 +39,12 @@ color: black !important;
 
 .gt_col_heading {
 color: #FFFFF;
-background-color: #FFFFFF;
+background-color: #f2f1f0;
 font-size: 100%;
-font-weight: bold;
+font-weight: bold !important;
 font-family: Arial;
 text-transform: inherit;
+text-align: left !important;
 border-left-style: none;
 border-left-width: 1px;
 border-left-color: #FFFFFF;
@@ -115,8 +116,9 @@ border-left-color: #FFFFFF;
 border-right-style: none;
 border-right-width: 1px;
 border-right-color: #FFFFFF;
-vertical-align: middle;
+vertical-align: top !important;
 overflow-x: hidden;
+text-align: left !important;
 }
 
 .gt_striped {
