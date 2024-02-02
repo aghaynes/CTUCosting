@@ -27,6 +27,7 @@ Imports:
     readxl,
     redcaptools,
     shiny,
+    stringr,
     tibble,
     tidyr,
     vctrs,
