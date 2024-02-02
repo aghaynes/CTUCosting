@@ -1,0 +1,26 @@
+#' convert the info object into the format output to excel for admins
+#' @param info the info object - the output from \code{costing_info()}
+#' @importFrom stringr str_detect
+#' @export
+info_to_dataframe <- function(info){
+
+  tmp <- info |>
+    as.data.frame() |>
+    mutate(across(everything(), as.character)) |>
+    tidyr::pivot_longer(everything())
+
+  # make it wider for easier use by admin
+  srcs <- tmp |>
+    filter(str_detect(name, "_src$")) |>
+    mutate(name = str_remove(name, "_src$")) |>
+    rename(source = value)
+
+  tmp <- tmp |>
+    filter(!str_detect(name, "_src$")) |>
+    left_join(srcs, by = c("name" = "name"))
+
+  return(tmp)
+}
+
+
+
