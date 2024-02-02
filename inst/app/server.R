@@ -402,7 +402,7 @@ function(input, output, session){
     rownames = FALSE,
     server = FALSE
   )
-  overhead_tab <- reactive(overhead(selected_workpackages()))
+  overhead_tab <- reactive(overhead(discount()))
 
   # totals ----
   total_cost <- reactive({
