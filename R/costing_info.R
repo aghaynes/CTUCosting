@@ -69,15 +69,18 @@ costing_info <- function(data, metadata){
       initcosting =           initcosting,
       init_or_amendment_txt = init_or_amendment_txt,
       snf =                   data$rate == 4,
-      ratelab =               rateopts$label[data$rate],
-      dlf =                   dlf,
+      # dlf =                   dlf,
       # signatories
       sponsor =               inst,
-      contact =               data$sponsor,
+      sponsor_responsible =   data$sponsor,
       sign =                  sign,
+      # rate
+      ratelab =               rateopts$label[data$rate],
+      internal =              data$sponsor_insel == 1,
       # design
       design =                fn(metadata, data, "study_design"),
       design_src =            fn(metadata, data, "study_design_src"),
+      complexity =            fn(metadata, data, "study_complexity"),
       # durations
       duration =              data$study_duration,
       duration_src =          fn(metadata, data, "study_duration_src"),
@@ -98,12 +101,10 @@ costing_info <- function(data, metadata){
       n_vars_src =            fn(metadata, data, "n_vars_src"),
       n_database =            data$n_db,
       n_database_src =        fn(metadata, data, "n_db_src"),
-
+      # other
       intervention =          fn(metadata, data, "int_type"),
-      internal =              data$sponsor_insel == 1,
       discount_db =           ifelse(initcosting, data$discount, data$discount2),
-      costing_txt =           ifelse(initcosting, data$costing_txt_init, data$costing_txt_amend),
-      complexity =            fn(metadata, data, "study_complexity")
+      costing_txt =           ifelse(initcosting, data$costing_txt_init, data$costing_txt_amend)
     )
   )
 

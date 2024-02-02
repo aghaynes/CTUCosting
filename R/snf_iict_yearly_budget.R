@@ -47,7 +47,7 @@ snf_iict_yearly_budget <- function(hours, expenses, info, debug = FALSE){
             startRow = 3, startCol = 2)
   # contact
   writeData(wb, sheet = "Budget",
-            x = info$contact,
+            x = info$sponsor_responsible,
             startRow = 4, startCol = 2)
   # type of intervention
   int <- case_when(info$intervention == "Medicinal product" ~ "pharmaceutical",
