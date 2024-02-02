@@ -1,6 +1,6 @@
 #' convert the info object into the format output to excel for admins
 #' @param info the info object - the output from \code{costing_info()}
-#' @importFrom stringr str_detect
+#' @importFrom stringr str_detect str_remove
 #' @export
 info_to_dataframe <- function(info){
 
