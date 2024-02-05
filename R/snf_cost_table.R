@@ -4,7 +4,7 @@
 #' @importFrom dplyr across mutate group_by left_join starts_with
 #' @export
 snf_cost_table <- function(workpackages, proportions){
-  wp <- snf_section <- Hours <- Cost <- NULL
+  wp <- snf_section <- Hours <- Cost <- snf_section_start <- NULL
 
   summ <- workpackages |>
     left_join(snf_division_lkup |>

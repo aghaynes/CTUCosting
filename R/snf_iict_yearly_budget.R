@@ -28,6 +28,7 @@
 #' @param debug return extra logging information for debugging
 #' @importFrom openxlsx loadWorkbook writeData saveWorkbook
 #' @importFrom purrr walk
+#' @importFrom dplyr case_when
 #' @export
 snf_iict_yearly_budget <- function(hours, expenses, info, debug = FALSE){
 

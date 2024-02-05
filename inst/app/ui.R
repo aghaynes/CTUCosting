@@ -147,6 +147,8 @@ page_navbar(
     checkboxInput("break_ftes", "Insert page break before FTEs section?"),
     checkboxInput("break_totals", "Insert page break before totals section?"),
     checkboxInput("break_notes", "Insert page break before notes section?"),
+    div(style = "font-size:6pt;",
+        textOutput("pkgVersion")),
 
   )
 
