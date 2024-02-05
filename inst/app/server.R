@@ -24,6 +24,11 @@ function(input, output, session){
   # }) |>
   #   bindEvent(input$updateLog)
 
+  output$pkgVersion <- paste("Package version:",
+                             packageVersion("CTUCosting") |>
+                               as.character()) |>
+    renderText()
+
   # check valid record and costing
   record_ok <- reactive(
     record_costing_exists(record = input$record_id,
