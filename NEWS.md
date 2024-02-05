@@ -2,6 +2,7 @@
 
 * Setting Urs as clinic head was premature. Reset to Claudio.
 * Minor internal documentation changes to pass `R CMD CHECK`.
+* Add UNIBE favicon
 
 # CTUCosting 0.4.1
 
