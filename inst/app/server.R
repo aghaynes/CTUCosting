@@ -579,6 +579,7 @@ function(input, output, session){
       inputs$break_ftes <- input$break_ftes
       inputs$break_totals <- input$break_totals
       inputs$break_notes <- input$break_notes
+      inputs$break_projinfo <- input$break_projinfo
       # print(concat_notes(notes()))
       print("fte input")
       inputs$fte <- fte()

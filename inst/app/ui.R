@@ -144,6 +144,8 @@ page_navbar(
               placeholder = "e.g. 3,5"),
     div(style = "font-size:10pt;",
         "Other page breaks might also be desirable:"),
+    checkboxInput("break_projinfo", "Insert page break before 'general project information' section?",
+                  value = TRUE),
     checkboxInput("break_ftes", "Insert page break before FTEs section?"),
     checkboxInput("break_totals", "Insert page break before totals section?"),
     checkboxInput("break_notes", "Insert page break before notes section?"),
