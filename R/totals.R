@@ -8,6 +8,7 @@
 #' @param overhead A tibble with the overhead
 #' @param internal A boolean indicating whether the project is internal or not
 #' @param fte fte cost data
+#' @param snf A boolean indicating whether the project is an SNF project
 #' @param dlf A boolean indicating whether the project is a DLF project or not (unused)
 #'
 #' @importFrom dplyr bind_rows mutate

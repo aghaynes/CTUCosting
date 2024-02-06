@@ -4,7 +4,16 @@
 \alias{totals}
 \title{Calculate totals}
 \usage{
-totals(workpackages, expenses, discount, overhead, internal, fte, dlf = FALSE)
+totals(
+  workpackages,
+  expenses,
+  discount,
+  overhead,
+  internal,
+  fte,
+  snf,
+  dlf = FALSE
+)
 }
 \arguments{
 \item{workpackages}{A tibble with the workpackages}
@@ -18,6 +27,8 @@ totals(workpackages, expenses, discount, overhead, internal, fte, dlf = FALSE)
 \item{internal}{A boolean indicating whether the project is internal or not}
 
 \item{fte}{fte cost data}
+
+\item{snf}{A boolean indicating whether the project is an SNF project}
 
 \item{dlf}{A boolean indicating whether the project is a DLF project or not (unused)}
 }
