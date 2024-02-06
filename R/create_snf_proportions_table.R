@@ -8,6 +8,8 @@ create_snf_proportions_table <- function(wp, years){
 
   snf_section <- Hours <- Cost <- NULL
 
+  if(is.na(years)) years <- 5
+
   wp <- wp |>
     left_join(snf_division_lkup |>
                 mutate(wp = sprintf("%05.1f", wp)), by = "wp") |>
