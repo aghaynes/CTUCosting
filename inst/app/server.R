@@ -391,10 +391,10 @@ function(input, output, session){
     if(nrow(selected_workpackages()) > 0){
       # print(selected_workpackages())
       out <- calc_discount(selected_workpackages(),
-                    initcosting = info()$initcosting,
-                    discount_db = info()$discount_db,
-                    snf = info()$snf,
-                    dlf = info()$dlf)
+                           initcosting = info()$initcosting,
+                           discount_db = info()$discount_db,
+                           snf = info()$snf,
+                           dlf = info()$dlf)
       # print(paste("DISCOUNT:", out))
     }
     out
@@ -418,6 +418,7 @@ function(input, output, session){
            overhead = overhead_tab(),
            internal = info()$internal,
            fte = fte(),
+           snf = info()$snf,
            dlf = info()$dlf)
   })
   output$dt_totals <- renderDataTable({
