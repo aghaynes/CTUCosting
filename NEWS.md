@@ -1,3 +1,7 @@
+# CTUCosting 0.4.4
+
+* Bug fix: Shiny app errored if the number of years was missing.
+
 # CTUCosting 0.4.3
 
 * `totals` updated (Internal PM not relevant for SNF projects).
