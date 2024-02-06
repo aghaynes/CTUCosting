@@ -8,11 +8,12 @@
 #' @param overhead A tibble with the overhead
 #' @param internal A boolean indicating whether the project is internal or not
 #' @param fte fte cost data
+#' @param snf A boolean indicating whether the project is an SNF project
 #' @param dlf A boolean indicating whether the project is a DLF project or not (unused)
 #'
 #' @importFrom dplyr bind_rows mutate
 #' @export
-totals <- function(workpackages, expenses, discount, overhead, internal, fte, dlf = FALSE){
+totals <- function(workpackages, expenses, discount, overhead, internal, fte, snf, dlf = FALSE){
   `Cost (CHF)` <- NULL
 
   print("totals(): FTE:")
@@ -30,10 +31,21 @@ totals <- function(workpackages, expenses, discount, overhead, internal, fte, dl
         tibble::tribble(
           ~Description, ~`Cost (CHF)`,
           "Tasks billed by the hour", sum(workpackages$Cost),
+        )
+      )
+  }
+
+  if(!snf){
+    print("totals(): snf loop")
+    total <- total |>
+      bind_rows(
+        tibble::tribble(
+          ~Description, ~`Cost (CHF)`,
           paste0("Discount due to number of hours (", discount$discount_perc, "%)"), -sum(discount$discount_amount),
           "Internal project management (10%)", overhead$pm,
         )
       )
+
   }
 
   if(!internal){

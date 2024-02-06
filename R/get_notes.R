@@ -30,10 +30,12 @@ concat_notes <- function(notes,
                          header_sep = "\n\n",
                          collapse = "\n\n"){
 
-  notes <- notes[!sapply(notes, function(x) x %in% c("NA", "NA\n\nNA"))]
+  if(length(notes) > 0){
+    notes <- notes[!sapply(notes, function(x) x %in% c("NA", "NA\n\nNA"))]
 
-  paste0("**", servicenames$Service[match(names(notes), servicenames$form)], "**",
-        header_sep, notes, collapse = collapse)
+    paste0("**", servicenames$Service[match(names(notes), servicenames$form)], "**",
+          header_sep, notes, collapse = collapse)
+  }
 }
 
 # d <- get_data(2,1,token)

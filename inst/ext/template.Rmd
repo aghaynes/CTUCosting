@@ -28,6 +28,7 @@ params:
   break_totals: FALSE
   break_notes: FALSE
   break_tasks: NULL
+  break_projinfo: FALSE
   first_page_text: "template text"
   initcosting: TRUE
   fte: list(fte = FALSE)
@@ -81,7 +82,10 @@ With kind regards
 
 Your CTU Bern team
 
-\newpage
+```{r genprojinfo, echo = FALSE, results='asis', eval=params$break_projinfo, warning=FALSE}
+  cat("\\newpage")
+  cat("\n\n")
+```
 
 ### General project information {.unnumbered}
 

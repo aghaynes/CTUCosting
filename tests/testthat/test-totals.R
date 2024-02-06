@@ -30,6 +30,7 @@ test_that("internal totals", {
                 discount = disc,
                 overhead = oh,
                 internal = TRUE,
+                snf = FALSE,
                 fte = fte)
 
   expect_equal(nrow(tot), 5)
@@ -44,6 +45,7 @@ test_that("internal totals", {
                  discount = disc2,
                  overhead = oh,
                  internal = TRUE,
+                 snf = FALSE,
                  fte = fte)
   expect_equal(nrow(tot2), 5)
   expect_equal(unlist(tot2[grepl("number of hours", tot$Description),2]), " -150.00", ignore_attr = TRUE)
@@ -58,6 +60,7 @@ test_that("external totals", {
                 discount = disc,
                 overhead = oh,
                 internal = FALSE,
+                snf = FALSE,
                 fte = fte)
   expect_equal(nrow(tot3), 6)
   expect_equal(unlist(tot3[grepl("number of hours", tot3$Description),2]), "  -90.00", ignore_attr = TRUE)
@@ -73,6 +76,7 @@ test_that("external totals", {
                  discount = disc2,
                  overhead = oh,
                  internal = FALSE,
+                 snf = FALSE,
                  fte = fte)
   expect_equal(nrow(tot4), 6)
   expect_equal(unlist(tot4[grepl("number of hours", tot4$Description),2]), " -150.00", ignore_attr = TRUE)
@@ -90,6 +94,7 @@ test_that("fte totals", {
                 discount = disc,
                 overhead = oh,
                 internal = FALSE,
+                snf = FALSE,
                 fte = fte2)
   expect_equal(nrow(tot3), 7)
   expect_equal(unlist(tot3[grepl("number of hours", tot3$Description),2]), "  -90.00", ignore_attr = TRUE)
@@ -106,6 +111,7 @@ test_that("fte totals", {
                  discount = disc2,
                  overhead = oh,
                  internal = TRUE,
+                 snf = FALSE,
                  fte = fte2)
   expect_equal(nrow(tot4), 6)
   expect_equal(unlist(tot4[grepl("number of hours", tot4$Description),2]), " -150.00", ignore_attr = TRUE)
@@ -114,5 +120,19 @@ test_that("fte totals", {
   expect_true("Internal project management (10%)" %in% tot4$Description)
   expect_true(!"University overhead (10%)" %in% tot4$Description)
   expect_true("FTE costs" %in% tot4$Description)
+
+})
+
+test_that("snf totals", {
+  tot3 <- totals(wp,
+                expenses = exp,
+                discount = disc,
+                overhead = oh,
+                internal = TRUE,
+                snf = TRUE,
+                fte = fte2)
+
+  expect_true(!"Internal project management (10%)" %in% tot3$Description)
+  expect_true(!"University overhead (10%)" %in% tot3$Description)
 
 })
