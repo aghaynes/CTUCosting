@@ -31,16 +31,6 @@ totals <- function(workpackages, expenses, discount, overhead, internal, fte, sn
         tibble::tribble(
           ~Description, ~`Cost (CHF)`,
           "Tasks billed by the hour", sum(workpackages$Cost),
-        )
-      )
-  }
-
-  if(internal){
-    print("totals(): internal loop")
-    total <- total |>
-      bind_rows(
-        tibble::tribble(
-          ~Description, ~`Cost (CHF)`,
           paste0("Discount due to number of hours (", discount$discount_perc, "%)"), -sum(discount$discount_amount),
         )
       )
