@@ -2,6 +2,8 @@
 
 * Bug fix: Shiny app errored if the number of years was missing.
 * Add filter for FTE positions. 
+* Add signatories for a few institutes.
+* Include FTE info in admin information.
 
 # CTUCosting 0.4.3
 
