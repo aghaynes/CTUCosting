@@ -1,6 +1,7 @@
 # CTUCosting 0.4.4
 
 * Bug fix: Shiny app errored if the number of years was missing.
+* Add filter for FTE positions. 
 
 # CTUCosting 0.4.3
 

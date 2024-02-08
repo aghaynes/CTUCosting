@@ -364,7 +364,8 @@ function(input, output, session){
 
   # Full time equivalents ----
   fte <- reactive({
-    d() |> get_ftes(meta = meta())
+    d() |> get_ftes(meta = meta(),
+                    include = input$include_fte)
   })
 
   output$dt_fte <- renderDataTable({

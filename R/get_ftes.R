@@ -4,9 +4,9 @@
 #' @importFrom dplyr join_by
 #' @export
 
-get_ftes <- function(d, meta){
+get_ftes <- function(d, meta, include = TRUE){
 
-  if(nrow(d$full_time_equivalent) > 0){
+  if(nrow(d$full_time_equivalent) > 0 & include){
     long <- d$full_time_equivalent |>
       mutate(across(everything(), as.character)) |>
       # select(-c(record_id, redcap_event_name, redcap_repeat_instrument, redcap_repeat_instance),
