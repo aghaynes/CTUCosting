@@ -9,6 +9,8 @@ costing_info <- function(data, metadata){
 
   Clinic <- Head.of.clinic <- NULL
 
+  dmf <- data$dm_full_services
+
   data <- data$meta_information
   # data <- d$meta_information
   consultingnum <- data$consulting_num
@@ -40,6 +42,19 @@ costing_info <- function(data, metadata){
       sign <- data$institute_auth
     } else {
       inst <- specific_option(metadata, data, "institute_noninsel")
+      if(inst %in% c("Department for Biomedical Research (DBMR)",
+                     "Direktion Pflege",
+                     "Institut für Physiotherapie",
+                     "Institute of Social and Preventive Medicine (ISPM)",
+                     "Berner Institut für Hausarztmedizin (BIHAM)",
+                     "Lindenhof Gruppe"
+                     )){
+        sign <- clinic_heads |>
+          filter(Clinic == inst) |>
+          pull(Head.of.clinic)
+      } else {
+        sign <- "UNKNOWN - PLEASE CONFIRM"
+      }
     }
   }
 
@@ -53,9 +68,14 @@ costing_info <- function(data, metadata){
 
 
   fn <- function(m, d, v){
-    ifelse(!is.na(d[, v]),
-           specific_option(m, d, v),
-           NA)
+    if(nrow(d) > 0){
+      out <- ifelse(!is.na(d[, v]),
+             specific_option(m, d, v),
+             NA)
+    } else {
+      out <- NA
+    }
+    return(out)
   }
 
   return(
@@ -104,7 +124,8 @@ costing_info <- function(data, metadata){
       # other
       intervention =          fn(metadata, data, "int_type"),
       discount_db =           ifelse(initcosting, data$discount, data$discount2),
-      costing_txt =           ifelse(initcosting, data$costing_txt_init, data$costing_txt_amend)
+      costing_txt =           ifelse(initcosting, data$costing_txt_init, data$costing_txt_amend),
+      full_service_db =       fn(metadata, dmf, "dmf_cdms")
     )
   )
 
