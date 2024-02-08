@@ -4,7 +4,7 @@
 \alias{get_ftes}
 \title{Extract FTE data from downloaded data}
 \usage{
-get_ftes(d, meta)
+get_ftes(d, meta, include = TRUE)
 }
 \arguments{
 \item{d}{downloaded data}
