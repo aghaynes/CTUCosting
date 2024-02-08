@@ -35,21 +35,30 @@ totals <- function(workpackages, expenses, discount, overhead, internal, fte, sn
       )
   }
 
+  if(internal){
+    print("totals(): internal loop")
+    total <- total |>
+      bind_rows(
+        tibble::tribble(
+          ~Description, ~`Cost (CHF)`,
+          paste0("Discount due to number of hours (", discount$discount_perc, "%)"), -sum(discount$discount_amount),
+        )
+      )
+  }
+
   if(!snf){
     print("totals(): snf loop")
     total <- total |>
       bind_rows(
         tibble::tribble(
           ~Description, ~`Cost (CHF)`,
-          paste0("Discount due to number of hours (", discount$discount_perc, "%)"), -sum(discount$discount_amount),
           "Internal project management (10%)", overhead$pm,
         )
       )
-
   }
 
   if(!internal){
-    print("totals(): internal loop")
+    print("totals(): not internal loop")
 
     total <- total |>
       bind_rows(
@@ -70,7 +79,6 @@ totals <- function(workpackages, expenses, discount, overhead, internal, fte, sn
           "FTE costs", sum(fte$costs$cost),
         )
       )
-
   }
 
   if(nrow(expenses) > 0){
@@ -95,9 +103,10 @@ totals <- function(workpackages, expenses, discount, overhead, internal, fte, sn
   total <- rbind(total,
                  tibble::tribble(
                    ~Description, ~`Cost (CHF)`,
-                   "Total", sum(total$`Cost (CHF)`)
+                   "Total", sum(ceiling(total$`Cost (CHF)`))
                  )) |>
-    mutate(`Cost (CHF)` = format(`Cost (CHF)`, big.mark = ",", nsmall = 2))
+    mutate(`Cost (CHF)` = ceiling(`Cost (CHF)`),
+           `Cost (CHF)` = format(`Cost (CHF)`, big.mark = "'", nsmall = 0))
 
   return(total)
 

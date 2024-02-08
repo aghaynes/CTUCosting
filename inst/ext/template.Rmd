@@ -121,14 +121,16 @@ cat(paste0('<p class="close">Number of participants: **', params$n_participants,
 breaks_tf <- n_breaks <- FALSE
 
 gt_fn <- function(x){
-  gt::gt(x) %>%
+  gt::gt(x) |> 
     gt::tab_options(table.font.size = "12px",
                     table.width = "100%",
                     row_group.background.color = "white",
                     data_row.padding = "2px",
                     table.font.names = "Arial",
                     table.font.color = "black",
-                    table.font.color.light = "black")
+                    table.font.color.light = "black") |> 
+    cols_align(columns = `Cost (CHF)`,
+               align = "right")
 }
 
 gt_widths <- function(x){
@@ -147,7 +149,7 @@ library(gt)
 tmp <- params$workpackages %>%
   select_for_pdf() %>%
   group_by(Service) %>%
-  mutate(Cost = format(Cost, big.mark = "'", nsmall = 2)) %>%
+  mutate(Cost = format(Cost, big.mark = "'", nsmall = 0)) %>%
   rename(`Cost (CHF)` = Cost)
 
 breaks <- as.numeric(params$break_tasks)
@@ -204,7 +206,7 @@ params$fte$costs |>
          FTE = prop, 
          `Number of years` = units, 
          Cost = cost) |> 
-  mutate(Cost = format(Cost, big.mark = "'", nsmall = 2)) |> 
+  mutate(Cost = format(Cost, big.mark = "'", nsmall = 0)) |>
   rename(`Cost (CHF)` = Cost) |> 
   gt_fn()
 ```
@@ -214,7 +216,9 @@ cat("### Expenses {.unnumbered}")
 ```
 
 ```{r expensestab, echo = FALSE, eval = !is.null(params$expenses)}
-gt_fn(params$expenses) |> 
+params$expenses |> 
+  mutate(`Cost (CHF)` = format(`Cost (CHF)`, big.mark = "'", nsmall = 0)) |>
+  gt_fn() |> 
   gt::cols_width(Division ~ "20%",
                  Description ~ "60%",
                  `Cost (CHF)` ~ "13%")
@@ -228,7 +232,8 @@ gt_fn(params$expenses) |>
 ### Totals {.unnumbered}
 
 ```{r totalstab, echo = FALSE, eval = !is.null(params$total), warning=FALSE}
-gt_fn(params$total) %>%
+params$total |> 
+  gt_fn() %>%
   gt::cols_width(Description ~ "87%",
                  `Cost (CHF)` ~ "13%",
   )
