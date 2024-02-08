@@ -558,7 +558,7 @@ function(input, output, session){
   # pass snf_cost into pdf function, together with input$costing_type
 
   # downloads ----
-  ## PDF
+  ## PDF ----
   output$pdf <- downloadHandler(
     filename = function(cons_num = info()$consultingnum,
                         studyname = info()$acronym){
@@ -606,7 +606,7 @@ function(input, output, session){
     }
   )
 
-  ## admin
+  ## admin ----
   output$admin <- downloadHandler(
     filename = function(cons_num = info()$consultingnum,
                         studyname = info()$acronym){
@@ -618,6 +618,7 @@ function(input, output, session){
         info = info() |> info_to_dataframe()
         , workpackages = summ_workpackages() |> select_for_admin()
         # , discount <- sum(discount()$discount_amount)
+        , FTE = fte()
         , expenses = selected_expenses() |> select_expenses_for_admin()
         , total = total_cost()
       )
@@ -633,6 +634,7 @@ function(input, output, session){
     }
   )
 
+  ## SNF ----
   output$snf_excel <- downloadHandler(
     filename = function(cons_num = info()$consultingnum,
                         studyname = info()$acronym){
