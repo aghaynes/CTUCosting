@@ -614,11 +614,14 @@ function(input, output, session){
     },
     content = function(file){
 
+      print("ADMIN INFO, FTE:")
+      print(fte())
+
       dfs <- list(
         info = info() |> info_to_dataframe()
         , workpackages = summ_workpackages() |> select_for_admin()
         # , discount <- sum(discount()$discount_amount)
-        , FTE = fte()
+        , FTE = fte()$costs |> select_fte_for_admin()
         , expenses = selected_expenses() |> select_expenses_for_admin()
         , total = total_cost()
       )

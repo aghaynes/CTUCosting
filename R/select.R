@@ -49,3 +49,12 @@ select_expenses_for_admin <- function(data){
     select(wp_number = exp_pf, wp_lab, author = exp_author, Division, Description, Amount)
   return(out)
 }
+
+#' select relevant FTE variables for admin
+#' @param data dataframe
+#' @export
+select_fte_for_admin <- function(data){
+  desc <- prop <- units <- cost <- NULL
+  data |>
+    select(Description = desc, FTE = prop, Years = units, ApproxCost = cost)
+}
