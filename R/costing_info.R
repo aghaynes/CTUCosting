@@ -37,7 +37,7 @@ costing_info <- function(data, metadata){
       filter(Clinic == inst) |>
       pull(Head.of.clinic)
   } else {
-    if(data$institute_noninsel == 88){
+    if(data$institute_noninsel %in% c(7,8,88)){
       inst <- data$company
       sign <- data$institute_auth
     } else {
@@ -46,8 +46,7 @@ costing_info <- function(data, metadata){
                      "Direktion Pflege",
                      "Institut für Physiotherapie",
                      "Institute of Social and Preventive Medicine (ISPM)",
-                     "Berner Institut für Hausarztmedizin (BIHAM)",
-                     "Lindenhof Gruppe"
+                     "Berner Institut für Hausarztmedizin (BIHAM)"
                      )){
         sign <- clinic_heads |>
           filter(Clinic == inst) |>
