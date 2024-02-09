@@ -4,7 +4,7 @@
 \alias{get_generic_df}
 \title{extract generic workpackage data}
 \usage{
-get_generic_df(d)
+get_generic_df(d, meta)
 }
 \arguments{
 \item{d}{dataframe}
