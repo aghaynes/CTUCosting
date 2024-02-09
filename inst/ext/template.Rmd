@@ -259,7 +259,12 @@ This offer is valid for two months.
 
 For questions regarding the costing, please contact your CTU consultant or [ctu-info.dcr\@unibe.ch](mailto:ctu-info.dcr@unibe.ch){.email}.
 
+All costs mentioned above are rounded up to the nearest 1 CHF.
+
 ```{r, echo = FALSE, results='asis'}
+if(any(grepl("Discount due to number of hours", params$total$Description))) 
+  cat("The discount is calculated from eligible work packages and might not be based on the overall amount.\n\n")
+
 if(!params$internal) cat("Please consider that this cost estimate does not include VAT (8.1%) that might incur.")
 ```
 
