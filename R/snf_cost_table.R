@@ -2,6 +2,7 @@
 #' @param workpackages typically the output from selected_workpackages
 #' @param proportions  the matrix of proportions of hours per year per workpackage
 #' @importFrom dplyr across mutate group_by left_join starts_with
+#' @importFrom purrr map
 #' @export
 snf_cost_table <- function(workpackages, proportions){
   wp <- snf_section <- Hours <- Cost <- snf_section_start <- NULL
@@ -28,7 +29,7 @@ snf_cost_table <- function(workpackages, proportions){
   # print(cost)
   # print(hours)
 
-  tmp <- sapply(seq_along(hours), function(x){
+  tmp <- map(seq_along(hours), function(x){
     paste0(sprintf('%1.1f', hours[, x]), " hours <br/> CHF ", cost[, x])
   }) |>
     as.data.frame() |>
@@ -55,4 +56,17 @@ snf_cost_table <- function(workpackages, proportions){
 #                           Year2 =     c(.2, .2),
 #                           Year3 =     c(.6, .3),
 #                           `Row Sum` = c(1,1))
+# snf_cost_table(workpackages, proportions)
+
+# workpackages <- tibble::tribble(
+#   ~wp, ~Hours, ~Cost,
+#   "010.1", 10, 120*10,
+#   "010.1", 20, 120*20,
+#   "010.1", 5, 120*5,
+#   "010.1", 10, 120*10
+# )
+# proportions <- data.frame(Year1 =     c(.2),
+#                           Year2 =     c(.2),
+#                           Year3 =     c(.6),
+#                           `Row Sum` = c(1))
 # snf_cost_table(workpackages, proportions)
