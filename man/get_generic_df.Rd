@@ -8,6 +8,8 @@ get_generic_df(d, meta)
 }
 \arguments{
 \item{d}{dataframe}
+
+\item{meta}{metadata}
 }
 \description{
 extract generic workpackage data

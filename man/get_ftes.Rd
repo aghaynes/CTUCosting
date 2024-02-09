@@ -10,6 +10,8 @@ get_ftes(d, meta, include = TRUE)
 \item{d}{downloaded data}
 
 \item{meta}{metadata}
+
+\item{include}{include FTE data in the costing?}
 }
 \description{
 Extract FTE data from downloaded data
