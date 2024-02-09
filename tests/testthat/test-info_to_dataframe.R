@@ -13,7 +13,7 @@ test_that("general info", {
   expect_equal(ncol(infodf), 3)
   expect_equal(names(infodf), c("name", "value", "source"))
   expect_equal(infodf$value[infodf$name == "acronym"], "UNIT-TESTING")
-  expect_true(infodf$value[infodf$name == "initcosting"])
+  expect_equal(infodf$value[infodf$name == "initcosting"], "TRUE")
   expect_equal(infodf$value[infodf$name == "complexity"], "low")
   expect_true(is.na(infodf$source[infodf$name == "complexity"]))
 })
