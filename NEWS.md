@@ -4,7 +4,7 @@
 * Add filter for FTE positions. 
 * Add signatories for a few institutes.
 * Include FTE info in admin information.
-* Support for Generic Support work package.
+* Support for General Support work package. Improved support for generic form.
 * Styling of the cost column in the PDF adapted - right align, rounding, and consistent thousands separator.
 * All costs rounded to the nearest CHF, note added to PDF.
 * Note that the discount is not applied to all packages added to PDF.

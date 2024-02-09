@@ -19,8 +19,6 @@ get_workpackage_data <- function(d, meta){
   workpackages <- lapply(d[2:13], get_wp_df) |> # [5:6]: expected 3 pieces. additional pieces discarded in 29, 89
     data.table::rbindlist()
 
-
-
   if(nrow(d$generic) > 0){
     n <- d$generic |>
       select(starts_with("gen_units"), starts_with("gen_hours")) |>
@@ -36,7 +34,7 @@ get_workpackage_data <- function(d, meta){
         bind_rows(lapply(seq_along(1:nrow(d$generic)),
                                      function(x) {
                                        # print(x)
-                                       d$generic[x,] |> get_generic_df()
+                                       d$generic[x,] |> get_generic_df(meta = meta)
                                      }) |>
                                 data.table::rbindlist())
     }
@@ -89,15 +87,22 @@ get_wp_df <- function(d){
 #'
 #' @param d dataframe
 #' @export
-get_generic_df <- function(d){
+get_generic_df <- function(d, meta){
   if(nrow(d) > 0){
     # print(d)
     tmp <- d |>
-      get_wp_df()
-    if(nrow(tmp) > 0){
-      tmp |>
-        mutate(service = d$gen_div)
-    }
+      get_wp_df() |>
+      mutate(service = specific_option(meta$metadata, d, "gen_div"),
+             service = tolower(service),
+             service = if_else(wp == 135.1, "gen", service))
+    # if(nrow(tmp) > 0){
+    #   tmp |>
+    #     mutate(
+    #       # service = d$gen_div
+    #       rate =
+    #       )
+    # }
+    tmp
   }
 }
 
