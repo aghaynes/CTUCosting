@@ -86,6 +86,7 @@ get_wp_df <- function(d){
 #' extract generic workpackage data
 #'
 #' @param d dataframe
+#' @param meta metadata
 #' @export
 get_generic_df <- function(d, meta){
   if(nrow(d) > 0){

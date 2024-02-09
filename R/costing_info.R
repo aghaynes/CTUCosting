@@ -44,9 +44,9 @@ costing_info <- function(data, metadata){
       inst <- specific_option(metadata, data, "institute_noninsel")
       if(inst %in% c("Department for Biomedical Research (DBMR)",
                      "Direktion Pflege",
-                     "Institut für Physiotherapie",
+                     "Institut f\u00FCr Physiotherapie",
                      "Institute of Social and Preventive Medicine (ISPM)",
-                     "Berner Institut für Hausarztmedizin (BIHAM)"
+                     "Berner Institut f\u00FCr Hausarztmedizin (BIHAM)"
                      )){
         sign <- clinic_heads |>
           filter(Clinic == inst) |>

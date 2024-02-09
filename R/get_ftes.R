@@ -1,6 +1,7 @@
 #' Extract FTE data from downloaded data
 #' @param d downloaded data
 #' @param meta metadata
+#' @param include include FTE data in the costing?
 #' @importFrom dplyr join_by
 #' @export
 
