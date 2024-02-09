@@ -4,6 +4,11 @@
 * Add filter for FTE positions. 
 * Add signatories for a few institutes.
 * Include FTE info in admin information.
+* Support for Generic Support work package.
+* Styling of the cost column in the PDF adapted - right align, rounding, and consistent thousands separator.
+* All costs rounded to the nearest CHF, note added to PDF.
+* Note that the discount is not applied to all packages added to PDF.
+* App now generates an error message if a work package is not entered (which previously resulted in the app crashing).
 
 # CTUCosting 0.4.3
 

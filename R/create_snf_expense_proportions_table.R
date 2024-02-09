@@ -6,6 +6,7 @@
 create_snf_expense_proportions_table <- function(expenses, years){
 
   if(is.na(years)) years <- 5
+  years <- ceiling(years)
 
   nrow <- nrow(expenses)
   ncol <- years + 1

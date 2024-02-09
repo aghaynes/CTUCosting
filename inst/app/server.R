@@ -257,6 +257,18 @@ function(input, output, session){
   # work packages ----
   wp <- reactive(get_workpackage_data(d(), meta()))
 
+  output$bad_workpackage <- renderUI({
+    if(any(is.na(as.numeric(wp()$wp)))){
+      bad_services <- wp() |>
+        filter(is.na(as.numeric(wp))) |>
+        pull(Service) |> unique() |> paste(collapse = ", ")
+      shinyalert("Oops!", "Check that all work packages are entered.", type = "error")
+      fluidRow(span(paste("At least one work package seems to be missing. Please go back to REDCap and enter it/them. See Service(s)", bad_services),
+                    style="color:red; margin-left: 15px;"))
+
+    }
+  })
+
   output$select_workpackages <- renderUI({
     req(record_tasks_exist())
     # print(summ_workpackages()$Service)

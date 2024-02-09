@@ -28,6 +28,7 @@ page_navbar(
     uiOutput("bad_record"),
     uiOutput("bad_meta"),
     uiOutput("bad_costings"),
+    uiOutput("bad_workpackage"),
     uiOutput("costing"),
     ),
 
