@@ -573,8 +573,11 @@ function(input, output, session){
   ## PDF ----
   output$pdf <- downloadHandler(
     filename = function(cons_num = info()$consultingnum,
+                        proj_num = info()$projnum,
                         studyname = info()$acronym){
-      paste0("Costing_", cons_num, "_", studyname, "_", Sys.Date(), ".pdf")
+      num <- cons_num
+      if(!is.na(proj_num)) num <- paste0("Amendment_P", proj_num)
+      paste0("Costing_", num, "_", studyname, "_", Sys.Date(), ".pdf")
     },
     content = function(file){
 
@@ -621,8 +624,11 @@ function(input, output, session){
   ## admin ----
   output$admin <- downloadHandler(
     filename = function(cons_num = info()$consultingnum,
+                        proj_num = info()$projnum,
                         studyname = info()$acronym){
-      paste0("Costing_", cons_num, "_", studyname, "_", Sys.Date(), ".xlsx")
+      num <- cons_num
+      if(!is.na(proj_num)) num <- paste0("Amendment_P", proj_num)
+      paste0("Costing_", num, "_", studyname, "_", Sys.Date(), ".xlsx")
     },
     content = function(file){
 

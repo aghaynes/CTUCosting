@@ -9,6 +9,7 @@
 * All costs rounded to the nearest CHF, note added to PDF.
 * Note that the discount is not applied to all packages added to PDF.
 * App now generates an error message if a work package is not entered (which previously resulted in the app crashing).
+* 
 
 # CTUCosting 0.4.3
 
