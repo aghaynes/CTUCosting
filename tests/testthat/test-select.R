@@ -7,6 +7,7 @@ record <- "TEST"
 d <- get_data(record, 7, token)
 info <- costing_info(d, meta$metadata)
 wp <- get_workpackage_data(d, meta) |> summarize_by_wp()
+e7 <- expenses_prep(d$expenses, meta)
 
 test_that("variables from select_for_admin", {
   s <- select_for_admin(wp)
@@ -23,8 +24,14 @@ test_that("variables from select_for_fte", {
 })
 
 d <- get_data(record, 5, token)
+e <- d$expenses |> expenses_prep(meta)
 test_that("variables from select_expenses_for_admin", {
-  e <- d$expenses |> expenses_prep(meta)
   s <- select_expenses_for_admin(e)
   expect_equal(names(s), c("wp_number", "wp_lab", "author", "Division", "Description", "Amount"))
+})
+test_that("variables from select_expenses_for_pdf", {
+  s <- select_expenses_for_pdf(e)
+  expect_equal(names(s), c("Division", "Description", "Cost (CHF)"))
+  s7 <- select_expenses_for_pdf(e7)
+  expect_null(s7)
 })
