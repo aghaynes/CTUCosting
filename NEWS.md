@@ -11,6 +11,7 @@
 * App now generates an error message if a work package is not entered (which previously resulted in the app crashing).
 * Include 'Amendment_project number' in PDF and admin file names if the project number is available.
 * Bug fix: SNF table generation failed when a single work package was involved.
+* Improve test coverage from ca 50% to >70% (according to `covr`)
 
 # CTUCosting 0.4.3
 
