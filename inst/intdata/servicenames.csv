@@ -2,6 +2,7 @@
 "docdev","Document development","MON","document_development"
 "dml","Data management (light)","DM","dm_redcap_light"
 "dmf","Data management (full)","DM","dm_full_services"
+"dm","Data management","DM",
 "sta","Statistics","STA","statistics"
 "csm","Clinical study management","CSM","clinical_study_management"
 "qm","Quality management","QM","quality_management"
@@ -16,3 +17,4 @@
 "cdmra","Central data monitoring","MON","central_data_monitoring"
 "ra","Research assistant",,
 ,"Full time equivalent",,"full_time_equivalent"
+"gen","General services","GEN",

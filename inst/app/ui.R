@@ -28,6 +28,7 @@ page_navbar(
     uiOutput("bad_record"),
     uiOutput("bad_meta"),
     uiOutput("bad_costings"),
+    uiOutput("bad_workpackage"),
     uiOutput("costing"),
     ),
 
@@ -119,6 +120,7 @@ page_navbar(
     uiOutput("select_workpackages"),
     uiOutput("select_tasks"),
     uiOutput("select_expenses"),
+    checkboxInput("include_fte", "Include FTE positions?", value = TRUE),
     hr(),
     # selectInput("costing_type", "Costing type", c("CTU standard", "SNF")),
     HTML(

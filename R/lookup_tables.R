@@ -63,7 +63,8 @@ ratenames <- tibble::tribble(
   "mon",    "rate_mon",
   "cdm",    "rate_mon",
   "ra",     "rate_ra",
-  "cdmra",  "rate_ra"
+  "cdmra",  "rate_ra",
+  "gen",    "rate_mon"
 
 )
 

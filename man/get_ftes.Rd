@@ -4,12 +4,14 @@
 \alias{get_ftes}
 \title{Extract FTE data from downloaded data}
 \usage{
-get_ftes(d, meta)
+get_ftes(d, meta, include = TRUE)
 }
 \arguments{
 \item{d}{downloaded data}
 
 \item{meta}{metadata}
+
+\item{include}{include FTE data in the costing?}
 }
 \description{
 Extract FTE data from downloaded data

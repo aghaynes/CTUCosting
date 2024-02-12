@@ -257,6 +257,18 @@ function(input, output, session){
   # work packages ----
   wp <- reactive(get_workpackage_data(d(), meta()))
 
+  output$bad_workpackage <- renderUI({
+    if(any(is.na(as.numeric(wp()$wp)))){
+      bad_services <- wp() |>
+        filter(is.na(as.numeric(wp))) |>
+        pull(Service) |> unique() |> paste(collapse = ", ")
+      shinyalert("Oops!", "Check that all work packages are entered.", type = "error")
+      fluidRow(span(paste("At least one work package seems to be missing. Please go back to REDCap and enter it/them. See Service(s)", bad_services),
+                    style="color:red; margin-left: 15px;"))
+
+    }
+  })
+
   output$select_workpackages <- renderUI({
     req(record_tasks_exist())
     # print(summ_workpackages()$Service)
@@ -328,15 +340,7 @@ function(input, output, session){
   expenses <- reactive({
     # print(d()$expenses)
     d()$expenses |> #names
-      mutate(wp = sprintf("%05.1f", exp_pf)) |>
-      left_join(wp_codes(meta()$metadata), by = c(wp = "val")) |> #names
-      left_join(redcaptools::singlechoice_opts(meta()$metadata) |>  #names()
-                  filter(var == "exp_budget_pos") |>
-                  select(val, lab) |>
-                  mutate(val = as.numeric(val)),
-                by = c(exp_budget_pos = "val")) |>
-      mutate(total_cost = exp_units * exp_cost) |>
-      relocate(Division = lab, Description = exp_desc, Amount = total_cost, wp_lab) #%>%
+      expenses_prep(meta()) #%>%
     # filter(exp_desc %in% expenses_to_keep)
   })
   output$select_expenses <- renderUI({
@@ -364,7 +368,8 @@ function(input, output, session){
 
   # Full time equivalents ----
   fte <- reactive({
-    d() |> get_ftes(meta = meta())
+    d() |> get_ftes(meta = meta(),
+                    include = input$include_fte)
   })
 
   output$dt_fte <- renderDataTable({
@@ -557,11 +562,14 @@ function(input, output, session){
   # pass snf_cost into pdf function, together with input$costing_type
 
   # downloads ----
-  ## PDF
+  ## PDF ----
   output$pdf <- downloadHandler(
     filename = function(cons_num = info()$consultingnum,
+                        proj_num = info()$projnum,
                         studyname = info()$acronym){
-      paste0("Costing_", cons_num, "_", studyname, "_", Sys.Date(), ".pdf")
+      num <- cons_num
+      if(!is.na(proj_num)) num <- paste0("Amendment_P", proj_num)
+      paste0("Costing_", num, "_", studyname, "_", Sys.Date(), ".pdf")
     },
     content = function(file){
 
@@ -605,18 +613,25 @@ function(input, output, session){
     }
   )
 
-  ## admin
+  ## admin ----
   output$admin <- downloadHandler(
     filename = function(cons_num = info()$consultingnum,
+                        proj_num = info()$projnum,
                         studyname = info()$acronym){
-      paste0("Costing_", cons_num, "_", studyname, "_", Sys.Date(), ".xlsx")
+      num <- cons_num
+      if(!is.na(proj_num)) num <- paste0("Amendment_P", proj_num)
+      paste0("Costing_", num, "_", studyname, "_", Sys.Date(), ".xlsx")
     },
     content = function(file){
+
+      print("ADMIN INFO, FTE:")
+      print(fte())
 
       dfs <- list(
         info = info() |> info_to_dataframe()
         , workpackages = summ_workpackages() |> select_for_admin()
         # , discount <- sum(discount()$discount_amount)
+        , FTE = fte()$costs |> select_fte_for_admin()
         , expenses = selected_expenses() |> select_expenses_for_admin()
         , total = total_cost()
       )
@@ -632,6 +647,7 @@ function(input, output, session){
     }
   )
 
+  ## SNF ----
   output$snf_excel <- downloadHandler(
     filename = function(cons_num = info()$consultingnum,
                         studyname = info()$acronym){

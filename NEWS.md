@@ -1,3 +1,18 @@
+# CTUCosting 0.4.4
+
+* Bug fix: Shiny app errored if the number of years was missing.
+* Add filter for FTE positions. 
+* Add signatories for a few institutes.
+* Include FTE info in admin information.
+* Support for General Support work package. Improved support for generic form.
+* Styling of the cost column in the PDF adapted - right align, rounding, and consistent thousands separator.
+* All costs rounded to the nearest CHF, note added to PDF.
+* Note that the discount is not applied to all packages added to PDF.
+* App now generates an error message if a work package is not entered (which previously resulted in the app crashing).
+* Include 'Amendment_project number' in PDF and admin file names if the project number is available.
+* Bug fix: SNF table generation failed when a single work package was involved.
+* Improve test coverage from ca 50% to >70% (according to `covr`)
+
 # CTUCosting 0.4.3
 
 * `totals` updated (Internal PM not relevant for SNF projects).

@@ -15,6 +15,7 @@ test_that("number of tasks", {
 })
 
 summ_wps <- summarize_by_wp(wps)
+summ_div <- summarize_by_div(wps)
 
 test_that("number of workpackages", {
   expect_equal(nrow(summ_wps), 7)
