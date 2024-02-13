@@ -6,14 +6,14 @@
 #' @param expenses A tibble with the expenses
 #' @param discount A tibble with the discount
 #' @param overhead A tibble with the overhead
-#' @param internal A boolean indicating whether the project is internal or not
 #' @param fte fte cost data
 #' @param snf A boolean indicating whether the project is an SNF project
+#' @param rate A string indicating the rate (internal, external for-profit, external non-profit)
 #' @param dlf A boolean indicating whether the project is a DLF project or not (unused)
 #'
 #' @importFrom dplyr bind_rows mutate
 #' @export
-totals <- function(workpackages, expenses, discount, overhead, internal, fte, snf, dlf = FALSE){
+totals <- function(workpackages, expenses, discount, overhead, fte, snf, rate, dlf = FALSE){
   `Cost (CHF)` <- NULL
 
   print("totals(): FTE:")
@@ -47,7 +47,7 @@ totals <- function(workpackages, expenses, discount, overhead, internal, fte, sn
       )
   }
 
-  if(!internal){
+  if(rate == "External for-profit"){
     print("totals(): not internal loop")
 
     total <- total |>

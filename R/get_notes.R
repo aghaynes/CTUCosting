@@ -4,8 +4,6 @@
 #' @export
 get_notes <- function(data){
 
-
-
   vals <- lapply(data, function(x){
     if(nrow(x) > 0){
       tmp <- x |>
