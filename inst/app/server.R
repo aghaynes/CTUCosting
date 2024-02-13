@@ -119,7 +119,11 @@ function(input, output, session){
   notes <- reactive(get_notes(d()))
   filter_notes <- reactive({
     wps <- input$selected_workpackages
-    services <- servicenames |> filter(Service %in% wps) |> pull(form) |> unique() |> na.omit()
+    services <- CTUCosting:::servicenames |>
+      filter(Service %in% wps) |>
+      pull(form) |>
+      unique() |>
+      na.omit()
     notes()[services]
   })
 
