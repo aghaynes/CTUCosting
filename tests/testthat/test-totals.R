@@ -29,7 +29,7 @@ test_that("internal totals", {
                 expenses = exp,
                 discount = disc,
                 overhead = oh,
-                internal = TRUE,
+                rate = "Internal",
                 snf = FALSE,
                 fte = fte)
 
@@ -44,7 +44,7 @@ test_that("internal totals", {
                  expenses = exp,
                  discount = disc2,
                  overhead = oh,
-                 internal = TRUE,
+                 rate = "External non-profit",
                  snf = FALSE,
                  fte = fte)
   expect_equal(nrow(tot2), 5)
@@ -59,7 +59,7 @@ test_that("external totals", {
                 expenses = exp,
                 discount = disc,
                 overhead = oh,
-                internal = FALSE,
+                rate = "External for-profit",
                 snf = FALSE,
                 fte = fte)
   expect_equal(nrow(tot3), 6)
@@ -75,7 +75,7 @@ test_that("external totals", {
                  expenses = exp,
                  discount = disc2,
                  overhead = oh,
-                 internal = FALSE,
+                 rate = "External for-profit",
                  snf = FALSE,
                  fte = fte)
   expect_equal(nrow(tot4), 6)
@@ -93,7 +93,7 @@ test_that("fte totals", {
                 expenses = exp,
                 discount = disc,
                 overhead = oh,
-                internal = FALSE,
+                rate = "External for-profit",
                 snf = FALSE,
                 fte = fte2)
   expect_equal(nrow(tot3), 7)
@@ -110,7 +110,7 @@ test_that("fte totals", {
                  expenses = exp,
                  discount = disc2,
                  overhead = oh,
-                 internal = TRUE,
+                 rate = "Internal",
                  snf = FALSE,
                  fte = fte2)
   expect_equal(nrow(tot4), 6)
@@ -128,7 +128,7 @@ test_that("snf totals", {
                 expenses = exp,
                 discount = disc,
                 overhead = oh,
-                internal = TRUE,
+                rate = "SNF",
                 snf = TRUE,
                 fte = fte2)
 

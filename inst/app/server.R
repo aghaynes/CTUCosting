@@ -421,9 +421,9 @@ function(input, output, session){
            expenses = selected_expenses(),
            discount = discount(),
            overhead = overhead_tab(),
-           internal = info()$internal,
            fte = fte(),
            snf = info()$snf,
+           rate = info()$rate,
            dlf = info()$dlf)
   })
   output$dt_totals <- renderDataTable({
