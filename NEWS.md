@@ -1,6 +1,7 @@
 # CTUCosting 0.4.5
 
 * University overhead only relevant for EXTERNAL FOR-PROFIT projects.
+* Filter notes when work packages are filtered.
 
 # CTUCosting 0.4.4
 

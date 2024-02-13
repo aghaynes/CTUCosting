@@ -117,6 +117,11 @@ function(input, output, session){
 
   meta <- reactive(get_metadata(token = input$token))
   notes <- reactive(get_notes(d()))
+  filter_notes <- reactive({
+    wps <- input$selected_workpackages
+    services <- servicenames |> filter(Service %in% wps) |> pull(form) |> unique() |> na.omit()
+    notes()[services]
+  })
 
   info <- reactive({
     # print(d()$meta_information)
@@ -584,7 +589,7 @@ function(input, output, session){
       inputs$total <- total_cost()
       # inputs$cturep <- input$cturep
       inputs$first_page_text <- info()$costing_txt
-      inputs$notes <- concat_notes(notes())
+      inputs$notes <- concat_notes(filter_notes())
       inputs$break_ftes <- input$break_ftes
       inputs$break_totals <- input$break_totals
       inputs$break_notes <- input$break_notes
