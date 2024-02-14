@@ -221,7 +221,7 @@ params$expenses |>
   gt_fn() |> 
   gt::cols_width(Division ~ "20%",
                  Description ~ "60%",
-                 `Cost (CHF)` ~ "13%")
+                 `Cost (CHF)` ~ "12%")
 ```
 
 ```{r breaktotals, echo = FALSE, results='asis', eval=params$break_totals}
