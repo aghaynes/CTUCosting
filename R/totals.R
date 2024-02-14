@@ -37,11 +37,20 @@ totals <- function(workpackages, expenses, discount, overhead, fte, snf, rate, d
 
   if(!snf){
     print("totals(): snf loop")
+    if(nrow(workpackages) > 0){
+      print("totals(): workpackages loop")
+      total <- total |>
+        bind_rows(
+          tibble::tribble(
+            ~Description, ~`Cost (CHF)`,
+          paste0("Discount due to number of hours (", discount$discount_perc, "%)"), -sum(discount$discount_amount),
+          )
+        )
+    }
     total <- total |>
       bind_rows(
         tibble::tribble(
           ~Description, ~`Cost (CHF)`,
-          paste0("Discount due to number of hours (", discount$discount_perc, "%)"), -sum(discount$discount_amount),
           "Internal project management (10%)", overhead$pm,
         )
       )
