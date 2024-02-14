@@ -118,13 +118,20 @@ function(input, output, session){
   meta <- reactive(get_metadata(token = input$token))
   notes <- reactive(get_notes(d()))
   filter_notes <- reactive({
-    wps <- input$selected_workpackages
-    services <- CTUCosting:::servicenames |>
-      filter(Service %in% wps) |>
-      pull(form) |>
-      unique() |>
-      na.omit()
-    notes()[services]
+    if(length(notes()) > 0){
+      wps <- input$selected_workpackages
+      services <- CTUCosting:::servicenames |>
+        filter(Service %in% wps) |>
+        pull(form) |>
+        unique() |>
+        na.omit()
+      out <- notes()[services]
+      print("filtered notes names")
+      print(names(out))
+    } else {
+      out <- notes()
+    }
+    return(out)
   })
 
   info <- reactive({
@@ -589,11 +596,16 @@ function(input, output, session){
       inputs$workpackages <- summ_workpackages()
       inputs$summ_discount <- discount()
       inputs$discount <- max(0, try(sum(discount()$discount_amount)), na.rm = TRUE)
+      print("   tables")
       inputs$expenses <- selected_expenses() |> select_expenses_for_pdf()
       inputs$total <- total_cost()
       # inputs$cturep <- input$cturep
+      print("   texts")
+      print("     first page")
       inputs$first_page_text <- info()$costing_txt
+      print("     notes")
       inputs$notes <- concat_notes(filter_notes())
+      print("   breaks")
       inputs$break_ftes <- input$break_ftes
       inputs$break_totals <- input$break_totals
       inputs$break_notes <- input$break_notes
