@@ -39,3 +39,25 @@ concat_notes <- function(notes,
 # d <- get_data(2,1,token)
 # n <- get_notes(d)
 # concat_notes(n)
+
+#' filter notes based on selected workpackages
+#' @param notes list of notes from get_notes
+#' @param selected_workpackages which packages have been selected
+#' @export
+notes_filter <- function(notes, selected_workpackages){
+  if(length(notes) > 0){
+    wps <- selected_workpackages
+    services <- servicenames |>
+      filter(Service %in% wps) |>
+      filter(form %in% names(notes)) |>
+      pull(form) |>
+      unique() |>
+      na.omit()
+    out <- notes[services]
+    print("filtered notes names")
+    print(names(out))
+  } else {
+    out <- notes
+  }
+  return(out)
+}

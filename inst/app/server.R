@@ -117,22 +117,7 @@ function(input, output, session){
 
   meta <- reactive(get_metadata(token = input$token))
   notes <- reactive(get_notes(d()))
-  filter_notes <- reactive({
-    if(length(notes()) > 0){
-      wps <- input$selected_workpackages
-      services <- CTUCosting:::servicenames |>
-        filter(Service %in% wps) |>
-        pull(form) |>
-        unique() |>
-        na.omit()
-      out <- notes()[services]
-      print("filtered notes names")
-      print(names(out))
-    } else {
-      out <- notes()
-    }
-    return(out)
-  })
+  filter_notes <- reactive(notes_filter(notes(), input$selected_workpackages))
 
   info <- reactive({
     # print(d()$meta_information)
