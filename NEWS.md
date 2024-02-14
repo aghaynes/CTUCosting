@@ -1,3 +1,9 @@
+# CTUCosting 0.4.6
+
+* bug fix: filtering of notes did not work correctly when there were no notes (bug introduced in v0.4.5).
+* bug fix: discount row should not be shown for SNF projects.
+* Improved alignment of cost column in PDF output
+
 # CTUCosting 0.4.5
 
 * University overhead only relevant for EXTERNAL FOR-PROFIT projects.
