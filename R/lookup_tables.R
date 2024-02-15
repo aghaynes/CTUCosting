@@ -47,7 +47,7 @@ divnames <- read.csv(system.file("intdata/divisionnames.csv", package = "CTUCost
 # lookup table of variable prefixes and applicable rates
 ratenames <- tibble::tribble(
   ~service, ~rate_name,
-  "docdev", "rate_mon",
+  "docdev", "rate_csm",
   "dml",    "rate_dm",
   "dmf",    "rate_dm",
   "dm",     "rate_dm",
@@ -57,7 +57,7 @@ ratenames <- tibble::tribble(
   "ci",     "rate_ci",
   "admin",  "rate_admin",
   "sen",    "rate_senior",
-  "rs",     "rate_mon",
+  "rs",     "rate_csm",
   "sw",     "rate_dm",
   "cloud",  "rate_dm",
   "mon",    "rate_mon",
