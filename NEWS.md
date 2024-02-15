@@ -1,3 +1,7 @@
+# CTUCosting 0.4.7
+
+* document development and regulatory affairs should use CSM rate rather than the MON rate
+
 # CTUCosting 0.4.6
 
 * bug fix: filtering of notes did not work correctly when there were no notes (bug introduced in v0.4.5).
