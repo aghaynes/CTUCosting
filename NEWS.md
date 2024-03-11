@@ -1,3 +1,9 @@
+# CTUCosting 0.4.8
+
+* Changes to clinic names:
+  * Pneumologie -> Pneumologie, Allergologie und klinische Immunologie
+  * Rheumatology, immunologie und allergology -> rheumatologie und immunologie
+
 # CTUCosting 0.4.7
 
 * document development and regulatory affairs should use CSM rate rather than the MON rate
