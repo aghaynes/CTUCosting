@@ -1,3 +1,7 @@
+# CTUCosting 0.4.9 (2024-04-10)
+
+* Bug fix: app crashed if only FTEs were entered.
+
 # CTUCosting 0.4.8
 
 * Changes to clinic names:

@@ -120,6 +120,7 @@ cat(paste0('<p class="close">Number of participants: **', params$n_participants,
 ```{r, echo = FALSE, message=FALSE, warning=FALSE}
 breaks_tf <- n_breaks <- FALSE
 
+library(gt)
 gt_fn <- function(x){
   gt::gt(x) |> 
     gt::tab_options(table.font.size = "12px",
@@ -145,7 +146,6 @@ gt_widths <- function(x){
 
 
 ```{r tasks, echo = FALSE, message=FALSE, warning=FALSE, eval = nrow(params$workpackages) > 0}
-library(gt)
 tmp <- params$workpackages %>%
   select_for_pdf() %>%
   group_by(Service) %>%
