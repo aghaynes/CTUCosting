@@ -389,12 +389,12 @@ function(input, output, session){
   # calculate discount ----
   discount <- reactive({
     # req(record_tasks_exist())
-    out <- NA
+    # out <- NA
     # print(paste("Costing: ", info()$initcosting))
     # print(paste("discount_db: ", info()$discount_db))
     # print(paste("snf: ", info()$snf))
     # print(paste("dlf: ", info()$dlf))
-    if(nrow(selected_workpackages()) > 0){
+    # if(nrow(selected_workpackages()) > 0){
       # print(selected_workpackages())
       out <- calc_discount(selected_workpackages(),
                            initcosting = info()$initcosting,
@@ -402,7 +402,7 @@ function(input, output, session){
                            snf = info()$snf,
                            dlf = info()$dlf)
       # print(paste("DISCOUNT:", out))
-    }
+    # }
     out
   })
   output$dt_discount <- renderDataTable({

@@ -19,38 +19,58 @@ get_workpackage_data <- function(d, meta){
   workpackages <- lapply(d[2:13], get_wp_df) |> # [5:6]: expected 3 pieces. additional pieces discarded in 29, 89
     data.table::rbindlist()
 
-  if(nrow(d$generic) > 0){
-    n <- d$generic |>
-      select(starts_with("gen_units"), starts_with("gen_hours")) |>
-      pivot_longer(cols = everything(), names_prefix = "gen_",
-                   names_sep = "_()", names_to = c("name", "name1")) |>
-      summarize(value = sum(value), .by = c(name, name1)) |>
-      pivot_wider(names_from = "name", values_from = "value") |>
-      mutate(n = units * hours) |>
-      pull(n) |>
-      any()
-    if(n){
-      workpackages <- workpackages |>
-        bind_rows(lapply(seq_along(1:nrow(d$generic)),
-                                     function(x) {
-                                       # print(x)
-                                       d$generic[x,] |> get_generic_df(meta = meta)
-                                     }) |>
-                                data.table::rbindlist())
+  if(nrow(workpackages) == 0){
+    workpackages <- data.frame(
+      service = character(),
+      item = character(),
+      desc = character(),
+      Units = numeric(),
+      Hours = numeric(),
+      wp = character(),
+      Service = character(),
+      div = character(),
+      form = character(),
+      rate_name = character(),
+      Rate = integer(),
+      wp_lab = character(),
+      Cost = numeric()
+    )
+  } else {
+
+
+    if(nrow(d$generic) > 0){
+      n <- d$generic |>
+        select(starts_with("gen_units"), starts_with("gen_hours")) |>
+        pivot_longer(cols = everything(), names_prefix = "gen_",
+                     names_sep = "_()", names_to = c("name", "name1")) |>
+        summarize(value = sum(value), .by = c(name, name1)) |>
+        pivot_wider(names_from = "name", values_from = "value") |>
+        mutate(n = units * hours) |>
+        pull(n) |>
+        any()
+      if(n){
+        workpackages <- workpackages |>
+          bind_rows(lapply(seq_along(1:nrow(d$generic)),
+                                       function(x) {
+                                         # print(x)
+                                         d$generic[x,] |> get_generic_df(meta = meta)
+                                       }) |>
+                                  data.table::rbindlist())
+      }
     }
+    workpackages <- workpackages |>
+      left_join(servicenames) |>
+      left_join(ratenames, by = c("service")) |>
+      left_join(rates_fn(d[[1]]),
+                "rate_name") |> #str() #View()
+      left_join(wp_codes(meta$metadata), by = c(wp = "val")) |>  #View()#names()
+      mutate(Cost = Units * Hours * rate) |>  #View()
+      rename(
+        Rate = rate
+      ) |>
+      filter(Units > 0) |>
+      filter(Hours > 0)
   }
-  workpackages <- workpackages |>
-    left_join(servicenames) |>
-    left_join(ratenames, by = c("service")) |>
-    left_join(rates_fn(d[[1]]),
-              "rate_name") |>  #View()
-    left_join(wp_codes(meta$metadata), by = c(wp = "val")) |>  #View()#names()
-    mutate(Cost = Units * Hours * rate) |>  #View()
-    rename(
-      Rate = rate
-    ) |>
-    filter(Units > 0) |>
-    filter(Hours > 0)
 
   return(workpackages)
 }
