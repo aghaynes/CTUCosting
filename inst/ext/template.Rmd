@@ -93,7 +93,7 @@ Your CTU Bern team
 
 <p class="close">Project name and acronym: **`r paste0(params$studyname, " (", params$acronym, ")")`**</p>
 
-<p class="close">Sponsor: **`r params$sponsor`**</p>
+<p class="close">Institution: **`r params$sponsor`**</p>
 
 <p class="close">Responsible: **`r params$contact`**</p>
 
