@@ -1,3 +1,8 @@
+# CTUCosting 0.5.0 (2024-04-18)
+
+* Add support for costings from the DM reporting group.
+* Refer to Institution rather than Sponsor on the costing PDF.
+
 # CTUCosting 0.4.9 (2024-04-10)
 
 * Bug fix: app crashed if only FTEs were entered.
