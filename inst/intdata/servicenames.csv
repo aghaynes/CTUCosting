@@ -2,6 +2,7 @@
 "docdev","Document development","MON","document_development"
 "dml","Data management (light)","DM","dm_redcap_light"
 "dmf","Data management (full)","DM","dm_full_services"
+"dmr","Data management (reporting)","DM","dm_reporting"
 "dm","Data management","DM",
 "sta","Statistics","STA","statistics"
 "csm","Clinical study management","CSM","clinical_study_management"

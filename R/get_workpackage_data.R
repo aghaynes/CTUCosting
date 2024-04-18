@@ -16,7 +16,7 @@ get_workpackage_data <- function(d, meta){
 
   value <- name <- name1 <- hours <- Units <- Hours <- rate <- NULL
 
-  workpackages <- lapply(d[2:13], get_wp_df) |> # [5:6]: expected 3 pieces. additional pieces discarded in 29, 89
+  workpackages <- lapply(d[2:14], get_wp_df) |> # [5:6]: expected 3 pieces. additional pieces discarded in 29, 89
     data.table::rbindlist()
 
   if(nrow(workpackages) == 0){
