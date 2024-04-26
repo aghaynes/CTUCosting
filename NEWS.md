@@ -2,6 +2,7 @@
 
 * Add support for costings from the DM reporting group.
 * Refer to Institution rather than Sponsor on the costing PDF.
+* MZ noticed that the filename in adobe is sometimes shown as "A test document". This update changes it to the filename instead.
 
 # CTUCosting 0.4.9 (2024-04-10)
 

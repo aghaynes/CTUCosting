@@ -62,7 +62,8 @@ gen_pdf <- function(output,
                       fte = inputs$fte,
                       include_design = inputs$include_design,
                       include_int = inputs$include_int,
-                      include_participants = inputs$include_participants
+                      include_participants = inputs$include_participants,
+                      filename = inputs$filename
                       ),
                     clean = FALSE
                     )
