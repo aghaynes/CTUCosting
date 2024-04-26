@@ -1,5 +1,5 @@
 ---
-title: "A test document"
+title: "`r params$filename`"
 output:
     pagedown::html_paged
 knit: pagedown::chrome_print
@@ -35,6 +35,7 @@ params:
   include_design: TRUE
   include_int: TRUE
   include_participants: TRUE
+  filename: "filename"
 header-logo: "`r system.file('ext/ub_Logo_english_2019_RGB_wb.png', package = 'ctucosting')`"
 ---
 
@@ -93,7 +94,7 @@ Your CTU Bern team
 
 <p class="close">Project name and acronym: **`r paste0(params$studyname, " (", params$acronym, ")")`**</p>
 
-<p class="close">Sponsor: **`r params$sponsor`**</p>
+<p class="close">Institution: **`r params$sponsor`**</p>
 
 <p class="close">Responsible: **`r params$contact`**</p>
 

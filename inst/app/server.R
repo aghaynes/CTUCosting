@@ -564,6 +564,14 @@ function(input, output, session){
 
   # downloads ----
   ## PDF ----
+  fname <- function(cons_num,
+                    proj_num,
+                    studyname){
+      num <- cons_num
+      if(!is.na(proj_num)) num <- paste0("Amendment_P", proj_num)
+      paste0("Costing_", num, "_", studyname, "_", Sys.Date(), ".pdf")
+  }
+
   output$pdf <- downloadHandler(
     filename = function(cons_num = info()$consultingnum,
                         proj_num = info()$projnum,
@@ -601,6 +609,7 @@ function(input, output, session){
       inputs$include_design <- input$include_design
       inputs$include_int <- input$include_int
       inputs$include_participants <- input$include_participants
+      inputs$filename <- fname(info()$consultingnum, info()$projnum, info()$acronym)
 
       inputs$break_tasks <- unlist(strsplit(input$break_tasks, ","))
 

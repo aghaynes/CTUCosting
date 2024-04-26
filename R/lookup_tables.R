@@ -50,6 +50,7 @@ ratenames <- tibble::tribble(
   "docdev", "rate_csm",
   "dml",    "rate_dm",
   "dmf",    "rate_dm",
+  "dmr",    "rate_dm",
   "dm",     "rate_dm",
   "sta",    "rate_sta",
   "csm",    "rate_csm",
