@@ -110,7 +110,7 @@ snf_iict_yearly_budget <- function(hours, expenses, info, debug = FALSE){
   print("SNF budget: expenses")
   # expenses total only!
   print(expenses)
-  if(!is.na(expenses)){
+  if(class(expenses) == "data.frame"){
     walk(1:ncol(expenses),
          function(column){
            value <- expenses[nrow(expenses), column]
