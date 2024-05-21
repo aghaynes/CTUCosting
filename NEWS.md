@@ -1,3 +1,8 @@
+# CTUCosting 0.5.1 (2024-05-21)
+
+* bug fix: xlsx files for SNF projects with expenses failed (8415b16).
+* Universitätsklinik für Viszerale Chirurgie und Medizin split into two units: 'Viszerale und transplantationschirurgie' and 'Gastroenterologie' with separate clinic directors.
+
 # CTUCosting 0.5.0 (2024-04-18)
 
 * Add support for costings from the DM reporting group.
