@@ -1,3 +1,7 @@
+# CTUCosting 0.5.3 (2024-06-03)
+
+* update head of intensive medicine
+
 # CTUCosting 0.5.2 (2024-06-03)
 
 * change sponsor to customer in admin info
