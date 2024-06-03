@@ -7,7 +7,12 @@ info_to_dataframe <- function(info){
   tmp <- info |>
     as.data.frame() |>
     mutate(across(everything(), as.character)) |>
-    tidyr::pivot_longer(everything())
+    tidyr::pivot_longer(everything()) |>
+    mutate(name = case_when(
+      name == "sponsor_fun" ~ "customer_function",
+      name == "sponsor_responsible" ~ "customer_responsible",
+      name == "sponsor" ~ "customer",
+      TRUE ~ name))
 
   # make it wider for easier use by admin
   srcs <- tmp |>
