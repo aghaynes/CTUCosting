@@ -1,3 +1,9 @@
+# CTUCosting 0.5.2 (2024-06-03)
+
+* change sponsor to customer in admin info
+* include task level info in admin info
+* update neurology head to Urs Fischer
+
 # CTUCosting 0.5.1 (2024-05-21)
 
 * bug fix: xlsx files for SNF projects with expenses failed (8415b16).
