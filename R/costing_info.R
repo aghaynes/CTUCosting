@@ -92,6 +92,7 @@ costing_info <- function(data, metadata){
       # signatories
       sponsor =               inst,
       sponsor_responsible =   data$sponsor,
+      customer_function =     ifelse(length(data$sponsor_fun) > 0, data$sponsor_fun, NA),
       sign =                  sign,
       # rate
       ratelab =               rateopts$label[data$rate],

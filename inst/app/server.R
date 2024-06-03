@@ -649,6 +649,8 @@ function(input, output, session){
         , FTE = fte()$costs |> select_fte_for_admin()
         , expenses = selected_expenses() |> select_expenses_for_admin()
         , total = total_cost()
+        , all_tasks = selected_workpackages() |>
+            select(div, Service, item, desc, Hours, Units, Cost, wp_lab)
       )
 
       # print(str(inputs))
