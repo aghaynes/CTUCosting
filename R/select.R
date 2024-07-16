@@ -44,9 +44,11 @@ select_expenses_for_pdf <- function(data){
 #' @export
 select_expenses_for_admin <- function(data){
   exp_pf <- wp_lab <- exp_author <- Division <- Description <- Amount <- NULL
+  cat(names(data))
   out <- data |>
     ungroup() |>
-    select(wp_number = exp_pf, wp_lab, author = exp_author, Division, Description, Amount)
+    select(wp_number = exp_pf, wp_lab, author = exp_author, Division, Description,
+           Amount, Units = exp_units, `Cost per unit` = exp_cost)
   return(out)
 }
 
