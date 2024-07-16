@@ -1,3 +1,8 @@
+# CTUCosting 0.5.4 (2024-07-16)
+
+* update SNF template to 2024 rates
+* add number of units and cost per unit to the expenses form in admin info excel file
+
 # CTUCosting 0.5.3 (2024-06-03)
 
 * update head of intensive medicine
