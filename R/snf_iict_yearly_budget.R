@@ -35,7 +35,7 @@ snf_iict_yearly_budget <- function(hours, expenses, info, debug = FALSE){
   # excel file to use
 
   tmpdir <- tempdir()
-  filename <- "IICT-Offer-CTUservices2023.xlsx"
+  filename <- "IICT-Offer-CTUservices2024.xlsx"
   file <- system.file("ext", filename, package = "CTUCosting")
   file.copy(file, tmpdir)
   wb <- loadWorkbook(file.path(tmpdir, filename))
