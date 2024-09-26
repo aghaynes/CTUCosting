@@ -36,52 +36,90 @@ params:
   include_int: TRUE
   include_participants: TRUE
   filename: "filename"
-header-logo: "`r system.file('ext/ub_Logo_english_2019_RGB_wb.png', package = 'ctucosting')`"
 ---
 
-![](ub_Logo_english_2019_RGB_wb.png){.logo .right}
+<!-- ![](ub_Logo_english_2019_RGB_wb.png){.logo .right} -->
+<font size="1">
+[DCR, Mittelstrasse 43, 3012 Bern]{.underline}
 
-<p> </p>
+<table style: "width:100%; font-size: 8pt">
+  <tr>
+    <td style="width:77%">`r params$contact` </td>
+    <td><b>Faculty of Medicine</b></td>
+  </tr>
+  <tr>
+    <td>`r params$sponsor`</td>
+    <td>Department of Clinical Research</td>
+  </tr>
+  <tr>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td></td>
+    <td>Dr Ueli Reber</td>
+  </tr>
+  <tr>
+    <td></td>
+    <td>Head of Business Operations</td>
+  </tr>
+  <tr>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td></td>
+    <td>Mittelstrasse 43</td>
+  </tr>
+  <tr>
+    <td></td>
+    <td>3012 Bern</td>
+  </tr>
+  <tr>
+    <td></td>
+    <td>Switzerland</td>
+  </tr>
+  <tr>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td></td>
+    <td>www.dcr.unibe.ch</td>
+  </tr>
 
-<p> </p>
+</table>
+</font>
 
-```{r, fig.align = "right", echo = FALSE, out.width = "25%"}
-knitr::include_graphics("UNI_Logo_DCR_CTU.png", dpi = 300)
-
-```
-
-<p> </p>
-
-<p> </p>
+Bern, `r format(Sys.Date(), format = "%d.%m.%Y")`
 
 <p> </p>
 
 ```{r, echo = FALSE}
-htmltools::h2("Cost proposal for CTU Bern services")
+htmltools::h4("Cost proposal for DCR services")
 if(!params$initcosting){
-  htmltools::h4("Amendment to an existing service agreement")
+  htmltools::h5("Amendment to an existing service agreement")
 }
-htmltools::h4(paste0("Project: ", params$studyname, " (", params$acronym, ")"))
+htmltools::h5(paste0("Project: ", params$studyname, " (", params$acronym, ")"))
+htmltools::h5(paste0("DCR internal ", ifelse(params$initcosting, "consulting", "project"), " number: ", ifelse(params$initcosting, params$consultingnum, params$projnum)))
 ```
 
-CTU internal `r ifelse(params$initcosting, "consulting", "project")` number: `r ifelse(params$initcosting, params$consultingnum, params$projnum)`
 
-[`r paste0("<b>", params$acronym, "</b><br>Date: ", Sys.Date())`]{#acro}
-Date of the proposal: `r format(Sys.Date(), format = "%d.%m.%Y")`
-
-<p> </p>
 
 Dear `r params$contact`,
 
+
 `r params$first_page_text`
 
-For questions regarding this offer, please contact your CTU Bern consultant or send and email to [info.ctu\@unibe.ch](mailto:info.ctu@unibe.ch){.email}.
+For questions regarding this offer, please contact your DCR consultant or send an email to [admin.dcr\@unibe.ch](mailto:admin.dcr@unibe.ch){.email}.
 
 We look forward to your reply.
 
-With kind regards
+Kind regards
 
-Your CTU Bern team
+Dr Ueli Reber
+
+Head of Business Operations
 
 ```{r genprojinfo, echo = FALSE, results='asis', eval=params$break_projinfo, warning=FALSE}
   cat("\\newpage")
@@ -89,8 +127,6 @@ Your CTU Bern team
 ```
 
 ### General project information {.unnumbered}
-
-
 
 <p class="close">Project name and acronym: **`r paste0(params$studyname, " (", params$acronym, ")")`**</p>
 
@@ -116,7 +152,7 @@ cat(paste0('<p class="close">Number of participants: **', params$n_participants,
 
 <br>
 
-### Tasks for CTU to provide {.unnumbered}
+### Tasks for DCR to provide {.unnumbered}
 
 ```{r, echo = FALSE, message=FALSE, warning=FALSE}
 breaks_tf <- n_breaks <- FALSE
@@ -258,7 +294,7 @@ if(length(notes) > 0 && !is.na(notes) && notes != "NA"){
 
 This offer is valid for two months.
 
-For questions regarding the costing, please contact your CTU consultant or [ctu-info.dcr\@unibe.ch](mailto:ctu-info.dcr@unibe.ch){.email}.
+For questions regarding the costing, please contact your DCR consultant or [admin.dcr\@unibe.ch](mailto:admin.dcr@unibe.ch){.email}.
 
 All costs mentioned above are rounded up to the nearest 1 CHF.
 
@@ -271,4 +307,4 @@ if(!params$internal) cat("Please consider that this cost estimate does not inclu
 
 The proposed hours may vary depending on the complexity of the trial. 
 
-Note that the above mentioned hourly rate is subject to annual adaptation. Check [www.ctu.unibe.ch](https://www.ctu.unibe.ch) for the most up-to-date hourly rate.
+Note that the above mentioned hourly rate is subject to annual adaptation. Check [www.dcr.unibe.ch](https://www.dcr.unibe.ch) for the most up-to-date hourly rate.
