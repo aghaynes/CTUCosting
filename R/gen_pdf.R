@@ -19,9 +19,8 @@ gen_pdf <- function(output,
   file.copy(system.file("ext", "page-parts.css", package = "CTUCosting"), pageparts)
   file.copy(system.file("ext", "style.scss", package = "CTUCosting"), style)
   file.copy(system.file("ext", "custom_tbls.css", package = "CTUCosting"), tabs)
-  file.copy(system.file("ext", "ub_Logo_english_2019_RGB_wb.png", package = "CTUCosting"), tempdir)
-  file.copy(system.file("ext", "UNI_Logo_DCR_CTU.png", package = "CTUCosting"), tempdir)
-  file.copy(system.file("ext", "UNI_Logo_DCR_CTU.jpg", package = "CTUCosting"), tempdir)
+  file.copy(system.file("ext", "01_DCR_CMYK_POS.svg", package = "CTUCosting"), tempdir)
+  file.copy(system.file("ext", "ub_16pt-cmyk.svg", package = "CTUCosting"), tempdir)
   html <- file.path(tempdir, "costing.html")
 
   rmarkdown::render(Rmd,
