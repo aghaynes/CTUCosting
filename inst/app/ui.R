@@ -97,7 +97,7 @@ page_navbar(
   #           actionButton("updateLog", "Update Log"),
   #           verbatimTextOutput("console")),
 
-  title = "CTU Costing",
+  title = "DCR Costing",
 
   sidebar = sidebar(
     passwordInput("token", "Copy your API token from REDCap and paste it here:",
