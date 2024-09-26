@@ -1,3 +1,8 @@
+# CTUCosting 0.6.0 (2024-09-26)
+
+* restyle to approximate DCR letterhead, including DCR logo
+* switch email addresses to admin.dcr
+
 # CTUCosting 0.5.4 (2024-07-16)
 
 * update SNF template to 2024 rates
