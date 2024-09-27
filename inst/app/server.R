@@ -117,7 +117,9 @@ function(input, output, session){
 
   meta <- reactive(get_metadata(token = input$token))
   notes <- reactive(get_notes(d()))
-  filter_notes <- reactive(notes_filter(notes(), input$selected_workpackages))
+  filter_notes <- reactive(notes_filter(notes(),
+                                        input$selected_workpackages,
+                                        input$include_fte))
 
   info <- reactive({
     # print(d()$meta_information)

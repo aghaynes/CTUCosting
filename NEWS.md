@@ -2,6 +2,7 @@
 
 * restyle to approximate DCR letterhead, including DCR logo
 * switch email addresses to admin.dcr
+* bug fix: FTEs notes are now included in the PDF
 
 # CTUCosting 0.5.4 (2024-07-16)
 
