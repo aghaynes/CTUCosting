@@ -37,7 +37,7 @@ test_that("internal totals", {
   expect_equal(unlist(tot[grepl("number of hours", tot$Description),2]),
                "  -90", ignore_attr = TRUE)
   expect_equal(unlist(tot[grepl("Total", tot$Description),2]), "5'301", ignore_attr = TRUE)
-  expect_true("Internal project management (10%)" %in% tot$Description)
+  expect_true("Operating costs (10%)" %in% tot$Description)
   expect_true(!"University overhead (10%)" %in% tot$Description)
 
   tot2 <- totals(wp,
@@ -50,7 +50,7 @@ test_that("internal totals", {
   expect_equal(nrow(tot2), 5)
   expect_equal(unlist(tot2[grepl("number of hours", tot$Description),2]), " -150", ignore_attr = TRUE)
   expect_equal(unlist(tot2[grepl("Total", tot2$Description),2]), "5'241", ignore_attr = TRUE)
-  expect_true("Internal project management (10%)" %in% tot2$Description)
+  expect_true("Operating costs (10%)" %in% tot2$Description)
   expect_true(!"University overhead (10%)" %in% tot2$Description)
 })
 
@@ -66,8 +66,8 @@ test_that("external totals", {
   expect_equal(unlist(tot3[grepl("number of hours", tot3$Description),2]), "  -90", ignore_attr = TRUE)
   expect_equal(unlist(tot3[grepl("Total", tot3$Description),2]), "5'692", ignore_attr = TRUE)
   expect_equal(unlist(tot3[grepl("University overhead", tot3$Description),2]),
-               unlist(tot3[grepl("Internal project management", tot3$Description),2]), ignore_attr = TRUE)
-  expect_true("Internal project management (10%)" %in% tot3$Description)
+               unlist(tot3[grepl("Operating costs", tot3$Description),2]), ignore_attr = TRUE)
+  expect_true("Operating costs (10%)" %in% tot3$Description)
   expect_true("University overhead (10%)" %in% tot3$Description)
 
 
@@ -82,7 +82,7 @@ test_that("external totals", {
   expect_equal(unlist(tot4[grepl("number of hours", tot4$Description),2]), " -150", ignore_attr = TRUE)
   expect_equal(unlist(tot4[grepl("Total", tot4$Description),2]), "5'632", ignore_attr = TRUE)
   expect_equal(unlist(tot4[grepl("University overhead", tot4$Description),2]), unlist(tot4[3,2]), ignore_attr = TRUE)
-  expect_true("Internal project management (10%)" %in% tot4$Description)
+  expect_true("Operating costs (10%)" %in% tot4$Description)
   expect_true("University overhead (10%)" %in% tot4$Description)
 
 
@@ -100,9 +100,9 @@ test_that("fte totals", {
   expect_equal(unlist(tot3[grepl("number of hours", tot3$Description),2]), "  -90", ignore_attr = TRUE)
   expect_equal(unlist(tot3[grepl("Total", tot3$Description),2]), "5'792", ignore_attr = TRUE)
   expect_equal(unlist(tot3[grepl("University overhead", tot3$Description),2]),
-               unlist(tot3[grepl("Internal project management", tot3$Description),2]), ignore_attr = TRUE)
+               unlist(tot3[grepl("Operating costs", tot3$Description),2]), ignore_attr = TRUE)
   expect_equal(unlist(tot3[grepl("FTE", tot3$Description),2]), "  100", ignore_attr = TRUE)
-  expect_true("Internal project management (10%)" %in% tot3$Description)
+  expect_true("Operating costs (10%)" %in% tot3$Description)
   expect_true("University overhead (10%)" %in% tot3$Description)
 
 
@@ -117,7 +117,7 @@ test_that("fte totals", {
   expect_equal(unlist(tot4[grepl("number of hours", tot4$Description),2]), " -150", ignore_attr = TRUE)
   expect_equal(unlist(tot4[grepl("Total", tot4$Description),2]), "5'341", ignore_attr = TRUE)
   expect_equal(unlist(tot4[grepl("FTE", tot4$Description),2]), "  100", ignore_attr = TRUE)
-  expect_true("Internal project management (10%)" %in% tot4$Description)
+  expect_true("Operating costs (10%)" %in% tot4$Description)
   expect_true(!"University overhead (10%)" %in% tot4$Description)
   expect_true("FTE costs" %in% tot4$Description)
 
@@ -132,7 +132,7 @@ test_that("snf totals", {
                 snf = TRUE,
                 fte = fte2)
 
-  expect_true(!"Internal project management (10%)" %in% tot3$Description)
+  expect_true(!"Operating costs (10%)" %in% tot3$Description)
   expect_true(!"University overhead (10%)" %in% tot3$Description)
 
 })
