@@ -245,7 +245,9 @@ params$fte$costs |>
          Cost = cost) |> 
   mutate(Cost = format(Cost, big.mark = "'", nsmall = 0)) |>
   rename(`Cost (CHF)` = Cost) |> 
-  gt_fn()
+  gt_fn() |> 
+  tab_style(style = cell_text(align = "right"),
+            locations = cells_column_labels(columns = c("FTE", `Number of years`, `Cost (CHF)`)))
 ```
 
 ```{r expenseslab, echo = FALSE, results='asis', eval = !is.null(params$expenses)}
