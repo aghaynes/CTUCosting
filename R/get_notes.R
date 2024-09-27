@@ -43,6 +43,7 @@ concat_notes <- function(notes,
 #' filter notes based on selected workpackages
 #' @param notes list of notes from get_notes
 #' @param selected_workpackages which packages have been selected
+#' @param fte logical - whether to include full time equivalent
 #' @export
 notes_filter <- function(notes, selected_workpackages, fte){
   if(length(notes) > 0){
