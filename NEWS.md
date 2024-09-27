@@ -1,4 +1,4 @@
-# CTUCosting 0.6.0 (2024-09-26)
+# CTUCosting 0.6.0 (2024-09-27)
 
 * restyle to approximate DCR letterhead, including DCR logo
 * switch email addresses to admin.dcr
