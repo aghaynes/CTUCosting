@@ -2,7 +2,10 @@
 
 * restyle to approximate DCR letterhead, including DCR logo
 * switch email addresses to admin.dcr
+* improve header alignment in FTE table in PDF
+* refer to operating costs instead of internal project management
 * bug fix: FTEs notes are now included in the PDF
+* bug fix: fix location of page break prior to notes section
 
 # CTUCosting 0.5.4 (2024-07-16)
 
