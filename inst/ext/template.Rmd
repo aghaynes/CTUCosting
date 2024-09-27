@@ -276,6 +276,11 @@ params$total |>
   )
 ```
 
+```{r breaknotes, echo = FALSE, results='asis', eval=params$break_notes, warning=FALSE}
+  cat("\\newpage")
+  cat("\n\n")
+```
+
 ```{r notes, echo = FALSE, results='asis', warning=FALSE}
 notes <- params$notes
 if(length(notes) > 0 && !is.na(notes) && notes != "NA"){
@@ -283,11 +288,6 @@ if(length(notes) > 0 && !is.na(notes) && notes != "NA"){
   cat(notes)
   cat("\n\n")
 }
-```
-
-```{r breaknotes, echo = FALSE, results='asis', eval=params$break_notes, warning=FALSE}
-  cat("\\newpage")
-  cat("\n\n")
 ```
 
 ### General notes: {.unnumbered}
