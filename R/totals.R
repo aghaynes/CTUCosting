@@ -51,7 +51,7 @@ totals <- function(workpackages, expenses, discount, overhead, fte, snf, rate, d
       bind_rows(
         tibble::tribble(
           ~Description, ~`Cost (CHF)`,
-          "Internal project management (10%)", overhead$pm,
+          "Operating costs (10%)", overhead$pm,
         )
       )
   }

@@ -4,12 +4,14 @@
 \alias{notes_filter}
 \title{filter notes based on selected workpackages}
 \usage{
-notes_filter(notes, selected_workpackages)
+notes_filter(notes, selected_workpackages, fte)
 }
 \arguments{
 \item{notes}{list of notes from get_notes}
 
 \item{selected_workpackages}{which packages have been selected}
+
+\item{fte}{logical - whether to include full time equivalent}
 }
 \description{
 filter notes based on selected workpackages

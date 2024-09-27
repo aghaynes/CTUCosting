@@ -54,17 +54,23 @@ body {
 @page {
 
   @top-right {
-    content: element(header-logo);
-    height: 2cm;
+    /* content: url('header_logo.html'); */
+    /* content: running(header-logo); */
+    /* content: element(header-logo); */
+    /* content: url('01_DCR_RGB_POS.jpg'); */
+    /* content: url('DCRLogo_small.jpg'); */
+    content: url('01_DCR_CMYK_POS.svg');
   }
   @top-left {
-    content: "CTU Bern cost estimate" ;
+    content: "" ;
   }
   @bottom-right {
     content: 'Page ' counter(page) ' of ' counter(pages);
   }
   @bottom-left {
-    content: element(acro);
+    /* content: url('01_UNIBE_RGB.png'); */
+    /* content: url('ub_Logo_english_2019_RGB_wb_small.png'); */
+    content: url('ub_16pt-cmyk.svg');
     width: 80%;
   }
   margin-top: 3.25cm;
@@ -78,6 +84,7 @@ body {
   content: "Costing: ";
 }
 
+/*
 @page :first {
 
   @top-right {
@@ -93,6 +100,7 @@ body {
   }
   margin-top: 0cm
 }
+*/
 
 @media screen and (min-width: 12.32in) {
   .pagedjs_page, .pagedjs_first_page {

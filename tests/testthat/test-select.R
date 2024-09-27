@@ -27,7 +27,7 @@ d <- get_data(record, 5, token)
 e <- d$expenses |> expenses_prep(meta)
 test_that("variables from select_expenses_for_admin", {
   s <- select_expenses_for_admin(e)
-  expect_equal(names(s), c("wp_number", "wp_lab", "author", "Division", "Description", "Amount"))
+  expect_equal(names(s), c("wp_number", "wp_lab", "author", "Division", "Description", "Amount", "Units", "Cost per unit"))
 })
 test_that("variables from select_expenses_for_pdf", {
   s <- select_expenses_for_pdf(e)
