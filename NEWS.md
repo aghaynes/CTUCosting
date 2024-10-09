@@ -1,3 +1,7 @@
+# CTUCosting 0.6.1 (2024-10-09)
+
+* bug fix: notes were stopping the PDF from being generated
+
 # CTUCosting 0.6.0 (2024-09-27)
 
 * restyle to approximate DCR letterhead, including DCR logo

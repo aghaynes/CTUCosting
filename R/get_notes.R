@@ -55,7 +55,7 @@ notes_filter <- function(notes, selected_workpackages, fte){
       unique() |>
       na.omit()
     print(paste("NOTESFILTER: ", services))
-    if(fte) services <- c(services, "full_time_equivalent")
+    if(fte & "full_time_equivalent" %in% names(notes)) services <- c(services, "full_time_equivalent")
     out <- notes[services]
     print("filtered notes names")
     print(names(out))
