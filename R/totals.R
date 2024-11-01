@@ -5,6 +5,7 @@
 #' @param workpackages A tibble with the workpackages
 #' @param expenses A tibble with the expenses
 #' @param discount A tibble with the discount
+#' @param discount_chf Discount value (numeric)
 #' @param overhead A tibble with the overhead
 #' @param fte fte cost data
 #' @param snf A boolean indicating whether the project is an SNF project
@@ -13,7 +14,8 @@
 #'
 #' @importFrom dplyr bind_rows mutate
 #' @export
-totals <- function(workpackages, expenses, discount, overhead, fte, snf, rate, dlf = FALSE){
+totals <- function(workpackages, expenses, discount, discount_chf = 0,
+                   overhead, fte, snf, rate, dlf = FALSE){
   `Cost (CHF)` <- NULL
 
   print("totals(): FTE:")
@@ -39,13 +41,15 @@ totals <- function(workpackages, expenses, discount, overhead, fte, snf, rate, d
     print("totals(): snf loop")
     if(nrow(workpackages) > 0){
       print("totals(): workpackages loop")
-      total <- total |>
-        bind_rows(
-          tibble::tribble(
-            ~Description, ~`Cost (CHF)`,
-          paste0("Discount due to number of hours (", discount$discount_perc, "%)"), -sum(discount$discount_amount),
+      if(discount$discount_perc > 0){
+        total <- total |>
+          bind_rows(
+            tibble::tribble(
+              ~Description, ~`Cost (CHF)`,
+            paste0("Discount (", discount$discount_perc, "%)"), -sum(discount$discount_amount),
+            )
           )
-        )
+      }
     }
     total <- total |>
       bind_rows(
@@ -87,6 +91,17 @@ totals <- function(workpackages, expenses, discount, overhead, fte, snf, rate, d
         tibble::tribble(
           ~Description, ~`Cost (CHF)`,
           "Expenses", sum(expenses$Amount),
+        )
+      )
+  }
+
+  if(discount_chf > 0){
+    print("totals(): discount_chf loop")
+    total <- total |>
+      bind_rows(
+        tibble::tribble(
+          ~Description, ~`Cost (CHF)`,
+          "Discount", -discount_chf,
         )
       )
   }

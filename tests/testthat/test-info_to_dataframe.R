@@ -1,5 +1,7 @@
 
 d <- get_testdata_r1()
+# hack to get old data working
+d$meta_information$discount_chf <- 0
 meta <- get_testdata_meta()
 info <- costing_info(d, meta$metadata)
 

@@ -68,7 +68,7 @@ calc_discount <- function(workpackages, initcosting, discount_db,
                    c(0, seq(0,1000,100)/100))
                )
              ),
-           discount_perc = if_else(initcosting, discount, vec_cast(discount_db, double())))
+           discount_perc = vec_cast(discount_db, double()))
 
 
 
