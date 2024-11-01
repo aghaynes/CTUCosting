@@ -1,3 +1,9 @@
+# CTUCosting 0.7.0 (2024-11-01)
+
+* Discounts are no longer calculated based on the number of hours. Discounts are defined in REDCap.
+* Support for CHF value discount
+* Add rate for Regulatory Affairs in the SNF template
+
 # CTUCosting 0.6.1 (2024-10-09)
 
 * bug fix: notes were stopping the PDF from being generated

@@ -121,7 +121,6 @@ page_navbar(
     uiOutput("select_tasks"),
     uiOutput("select_expenses"),
     checkboxInput("include_fte", "Include FTE positions?", value = TRUE),
-    hr(),
     # selectInput("costing_type", "Costing type", c("CTU standard", "SNF")),
     HTML(
       '<h7 style="font-size:10pt;">For SNF projects, go to the SNF costings tab and  complete the tables. </h7>'

@@ -4,7 +4,17 @@
 \alias{totals}
 \title{Calculate totals}
 \usage{
-totals(workpackages, expenses, discount, overhead, fte, snf, rate, dlf = FALSE)
+totals(
+  workpackages,
+  expenses,
+  discount,
+  discount_chf = 0,
+  overhead,
+  fte,
+  snf,
+  rate,
+  dlf = FALSE
+)
 }
 \arguments{
 \item{workpackages}{A tibble with the workpackages}
@@ -12,6 +22,8 @@ totals(workpackages, expenses, discount, overhead, fte, snf, rate, dlf = FALSE)
 \item{expenses}{A tibble with the expenses}
 
 \item{discount}{A tibble with the discount}
+
+\item{discount_chf}{Discount value (numeric)}
 
 \item{overhead}{A tibble with the overhead}
 

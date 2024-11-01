@@ -163,10 +163,10 @@ function(input, output, session){
                   value = textOutput("vb_total_txt"),
                   showcase = bsicons::bs_icon("cash"),
                   theme = "primary"),
-        value_box(title = "Discount percentage",
+        value_box(title = "Discount (%, CHF)",
                   value = textOutput("vb_discount_txt"),
                   showcase = bsicons::bs_icon("percent"),
-                  p(textOutput("vb_discount_redcap_txt")),
+                  "(as entered in REDCap)",
                   theme = "primary"),
 
 
@@ -238,15 +238,8 @@ function(input, output, session){
     req(record_meta_exists())
     req(record_tasks_exist())
     req(discount())
-    ifelse(!info()$snf, discount()$discount_perc, "N/A - SNF rates apply")
-  })
-  output$vb_discount_redcap_txt <- renderText({
-    req(record_meta_exists())
-    req(record_tasks_exist())
-    req(discount())
-    ifelse(info()$initcosting,
-           "Enter this value in the 'Discount percentage' field in REDCap",
-           "(taken from the initial costing in REDCap)")
+    # ifelse(!info()$snf, discount()$discount_perc, "N/A - SNF rates apply")
+    paste0(discount()$discount_perc, "%, ", info()$discount_chf, " CHF")
   })
   output$vb_proj_consulting_txt <- renderText({
     req(record_meta_exists())
@@ -423,6 +416,7 @@ function(input, output, session){
     totals(workpackages = selected_workpackages(),
            expenses = selected_expenses(),
            discount = discount(),
+           discount_chf = info()$discount_chf,
            overhead = overhead_tab(),
            fte = fte(),
            snf = info()$snf,

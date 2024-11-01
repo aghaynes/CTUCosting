@@ -17,8 +17,8 @@ wp2 <- tibble::tribble(
 
 test_that("calc_discount returns appropriate result for initial", {
 
-  disc <- calc_discount(wp, TRUE, NA, FALSE)
-  disc2 <- calc_discount(wp2, TRUE, NA, FALSE)
+  disc <- calc_discount(wp, TRUE, 3, FALSE)
+  disc2 <- calc_discount(wp2, TRUE, 3, FALSE)
 
   expect_equal(disc$discount_perc, 3)
   expect_equal(disc$discount_amount, 3000 * 0.03)

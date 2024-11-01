@@ -8,7 +8,7 @@ wp <- tibble::tribble(
   "100.2",  100,  1000, 1,
 )
 
-disc <- calc_discount(wp, TRUE, NA, FALSE)
+disc <- calc_discount(wp, TRUE, 3, FALSE)
 
 test_that("overhead calculates 10%", {
   o <- overhead(disc)

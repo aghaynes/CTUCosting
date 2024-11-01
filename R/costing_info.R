@@ -123,7 +123,8 @@ costing_info <- function(data, metadata){
       n_database_src =        fn(metadata, data, "n_db_src"),
       # other
       intervention =          fn(metadata, data, "int_type"),
-      discount_db =           ifelse(initcosting, data$discount, data$discount2),
+      discount_db =           ifelse(!is.na(data$discount), data$discount, 0),
+      discount_chf =          ifelse(!is.na(data$discount_chf), data$discount_chf, 0),
       costing_txt =           ifelse(initcosting, data$costing_txt_init, data$costing_txt_amend),
       full_service_db =       fn(metadata, dmf, "dmf_cdms")
     )
