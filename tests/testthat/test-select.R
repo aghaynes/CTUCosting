@@ -11,7 +11,7 @@ e7 <- expenses_prep(d$expenses, meta)
 
 test_that("variables from select_for_admin", {
   s <- select_for_admin(wp)
-  expect_equal(names(s), c("Service", "wp", "wp_lab", "Hours", "Rate", "Cost"))
+  expect_equal(names(s), c("Service", "wp", "wp_lab", "Hours", "Rate", "Cost","comment"))
 })
 test_that("variables from select_for_pdf", {
   s <- select_for_pdf(wp)

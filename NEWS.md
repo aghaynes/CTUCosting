@@ -1,3 +1,7 @@
+# CTUCosting 0.7.1 (2024-11-27)
+
+* Added a comment column for admin about fixed costs for DB closure.
+
 # CTUCosting 0.7.0 (2024-11-01)
 
 * Discounts are no longer calculated based on the number of hours. Discounts are defined in REDCap.
