@@ -1,3 +1,7 @@
+# CTUCosting 0.7.2 (2025-01-17)
+
+* updated clinic director names, updated clinic names
+
 # CTUCosting 0.7.1 (2024-11-27)
 
 * Added a comment column for admin about fixed costs for DB closure.
