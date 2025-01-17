@@ -6,7 +6,9 @@
 select_for_admin <- function(data){
   Service <- wp <- wp_lab <- Hours <- Rate <- Cost <- NULL
   data |>
-    select(Service, wp, wp_lab, Hours, Rate, Cost)
+    select(Service, wp, wp_lab, Hours, Rate, Cost) |>
+    mutate(comment = ifelse(wp == "045.3", "!!Fixed price, not hourly!!", ""))
+
 }
 
 #' select relevant workpackage variables for PDF
