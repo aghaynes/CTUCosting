@@ -1,3 +1,7 @@
+# CTUCosting 0.7.3 (2025-03-13)
+
+* added one clinic with its director
+
 # CTUCosting 0.7.2 (2025-01-17)
 
 * updated clinic director names, updated clinic names
