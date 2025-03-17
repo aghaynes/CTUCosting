@@ -1,3 +1,7 @@
+# CTUCosting 0.7.4 (2025-03-17)
+
+* update new head of gastroenterologie
+
 # CTUCosting 0.7.3 (2025-03-13)
 
 * added one clinic with its director
