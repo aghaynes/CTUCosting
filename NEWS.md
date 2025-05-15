@@ -1,3 +1,7 @@
+# CTUCosting 0.7.5 (2025-05-15)
+
+* Addition of "Zentrum für Rehabilitation und Sportmedizin" (which is not technically a clinic, so was previously missed)
+
 # CTUCosting 0.7.4 (2025-03-17)
 
 * update new head of gastroenterologie
