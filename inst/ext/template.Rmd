@@ -234,7 +234,7 @@ cat(unlist(res), sep = "\n\n\\pagebreak\n\n")
 ```{r ftes_title, echo = FALSE, eval = params$fte$fte, results='asis'}
 cat("### Full time equivalents {.unnumbered}\n\n")
 
-cat(paste0("Position title: **", params$fte$role, "**"))
+# cat(paste0("Position title: **", params$fte$role, "**"))
 ```
 
 ```{r ftes, echo = FALSE, eval = params$fte$fte}
@@ -245,6 +245,7 @@ params$fte$costs |>
          Cost = cost) |> 
   mutate(Cost = format(Cost, big.mark = "'", nsmall = 0)) |>
   rename(`Cost (CHF)` = Cost) |> 
+  group_by(fte_role) |> 
   gt_fn() |> 
   tab_style(style = cell_text(align = "right"),
             locations = cells_column_labels(columns = c("FTE", `Number of years`, `Cost (CHF)`)))

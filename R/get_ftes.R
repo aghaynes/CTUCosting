@@ -9,20 +9,20 @@ get_ftes <- function(d, meta, include = TRUE){
 
   if(nrow(d$full_time_equivalent) > 0 & include){
     long <- d$full_time_equivalent |>
-      mutate(across(everything(), as.character)) |>
+      mutate(across(everything(), as.character), row = 1:n()) |> #names()
       # select(-c(record_id, redcap_event_name, redcap_repeat_instrument, redcap_repeat_instance),
       #        -matches("date|total_hours|cost|notes|author|complete")) %>%
       # select(matches("_[[:digit:]]{1,2}")) |> names()
-      select(matches("(desc|prop|units|cost)_")) |>
+      select(matches("row|fte_role|(desc|prop|units|cost)_")) |>
       pivot_longer(matches("(desc|prop|units|cost)_"),
                    names_sep = "_", names_to = c("service", "var", "item")) |> #View()
       pivot_wider(names_from = var) |> #View()
       # select(fte_div, fte_) |>
       mutate(across(c(prop, units, cost), as.numeric)) |>
-      select(desc, prop, units, cost)
+      select(fte_role, desc, prop, units, cost)
 
     long <- long |>
-      filter(!is.na(desc) & desc != "")
+      filter(!is.na(desc) & desc != "" & !is.na(cost) & cost > 0)
 
     print("FTEs long:")
     print(long)
