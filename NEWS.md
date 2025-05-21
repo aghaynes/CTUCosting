@@ -1,3 +1,7 @@
+# CTUCosting 0.7.6 (2025-05-21)
+
+* Support for multiple FTEs in a costing
+
 # CTUCosting 0.7.5 (2025-05-15)
 
 * Addition of "Zentrum für Rehabilitation und Sportmedizin" (which is not technically a clinic, so was previously missed)
