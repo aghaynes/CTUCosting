@@ -368,6 +368,17 @@ function(input, output, session){
                     include = input$include_fte)
   })
 
+  output$bad_fte_role <- renderUI({
+    if(fte()$fte){
+      if(length(unique(fte()$role)) < length(fte()$role)){
+        shinyalert("Oops!", "Duplicate FTE job title found", type = "error")
+        fluidRow(span("FTE Job Titles should be unique to avoid confusion in the costing",
+                      style="color:red; margin-left: 15px;"))
+
+      }
+    }
+  })
+
   output$dt_fte <- renderDataTable({
     fte()$costs |>
       rename(Description = desc,
