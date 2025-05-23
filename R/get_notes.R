@@ -10,6 +10,7 @@ get_notes <- function(data){
         select(any_of("dml_notes_standard"), ends_with("notes"), any_of("dmf_notes_2"))
       if(nrow(tmp) > 0) tmp <- tmp |> select(where(~any(!is.na(.x))))
       if(ncol(tmp) > 1) tmp <- paste(tmp, collapse = "\n\n")
+      if("fte_notes" %in% names(x)) tmp <- paste(paste(x$fte_role, x$fte_notes, sep = "\n\n"), collapse = "\n\n")
       unlist(tmp)
     }
   })
