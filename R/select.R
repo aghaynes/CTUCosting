@@ -60,5 +60,5 @@ select_expenses_for_admin <- function(data){
 select_fte_for_admin <- function(data){
   desc <- prop <- units <- cost <- NULL
   data |>
-    select(Description = desc, FTE = prop, Years = units, ApproxCost = cost)
+    select(Role = fte_role, Description = desc, FTE = prop, Years = units, ApproxCost = cost)
 }

@@ -2,7 +2,7 @@
 #' @param d downloaded data
 #' @param meta metadata
 #' @param include include FTE data in the costing?
-#' @importFrom dplyr join_by
+#' @importFrom dplyr join_by n
 #' @export
 
 get_ftes <- function(d, meta, include = TRUE){
