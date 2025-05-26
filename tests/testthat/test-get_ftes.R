@@ -13,7 +13,7 @@ test_that("no error", {
 dat <- get_ftes(d, meta, TRUE)
 test_that("Correct output", {
   expect_true(dat$fte)
-  expect_equal(dim(dat$costs), c(6, 4))
+  expect_equal(dim(dat$costs), c(6, 5))
   expect_equal(dat$div, "Statistics")
   expect_equal(dat$role, "Arnold Rimmer")
   expect_equal(dat$costs$desc[c(1,6)], c("Year 1", "Year 5 (last 6 months)"))

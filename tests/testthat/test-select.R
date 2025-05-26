@@ -20,7 +20,7 @@ test_that("variables from select_for_pdf", {
 test_that("variables from select_for_fte", {
   fte <- d |> get_ftes(meta, TRUE)
   s <- select_fte_for_admin(fte$costs)
-  expect_equal(names(s), c("Description", "FTE", "Years", "ApproxCost"))
+  expect_equal(names(s), c("Role", "Description", "FTE", "Years", "ApproxCost"))
 })
 
 d <- get_data(record, 5, token)

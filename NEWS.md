@@ -1,3 +1,7 @@
+# CTUCosting 0.7.7 (2025-05-26)
+
+* Add role name to admin info
+
 # CTUCosting 0.7.6 (2025-05-21)
 
 * Support for multiple FTEs in a costing

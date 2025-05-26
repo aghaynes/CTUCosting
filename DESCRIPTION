@@ -1,7 +1,7 @@
 Package: CTUCosting
 Type: Package
 Title: Machinery for CTU costings
-Version: 0.7.6
+Version: 0.7.7
 Authors@R:
     c(
     person(given = "Alan G.", family = "Haynes", role = "cre",
@@ -32,7 +32,7 @@ Imports:
     tidyr,
     vctrs,
     writexl
-RoxygenNote: 7.3.0
+RoxygenNote: 7.3.2
 Suggests:
     bsicons,
     bslib,
