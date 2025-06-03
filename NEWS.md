@@ -1,3 +1,7 @@
+# CTUCosting 0.7.8 (2025-06-03)
+
+* bug fix for costings erroring without FTEs
+
 # CTUCosting 0.7.7 (2025-05-26)
 
 * Add role name to admin info
