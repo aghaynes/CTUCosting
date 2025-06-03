@@ -33,7 +33,7 @@ get_ftes <- function(d, meta, include = TRUE){
   } else {
     fte <- FALSE
     long <- tibble::tribble(
-      ~desc, ~prop, ~units, ~cost,
+      ~fte_role, ~desc, ~prop, ~units, ~cost,
     )
     div <- NA
     role <- NA
