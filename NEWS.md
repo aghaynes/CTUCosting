@@ -1,3 +1,7 @@
+# CTUCosting 0.8.0 (2025-08-14)
+
+* add support for CIU and PPI
+
 # CTUCosting 0.7.8 (2025-06-03)
 
 * bug fix for costings erroring without FTEs

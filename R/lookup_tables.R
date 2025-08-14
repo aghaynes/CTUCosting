@@ -65,7 +65,8 @@ ratenames <- tibble::tribble(
   "cdm",    "rate_mon",
   "ra",     "rate_ra",
   "cdmra",  "rate_ra",
-  "gen",    "rate_mon"
+  "gen",    "rate_mon",
+  "ppi",    "rate_ppi",
 
 )
 

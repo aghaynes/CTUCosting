@@ -16,7 +16,15 @@ get_workpackage_data <- function(d, meta){
 
   value <- name <- name1 <- hours <- Units <- Hours <- rate <- NULL
 
-  workpackages <- lapply(d[2:14], get_wp_df) |> # [5:6]: expected 3 pieces. additional pieces discarded in 29, 89
+  forms <- c("clinical_study_management", "document_development",
+             "regulatory_support", "dm_redcap_light", "dm_full_services",
+             "dm_reporting", "study_website", "sharefile_cloud",
+             "monitoring_onsite_remote", "central_data_monitoring",
+             "research_assistant", "statistics", "quality_management",
+             "clinical_investigation_unit", "patient_and_public_involvement"
+             )
+
+  workpackages <- lapply(d[forms], get_wp_df) |> # [5:6]: expected 3 pieces. additional pieces discarded in 29, 89
     data.table::rbindlist()
 
   if(nrow(workpackages) == 0){
