@@ -58,15 +58,13 @@ get_workpackage_data <- function(d, meta){
                                   data.table::rbindlist())
       }
     }
-
     workpackages <- workpackages |>
       left_join(servicenames) |>
       left_join(ratenames, by = c("service")) |>
       left_join(rates_fn(d[[1]]),
                 "rate_name") |> #str() #View()
       left_join(wp_codes(meta$metadata), by = c(wp = "val")) |>  #View()#names()
-      mutate(Hours = ceiling(Hours),
-             Cost = Units * Hours * rate) |>  #View()
+      mutate(Cost = Units * Hours * rate) |>  #View()
       rename(
         Rate = rate
       ) |>
