@@ -1,3 +1,7 @@
+# CTUCosting 0.7.9 (2025-08-20)
+
+* rounding Hours to prevent unpleasant formatting within workpackages
+
 # CTUCosting 0.7.8 (2025-06-03)
 
 * bug fix for costings erroring without FTEs
