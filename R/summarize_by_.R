@@ -17,6 +17,10 @@ summarize_by_wp <- function(data){
               Hours = sum(Hours * Units),
               Rate = mean(Rate),
               Cost = sum(Cost)
+    ) |>
+    mutate(
+      Hours = ceiling(Hours),
+      Cost = ceiling(Cost)
     )
 }
 

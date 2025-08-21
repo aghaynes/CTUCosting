@@ -1,3 +1,7 @@
+# CTUCosting 0.7.8 (2025-08-21)
+
+* adding a rounding (ceiling) of hours and costs to prevent partial amounts that mess up the formatting
+
 # CTUCosting 0.7.8 (2025-06-03)
 
 * bug fix for costings erroring without FTEs
