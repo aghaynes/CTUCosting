@@ -1,4 +1,4 @@
-# CTUCosting 0.7.8 (2025-08-21)
+# CTUCosting 0.7.9 (2025-08-21)
 
 * adding a rounding (ceiling) of hours and costs to prevent partial amounts that mess up the formatting
 
