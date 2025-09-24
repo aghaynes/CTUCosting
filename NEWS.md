@@ -1,3 +1,7 @@
+# CTUCosting 0.7.10 (2025-09-24)
+
+* switch email addresses to operations.dcr
+
 # CTUCosting 0.7.9 (2025-08-21)
 
 * adding a rounding (ceiling) of hours and costs to prevent partial amounts that mess up the formatting

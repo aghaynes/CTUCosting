@@ -111,7 +111,7 @@ Dear `r params$contact`,
 
 `r params$first_page_text`
 
-For questions regarding this offer, please contact your DCR consultant or send an email to [admin.dcr\@unibe.ch](mailto:admin.dcr@unibe.ch){.email}.
+For questions regarding this offer, please contact your DCR consultant or send an email to [operations.dcr\@unibe.ch](mailto:operations.dcr@unibe.ch){.email}.
 
 We look forward to your reply.
 
@@ -297,7 +297,7 @@ if(length(notes) > 0 && !is.na(notes) && notes != "NA"){
 
 This offer is valid for two months.
 
-For questions regarding the costing, please contact your DCR consultant or [admin.dcr\@unibe.ch](mailto:admin.dcr@unibe.ch){.email}.
+For questions regarding the costing, please contact your DCR consultant or [operations.dcr\@unibe.ch](mailto:operations.dcr@unibe.ch){.email}.
 
 All costs mentioned above are rounded up to the nearest 1 CHF.
 
