@@ -42,10 +42,12 @@ concat_notes <- function(notes,
   if(length(notes) > 0){
     notes <- notes[!sapply(notes, function(x) x %in% c("NA", "NA\n\nNA"))]
 
+    servnames <- servicenames
+
     if("generic" %in% names(notes)){
       # names(notes)[names(notes) == "generic"] <- attr(notes$generic, "div")
 
-      servnames <- rbind(servicenames,
+      servnames <- rbind(servnames,
                          data.frame(
                            service = "",
                            Service = attr(notes$generic, "div"),
