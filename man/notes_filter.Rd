@@ -4,7 +4,7 @@
 \alias{notes_filter}
 \title{filter notes based on selected workpackages}
 \usage{
-notes_filter(notes, selected_workpackages, fte)
+notes_filter(notes, selected_workpackages, fte, generic = TRUE)
 }
 \arguments{
 \item{notes}{list of notes from get_notes}

@@ -1,5 +1,6 @@
 #' extract external note fields
 #' @param data list of dataframes from get_data
+#' @param meta metadata from get_meta
 #' @importFrom dplyr select ends_with any_of where
 #' @export
 get_notes <- function(data, meta){
