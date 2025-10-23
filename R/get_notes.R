@@ -71,6 +71,7 @@ concat_notes <- function(notes,
 #' @param notes list of notes from get_notes
 #' @param selected_workpackages which packages have been selected
 #' @param fte logical - whether to include full time equivalent
+#' @param generic logical - whether to include the generic form
 #' @export
 notes_filter <- function(notes, selected_workpackages, fte, generic = TRUE){
   if(length(notes) > 0){
