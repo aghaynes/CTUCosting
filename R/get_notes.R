@@ -2,7 +2,7 @@
 #' @param data list of dataframes from get_data
 #' @importFrom dplyr select ends_with any_of where
 #' @export
-get_notes <- function(data){
+get_notes <- function(data, meta){
 
   vals <- lapply(data, function(x){
     if(nrow(x) > 0){
@@ -16,6 +16,16 @@ get_notes <- function(data){
   })
 
   tmp <- vals[unlist(sapply(vals, function(x) length(x) > 0 && !is.na(x)))]
+
+  if("generic" %in% names(tmp)){
+    gendat <- data$generic |>
+      mutate(service = specific_option(meta$metadata, data$generic, "gen_div"))
+
+    divname <- divnames$division[match(gendat$service, divnames$div)]
+    attr(tmp$generic, "div") <- divname
+  }
+
+
   tmp
 
 }
@@ -32,8 +42,21 @@ concat_notes <- function(notes,
   if(length(notes) > 0){
     notes <- notes[!sapply(notes, function(x) x %in% c("NA", "NA\n\nNA"))]
 
-    paste0("**", servicenames$Service[match(names(notes), servicenames$form)], "**",
-          header_sep, notes, collapse = collapse)
+    if("generic" %in% names(notes)){
+      # names(notes)[names(notes) == "generic"] <- attr(notes$generic, "div")
+
+      servnames <- rbind(servicenames,
+                         data.frame(
+                           service = "",
+                           Service = attr(notes$generic, "div"),
+                           div = "",
+                           form = "generic"
+                         ))
+    }
+
+    paste0("**", servnames$Service[match(names(notes), servnames$form)], "**",
+                   header_sep, notes, collapse = collapse)
+
   }
 }
 
@@ -46,7 +69,7 @@ concat_notes <- function(notes,
 #' @param selected_workpackages which packages have been selected
 #' @param fte logical - whether to include full time equivalent
 #' @export
-notes_filter <- function(notes, selected_workpackages, fte){
+notes_filter <- function(notes, selected_workpackages, fte, generic = TRUE){
   if(length(notes) > 0){
     wps <- selected_workpackages
     services <- servicenames |>
@@ -57,6 +80,7 @@ notes_filter <- function(notes, selected_workpackages, fte){
       na.omit()
     print(paste("NOTESFILTER: ", services))
     if(fte & "full_time_equivalent" %in% names(notes)) services <- c(services, "full_time_equivalent")
+    if(generic & "generic" %in% names(notes)) services <- c(services, "generic")
     out <- notes[services]
     print("filtered notes names")
     print(names(out))
