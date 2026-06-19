@@ -93,15 +93,19 @@ get_wp_df <- function(d){
 
   var <- wp <- hours <- service <- desc <- NULL
 
-  # print(d)
-  if(nrow(d) > 0){
+  # Bulletproof check for missing, NULL, or empty data
+  if(!is.null(d) && length(nrow(d)) > 0 && nrow(d) > 0){
     d |>
       mutate(across(everything(), as.character)) |>
       # select(-c(record_id, redcap_event_name, redcap_repeat_instrument, redcap_repeat_instance),
-      #        -matches("date|total_hours|cost|notes|author|complete")) %>%
+      #         -matches("date|total_hours|cost|notes|author|complete")) %>%
       select(matches("_[[:digit:]]{1,2}")) |>
+
+      # FIX: Changed names_sep to names_pattern to capture complex prefixes safely
       pivot_longer(matches("(hours|wp|desc|units)_"),
-                   names_sep = "_", names_to = c("service", "var", "item")) |>
+                   names_pattern = "^(.*)_(hours|wp|desc|units)_([[:digit:]]+)$",
+                   names_to = c("service", "var", "item")) |>
+
       pivot_wider(names_from = var) |>
       mutate(across(c("hours", "units", "wp"), as.numeric),
              wp = sprintf("%05.1f", wp)) |>
@@ -109,8 +113,36 @@ get_wp_df <- function(d){
              Hours = hours) |>
       select(service:wp) |>
       filter(!is.na(desc) & desc != "")
+  } else {
+    # Return NULL safely if there are no rows or data is missing
+    return(NULL)
   }
 }
+# get_wp_df <- function(d){
+#
+#   var <- wp <- hours <- service <- desc <- NULL
+#
+#   # Bulletproof check for missing, NULL, or empty data
+#   if(!is.null(d) && length(nrow(d)) > 0 && nrow(d) > 0){
+#     d |>
+#       mutate(across(everything(), as.character)) |>
+#       # select(-c(record_id, redcap_event_name, redcap_repeat_instrument, redcap_repeat_instance),
+#       #         -matches("date|total_hours|cost|notes|author|complete")) %>%
+#       select(matches("_[[:digit:]]{1,2}")) |>
+#       pivot_longer(matches("(hours|wp|desc|units)_"),
+#                    names_sep = "_", names_to = c("service", "var", "item")) |>
+#       pivot_wider(names_from = var) |>
+#       mutate(across(c("hours", "units", "wp"), as.numeric),
+#              wp = sprintf("%05.1f", wp)) |>
+#       rename(Units = units,
+#              Hours = hours) |>
+#       select(service:wp) |>
+#       filter(!is.na(desc) & desc != "")
+#   } else {
+#     # Return NULL safely if there are no rows or data is missing
+#     return(NULL)
+#   }
+# }
 
 #' extract generic workpackage data
 #'

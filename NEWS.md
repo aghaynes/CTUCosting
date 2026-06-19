@@ -1,5 +1,11 @@
+# CTUCosting 0.8.1 (2026-06-17)
 
-# CTUCosting 0.8.0 (2025-05-01)
+* update new clinic heads, add human genetics clinic
+* comment out SNF costing functionality
+* skip test on test-snf_iict_yearly_budget.R
+* add CIU into the generated test data
+
+# CTUCosting 0.8.0 (2026-05-01)
 
 * IMPORTANT - only yellow or green forms are included in costings now
 * switch from using pagedown (and chrome) to quarto (typst) for generating PDFs

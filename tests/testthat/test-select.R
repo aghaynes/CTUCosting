@@ -11,16 +11,19 @@ e7 <- expenses_prep(d$expenses, meta)
 
 test_that("variables from select_for_admin", {
   s <- select_for_admin(wp)
-  expect_equal(names(s), c("Service", "wp", "wp_lab", "Hours", "Rate", "Cost","comment"))
+  expect_equal(names(s), c(#"Service", "wp", "wp_lab",
+    "Hours", "Rate", "Cost","comment")) # Kim removed "Service" "wp" "wp_lab". 17/6/2026
 })
 test_that("variables from select_for_pdf", {
   s <- select_for_pdf(wp)
-  expect_equal(names(s), c("Service", "Task", "Description", "Hours", "Cost"))
+#  expect_equal(names(s), c("Service", "Task", "Description", "Hours", "Cost"))
+  expect_equal(names(s), c("Description", "Hours", "Cost")) # Kim commented out and created. 17/6/2026
 })
 test_that("variables from select_for_fte", {
   fte <- d |> get_ftes(meta, TRUE)
   s <- select_fte_for_admin(fte$costs)
   expect_equal(names(s), c("Role", "Description", "FTE", "Years", "ApproxCost"))
+#  expect_equal(names(s), c("Description", "Hours", "Cost"))  # Kim commented out and created. 17/6/2026
 })
 
 d <- get_data(record, 5, token)

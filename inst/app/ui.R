@@ -33,9 +33,9 @@ page_navbar(
     uiOutput("costing"),
     ),
 
-  # SNF costings
-  nav_panel("SNF costings",
-            uiOutput("snf_ui")),
+#  # SNF costings
+#  nav_panel("SNF costings",
+#            uiOutput("snf_ui")),
 
   # instruction pane
   nav_panel(
@@ -74,20 +74,20 @@ page_navbar(
       "It is also possible to remove specific parts of the general information, or insert page breaks at particular locations.",
       "Set the relevant check boxes as appropriate.",
       tags$br(),
-      tags$h4("SNF"),
-      "For SNF projects, the SNF require a specific form of budget in an excel file. This can be generated on the",
-      tags$em('SNF costings'), "tab at the top of the page. ",
-      tags$br(),
-      "The first table on the page allows you to distribute the hours across the different tasks, as defined by the SNF",
-      "(each row of the table; ProjectFacts work packages have already been assigned to a particular SNF task). ",
-      "Double click on the 0s and set them to the proportion of hours that should be assigned to each task in that year (values between 0 and 1).",
-      "When the values in a row sum up to 1, the right hand column will turn green.",
+#      tags$h4("SNF"),
+#      "For SNF projects, the SNF require a specific form of budget in an excel file. This can be generated on the",
+#      tags$em('SNF costings'), "tab at the top of the page. ",
+#      tags$br(),
+#      "The first table on the page allows you to distribute the hours across the different tasks, as defined by the SNF",
+#      "(each row of the table; ProjectFacts work packages have already been assigned to a particular SNF task). ",
+#      "Double click on the 0s and set them to the proportion of hours that should be assigned to each task in that year (values between 0 and 1).",
+#      "When the values in a row sum up to 1, the right hand column will turn green.",
       tags$br(),
       "The second table shows the number of hours and the value of that amount of time, as entered in the first table.",
       tags$br(),
       "Expenses can be distributed in the next table, with the total value in the final table.",
-      tags$br(),
-      "The excel file can then be exported via the ", tags$em('Download SNF budget'), "button.",
+#      tags$br(),
+#      "The excel file can then be exported via the ", tags$em('Download SNF budget'), "button.",
       tags$br(),
       "This file should then be opened in Excel so that the formulas can be recalculated.",
       )
@@ -123,9 +123,9 @@ page_navbar(
     uiOutput("select_expenses"),
     checkboxInput("include_fte", "Include FTE positions?", value = TRUE),
     # selectInput("costing_type", "Costing type", c("CTU standard", "SNF")),
-    HTML(
-      '<h7 style="font-size:10pt;">For SNF projects, go to the SNF costings tab and  complete the tables. </h7>'
-    ),
+#    HTML(
+#      '<h7 style="font-size:10pt;">For SNF projects, go to the SNF costings tab and  complete the tables. </h7>'
+#    ),
     hr(),
     tags$u(tags$b("Generate costing outputs")),
     # actionButton("pdf", "Generate PDF"),

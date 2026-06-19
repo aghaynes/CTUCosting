@@ -12,7 +12,7 @@ test_that("get_workpackage_data - check variable names", {
 
 test_that("get_workpackage_data - content", {
   # number of tasks
-  expect_equal(nrow(wp), 17)
+  expect_equal(nrow(wp), 20) # Kim changed to 20 instead of 17. 17/6/2026
   # involved services
   expect_true(all(c("dml", "sta") %in% wp$service))
 

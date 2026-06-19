@@ -1,3 +1,5 @@
+skip("going to remove this functionality")
+
 d <- get_testdata_r1()
 meta <- get_testdata_meta()
 wps <- get_workpackage_data(d, meta)

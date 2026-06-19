@@ -1,9 +1,9 @@
 "Clinic","Head.of.clinic","Insel"
 "Department for Biomedical Research (DBMR)","Prof. Dr. Mark Rubin",FALSE
 "Direktion Lehre und Forschung","Prof. Dr. Matthias Gugger",TRUE
-"Direktion Pflege","Ulrich von Allmen",FALSE
+"Direktion Pflege","Dr. Paula Adomeit",FALSE
 "Geriatrische Universitätsklinik","Dr. Franz Fäh",TRUE
-"Insel Data Science Center, Direktion Technologie und Innovation","Dr. Giovanni Conti",TRUE
+"Insel Data Science Center, Direktion Technologie und Innovation","Pascal Schär",TRUE
 "Insel Data Science Center, Technologie IDSC (DTI)","Matthias Kämpf",TRUE
 "Insel Data Science Center, Bio-Imaging (DTI)","Mauricio Reyes",TRUE
 "Institut für Physiotherapie","Dr. Martin Verra",FALSE
@@ -15,7 +15,7 @@
 "Universitätsinstitut für Klinische Chemie","Prof. Dr. Martin Fiedler",TRUE
 "Universitätsklinik für Allgemeine Innere Medizin","Prof. Dr. Drahomir Aujesky",TRUE
 "Universitätsklinik für Anästhesiologie und Schmerzmedezin","Prof. Dr. Frank Stüber",TRUE
-"Universitätsklinik für Angiologie","Prof. Dr. Marc Schindewolf",TRUE
+"Universitätsklinik für Angiologie","Prof. Dr. med. Drosos Kotelis",TRUE
 "Universitätsklinik für Augenheilkunde","Prof. Dr. Martin Zinkernagel",TRUE
 "Universitätsklinik für Dermatologie","Prof. Dr. Luca Borradori",TRUE
 "Universitätsklinik für Diabetologie, Endokrinologie, Ernährungsmedizin und Metabolismus","Prof. Dr. Christoph Stettler",TRUE
@@ -25,6 +25,7 @@
 "Universitätsklinik für Hals, Nasen- und Ohrenkrankheiten (HNO), Kopf- und Halschirurgie","Prof. Dr. Marco Domenico Caversaccio",TRUE
 "Universitätsklinik für Hämatologie und Hämatologisches Zentrallabor","Prof. Dr. Anne Angelillo-Scherrer",TRUE
 "Universitätsklinik für Herzchirurgie","Prof. Dr. med. Matthias Siepe",TRUE
+"Universitätsklinik für Humangenetik", "Prof. Dr. Dr. med. Christiane Zweier", TRUE
 "Universitätsklinik für Infektiologie","Prof. Dr. Andri Rauch",TRUE
 "Universitätsklinik für Intensivmedizin","Prof. Dr. med. Joerg C. Schefold",TRUE
 "Universitätsklinik für Kardiologie","Prof. Dr. Stephan Windecker",TRUE
