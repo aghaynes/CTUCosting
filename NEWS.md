@@ -1,3 +1,7 @@
+# CTUCosting 0.8.2 (2026-07-03)
+
+* add support for new Insel rate
+
 # CTUCosting 0.8.1 (2026-06-17)
 
 * update new clinic heads, add human genetics clinic
