@@ -386,20 +386,22 @@ if(length(notes) > 0 && !is.na(notes) && notes != "NA"){
 
 ### General notes: {.unnumbered}
 
-This offer is valid for two months.
+- This cost estimate is valid for **two months** from the date of issue.
 
-For questions regarding the costing, please contact your DCR consultant or [operations.dcr@unibe.ch](mailto:operations.dcr@unibe.ch){.email}.
+- The estimated effort and associated costs may vary depending on the complexity and specific requirements of the project.
 
-All costs mentioned above are rounded up to the nearest 1 CHF.
+- All costs mentioned above are rounded up to the nearest 1 CHF.
 
 ```{r}
 #| results: asis
+if(params$vat) cat("- The cost estimate does **not** include VAT (8.1%) which may apply.\n\n")
+
 if(any(grepl("Discount due to number of hours", params$total$Description))) 
   cat("The discount is calculated from eligible work packages and might not be based on the overall amount.\n\n")
 
-if(params$vat) cat("Please consider that this cost estimate does not include VAT (8.1%) which may apply.")
 ```
 
-The proposed hours may vary depending on the complexity of the trial. 
+- The hourly rate used for this cost estimate is subject to **annual review and adjustment**. Please refer to [www.dcr.unibe.ch](https://www.dcr.unibe.ch) for the current hourly rates.
 
-Note that the above mentioned hourly rate is subject to annual adaptation. Check [www.dcr.unibe.ch](https://www.dcr.unibe.ch) for the most up-to-date hourly rate.
+- If you have any questions regarding this cost estimate, please contact your DCR consultant or [operations.dcr@unibe.ch](mailto:operations.dcr@unibe.ch){.email}.
+

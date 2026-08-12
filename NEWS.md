@@ -1,3 +1,7 @@
+# CTUCosting 0.8.3 (2026-08-07)
+
+* bug fix - CIU notes didn't appear in the PDF
+
 # CTUCosting 0.8.2 (2026-07-03)
 
 * add support for new Insel rate

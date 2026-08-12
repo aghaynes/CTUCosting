@@ -7,7 +7,7 @@
 "sta","Statistics","STA","statistics"
 "csm","Clinical study management","CSM","clinical_study_management"
 "qm","Quality management","QM","quality_management"
-"ci","Clinical investigation","CI",
+"ci","Clinical investigation unit","CIU","clinical_investigation_unit"
 "admin","Administration","ADMIN",
 "sen","Seniors","SEN",
 "rs","Regulatory services","MON","regulatory_support"
@@ -19,4 +19,4 @@
 "ra","Research assistant",,
 ,"Full time equivalent",,"full_time_equivalent"
 "gen","General services","GEN",
-"ppi","Patient participant involvement","PPI",
+"ppi","Patient participant involvement","PPI","patient_and_public_involvement"
