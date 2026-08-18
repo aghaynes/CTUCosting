@@ -1,3 +1,7 @@
+# CTUCosting 0.8.4 (2026-08-18)
+
+* correct PPI full name
+
 # CTUCosting 0.8.3 (2026-08-07)
 
 * bug fix - CIU notes didn't appear in the PDF
