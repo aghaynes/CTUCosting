@@ -21,8 +21,8 @@ get_workpackage_data <- function(d, meta){
              "dm_reporting", "study_website", "sharefile_cloud",
              "monitoring_onsite_remote", "central_data_monitoring",
              "research_assistant", "statistics", "quality_management",
-             "clinical_investigation_unit"
-             # , "patient_and_public_involvement"
+             "clinical_investigation_unit",
+             "patient_and_public_involvement"
              )
 
   workpackages <- lapply(d[forms], get_wp_df) |> # [5:6]: expected 3 pieces. additional pieces discarded in 29, 89

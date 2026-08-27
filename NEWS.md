@@ -1,3 +1,7 @@
+# CTUCosting 0.8.5 (2026-08-27)
+
+* add support for PPI
+
 # CTUCosting 0.8.4 (2026-08-18)
 
 * correct PPI full name
