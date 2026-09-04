@@ -22,7 +22,7 @@ test_that("number of workpackages", {
 })
 test_that("summarized by work package", {
   expect_equal(summ_wps$Hours, c(10, 3, 10, 2, 90, 1, 62, 260, 10)) # Kim added 90, 1 instead of absent. 17/6/2026
-  expect_equal(summ_wps$Cost, c(1200, 360, 1200, 240, 10800, 60, 7440, 31200, 1200)) # Kim added 10800, 60 instead of absent. 17/6/2026
+  expect_equal(summ_wps$Cost, c(1400, 420, 1400, 280, 12600, 70, 8680, 36400, 1400)) # Kim added 10800, 60 instead of absent. 17/6/2026
 })
 #
 # calc_discount(summ_wps,

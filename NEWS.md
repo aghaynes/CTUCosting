@@ -1,3 +1,8 @@
+# CTUCosting 0.8.6 (2026-09-04)
+
+* some work packages for expenses were missing. this version fixes that.
+* fix a couple of tests
+
 # CTUCosting 0.8.5 (2026-08-27)
 
 * add support for PPI

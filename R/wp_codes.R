@@ -7,7 +7,7 @@
 wp_codes <- function(metadata){
   var <- val <- lab <- NULL
   singlechoice_opts(metadata) |>  #names
-    filter(grepl("_wp_", var)) |>
+    filter(grepl("_wp_|exp_pf", var)) |> #View()
     select(val, lab) |>
     unique() |>
     rename(wp_lab = lab)
